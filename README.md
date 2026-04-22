@@ -13,6 +13,34 @@ Complete Express + MongoDB backend for cloud storage with user authentication fl
 
 > Note: This is ongoing and features/routes may continue to evolve.
 
+## Architecture Diagram
+
+```mermaid
+flowchart LR
+  U[End Users] --> UI[Web / Mobile App]
+  D[Developers / Coders] --> SDK[API Clients / Backend Integrations]
+
+  UI --> APP[ImageFlow Express API]
+  SDK --> APP
+
+  APP --> AUTH[Shared Auth Middleware]
+  AUTH -->|JWT| JWT[JWT User Session]
+  AUTH -->|API Key| APIKEY[API Key Lookup + Hash Check]
+
+  APP --> USERS[Users Routes]
+  APP --> FILES[Files Routes]
+  APP --> FOLDERS[Folders Routes]
+  APP --> KEYS[API Key Routes]
+
+  USERS --> MONGO[(MongoDB / Mongoose)]
+  FILES --> MONGO
+  FOLDERS --> MONGO
+  KEYS --> MONGO
+
+  APP --> REDIS[(Redis Rate Limiting)]
+  APP --> CLOUD[Cloudinary File Storage]
+```
+
 ## Tech Stack
 
 - Node.js (ESM)
