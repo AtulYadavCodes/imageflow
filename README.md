@@ -88,7 +88,7 @@ flowchart LR
   F --> G
   G --> H[req.authType = apiKey or jwt] 
   
-  H -->[protected routes]
+  H -->I[protected routes]
 ```
 
 Simple idea:
