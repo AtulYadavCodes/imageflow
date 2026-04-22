@@ -4,7 +4,6 @@ const folderschema=new Schema({
         type:String,
         required:true,
         trim:true,
-        unique:true,
         lowercase:true,
         index:true,
     },
@@ -16,4 +15,5 @@ const folderschema=new Schema({
 },{
     timestamps:true
 })
+folderschema.index({ foldername: 1, owner: 1 }, { unique: true });
 export const Folder=mongoose.model("Folder",folderschema);
