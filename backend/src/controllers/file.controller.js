@@ -30,6 +30,14 @@ const getalluserfiles=asyncHandler(async (req, res) => {
 })
 
 const uploadfile=asyncHandler(async(req,res)=>{
+    const foldername=req.params?.foldername;
+    const folder;
+    if (foldername){
+         folder=await Folder.findOne({foldername:foldername});
+            if(!folder){
+                return res.status(404).json(new errorhandler(404,"folder not found",[]));
+            }
+    }
     if(!req.file){
         return res.status(400).json(new errorhandler(400,"No file uploaded",[]));
     }
@@ -41,7 +49,7 @@ const uploadfile=asyncHandler(async(req,res)=>{
         filename:req.file.originalname,
         owner:req.user._id,
         filesize:cloudinaryresponse.bytes,
-       folder:req.params.folderid||null,
+       folder:folder._id||null,
        // filepreview can be populated later from generated previews.
     });
     const savedfile=await File.findById(newfile._id);

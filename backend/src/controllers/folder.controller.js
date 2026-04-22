@@ -27,21 +27,25 @@ const getalluserfolders=asyncHandler(async(req,res)=>{
 })
 
 const deletefolder=asyncHandler(async(req,res)=>{
-    const folderid=new mongoose.Types.ObjectId(req.params.folderid);
-    const folder=await Folder.findOne({_id:folderid});
+    const foldername=req.params.foldername;
+    const folder=await Folder.findOne({foldername:foldername});
     if(!folder){
         throw new errorhandler(404,"folder not found",[]);
     }
-    const filesinfolder=File.find({folder:folderid}).select("_id");
+    const filesinfolder=File.find({folder:folder._id}).select("_id");
     await File.deleteMany({_id:{$in:filesinfolder}});
-    const deletedfolder=await Folder.findByIdAndDelete(folderid);
+    const deletedfolder=await Folder.findByIdAndDelete(folder._id);
     return res.status(200).json(new responseHandler(200,"folder deleted successfully",deletedfolder._id));
         
 })
 
 const allfilesinfolder=asyncHandler(async(req,res)=>{
-    const folderid=new mongoose.Types.ObjectId(req.params.folderid);
-    const files=await File.find({folder:folderid})
+    const foldername=req.params.foldername;
+    const folder=await Folder.findOne({foldername:foldername});
+    if(!folder){
+        throw new errorhandler(404,"folder not found",[]);
+    }
+    const files=await File.find({folder:folder._id})
     if(!files||files.length===0){
         throw new errorhandler(404,"folder not found",[]);
     }

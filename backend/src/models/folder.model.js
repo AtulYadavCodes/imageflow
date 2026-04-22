@@ -2,7 +2,8 @@ import mongoose, { Schema } from "mongoose";
 const folderschema=new Schema({
     foldername:{
         type:String,
-        required:true
+        required:true,
+        unique:true
     },
     owner:{
         type:mongoose.Schema.Types.ObjectId,

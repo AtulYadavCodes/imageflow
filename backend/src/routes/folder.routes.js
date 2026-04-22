@@ -5,8 +5,8 @@ import { upload } from "../middlewares/multer.middleware.js";
 import { createfolder,getalluserfolders,deletefolder,allfilesinfolder } from "../controllers/folder.controller.js";
 
 const router=Router();
-router.route('/createfolder').post(verifyJWT,upload.none(),createfolder);
+//router.route('/createfolder').post(verifyJWT,upload.none(),createfolder);
 router.route('/getalluserfolders').get(verifyJWT,getalluserfolders);
-router.route('/deletefolder/:folderid').delete(verifyJWT,deletefolder);
-router.route('/getallfilesinfolder/:folderid').get(verifyJWT,allfilesinfolder);
+router.route('/deletefolder/:foldername').delete(verifyJWT,deletefolder);
+router.route('/getallfilesinfolder/:foldername').get(verifyJWT,allfilesinfolder);
 export default router;
