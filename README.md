@@ -74,39 +74,26 @@ Token details:
 - API keys are never stored raw; only SHA256 hash is stored in the database
 - API key records include prefix, revoked flag, and lastUsedAt tracking
 
-## Architecture Diagram (JWT Login -> Create API Key -> Use API)
+## Architecture Diagram (Simple Flow)
 
 ```mermaid
-sequenceDiagram
-  autonumber
-  participant U as User/Developer Client
-  participant A as ImageFlow API (Express)
-  participant M as MongoDB
+flowchart LR
+  A[Login with email/password] --> B[Receive JWT access token]
+  B --> C[Create API key with JWT\nPOST /api/v1/apikey/create]
+  C --> D[Receive raw API key once]
+  D --> E[Call protected APIs\nAuthorization: Bearer sk_xxx]
+  B --> F[Or call protected APIs\nAuthorization: Bearer jwt]
 
-  U->>A: POST /api/v1/users/login (email, password)
-  A->>M: Verify user credentials
-  M-->>A: User record
-  A-->>U: accessToken (JWT) + refreshToken
-
-  U->>A: POST /api/v1/apikey/create (Bearer JWT)
-  A->>A: verifyJWT -> req.authType = jwt
-  A->>A: generate key (sk_...), hash with SHA256
-  A->>M: Save ApiKey { keyHash, prefix, user, revoked:false }
-  A-->>U: raw API key (returned once)
-
-  U->>A: GET /api/v1/files/getalluserfiles (Bearer sk_xxx)
-  A->>A: verifyJWT detects sk_ -> apiKey flow
-  A->>M: Find ApiKey by keyHash and revoked:false
-  M-->>A: ApiKey + User
-  A->>A: set req.authType to apiKey and attach req.user
-  A-->>U: Protected resource response
-
-  U->>A: GET /api/v1/folders/getalluserfolders (Bearer JWT)
-  A->>A: verifyJWT JWT flow -> req.authType = jwt
-  A-->>U: Protected resource response
+  E --> G[Same auth middleware]
+  F --> G
+  G --> H[req.authType = apiKey or jwt]
 ```
 
-This design allows a user to login once with JWT, generate API keys for programmatic usage, and then access the same protected endpoints with either JWT or API key.
+Simple idea:
+
+1. User logs in and gets JWT.
+2. User creates API key using JWT.
+3. Developer/coder uses that API key (or JWT) to call the same protected routes.
 
 ## Standard Response and Error Shape
 
