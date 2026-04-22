@@ -7,7 +7,7 @@
 ![Cloudinary](https://img.shields.io/badge/Cloudinary-File%20Storage-3448C5?style=for-the-badge&logo=cloudinary&logoColor=white)
 ![Auth](https://img.shields.io/badge/Auth-JWT%20%2B%20API%20Key-F59E0B?style=for-the-badge)
 
-ImageFlow is an ImageKit-like backend platform for both end users and developers. It provides user-facing auth flows and media operations with JWT authentication, plus developer-friendly API key access for programmatic integrations.
+ImageFlow is an ImageKit-like backend platform for both end users and developers. JWT is the base authentication for all users, and API keys can then be created for developer/API users who need programmatic access.
 
 Complete Express + MongoDB backend for cloud storage with user authentication flows (register, login, logout, token refresh), API key management, profile management, secure file upload, and fully documented route-based APIs for users, folders, files, and API keys.
 
@@ -92,6 +92,8 @@ Protected endpoints support both authentication methods through the same middlew
 - JWT via Authorization: Bearer <jwt>
 - API key via Authorization: Bearer sk_xxxxxx
 
+JWT is the default user auth method.
+API keys are generated after JWT login for API users / developers.
 API key management routes (/api/v1/apikey/\*) are JWT-only by design.
 
 Token details:
