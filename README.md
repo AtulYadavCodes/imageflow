@@ -98,7 +98,7 @@ sequenceDiagram
   A->>A: verifyJWT detects sk_ -> apiKey flow
   A->>M: Find ApiKey by keyHash and revoked:false
   M-->>A: ApiKey + User
-  A->>A: req.authType = apiKey; attach req.user
+  A->>A: set req.authType to apiKey and attach req.user
   A-->>U: Protected resource response
 
   U->>A: GET /api/v1/folders/getalluserfolders (Bearer JWT)
