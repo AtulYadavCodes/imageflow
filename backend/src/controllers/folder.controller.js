@@ -12,7 +12,7 @@ const createfolder=asyncHandler(async(req,res)=>{
         owner:req.user._id
     })
     if(!newfolder){
-        return errorhandler(500,"folder not created",[]);
+        throw new errorhandler(500,"folder not created",[]);
     }
     else
       return res.status(200).json(new responseHandler(200,"folder created successfully",newfolder));
@@ -28,7 +28,7 @@ const getalluserfolders=asyncHandler(async(req,res)=>{
 
 const deletefolder=asyncHandler(async(req,res)=>{
     const foldername=req.params.foldername;
-    const folder=await Folder.findOne({foldername:foldername});
+    const folder=await Folder.findOne({foldername:foldername,owner:req.user._id});
     if(!folder){
         throw new errorhandler(404,"folder not found",[]);
     }
@@ -41,7 +41,7 @@ const deletefolder=asyncHandler(async(req,res)=>{
 
 const allfilesinfolder=asyncHandler(async(req,res)=>{
     const foldername=req.params.foldername;
-    const folder=await Folder.findOne({foldername:foldername});
+    const folder=await Folder.findOne({foldername:foldername,owner:req.user._id});
     if(!folder){
         throw new errorhandler(404,"folder not found",[]);
     }

@@ -24,7 +24,7 @@ const getalluserfiles=asyncHandler(async (req, res) => {
     }
     ]);
     if(!userfiles||userfiles.length===0){
-        return res.status(404).json(new errorhandler(404,"files not found",[]));
+        throw new errorhandler(404,"files not found",[]);
     }
     res.status(200).json(new responseHandler(200,"User files fetched successfully",userfiles));
 })
@@ -33,9 +33,9 @@ const uploadfile=asyncHandler(async(req,res)=>{
     const foldername=req.params?.foldername;
     const folder;
     if (foldername){
-         folder=await Folder.findOne({foldername:foldername});
+         folder=await Folder.findOne({foldername:foldername,owner:req.user._id});
             if(!folder){
-                return res.status(404).json(new errorhandler(404,"folder not found",[]));
+                throw new errorhandler(404,"folder not found",[]);
             }
     }
     if(!req.file){
@@ -54,7 +54,7 @@ const uploadfile=asyncHandler(async(req,res)=>{
     });
     const savedfile=await File.findById(newfile._id);
     if(!savedfile){
-        return res.status(500).json(new errorhandler(500,"file not saved",[]));
+        new errorhandler(500,"file not saved",[]);
     }
     res.status(200).json(new responseHandler(200,"file uploaded successfully",savedfile));
 
