@@ -86,7 +86,7 @@ flowchart LR
 
   E --> G[Same auth middleware]
   F --> G
-  G --> H[req.authType = apiKey or jwt]
+  G --> H[req.authType = apiKey or jwt]-->[protected routes]
 ```
 
 Simple idea:
