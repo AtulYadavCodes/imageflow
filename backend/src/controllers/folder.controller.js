@@ -27,7 +27,7 @@ const getalluserfolders=asyncHandler(async(req,res)=>{
 })
 
 const deletefolder=asyncHandler(async(req,res)=>{
-    const foldername=req.params.foldername;
+    const foldername=req.params.foldername.trim().toLowerCase();
     const folder=await Folder.findOne({foldername:foldername,owner:req.user._id});
     if(!folder){
         throw new errorhandler(404,"folder not found",[]);
@@ -40,7 +40,7 @@ const deletefolder=asyncHandler(async(req,res)=>{
 })
 
 const allfilesinfolder=asyncHandler(async(req,res)=>{
-    const foldername=req.params.foldername;
+    const foldername=req.params.foldername.trim().toLowerCase();
     const folder=await Folder.findOne({foldername:foldername,owner:req.user._id});
     if(!folder){
         throw new errorhandler(404,"folder not found",[]);

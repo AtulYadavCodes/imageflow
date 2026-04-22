@@ -30,7 +30,7 @@ const getalluserfiles=asyncHandler(async (req, res) => {
 })
 
 const uploadfile=asyncHandler(async(req,res)=>{
-    const foldername=req.params?.foldername;
+    const foldername=req.params?.foldername.trim().toLowerCase();
     const folder;
     if (foldername){
          folder=await Folder.findOne({foldername:foldername,owner:req.user._id});
