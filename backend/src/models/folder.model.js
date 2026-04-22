@@ -3,7 +3,10 @@ const folderschema=new Schema({
     foldername:{
         type:String,
         required:true,
-        unique:true
+        unique:true,
+        index:true,
+        trim:true,
+        tolowercase:true
     },
     owner:{
         type:mongoose.Schema.Types.ObjectId,
