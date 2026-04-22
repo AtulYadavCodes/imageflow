@@ -35,11 +35,11 @@ Complete Express + MongoDB backend for cloud storage with user authentication fl
 - Update avatar
 - Update password
 - Update email
-- Create folder
+- Create folder (controller implemented; route currently commented in folder routes)
 - List all folders for logged-in user
 - Delete folder
-- List all files in a folder
-- Upload file to a folder
+- List all files in a folder (by foldername)
+- Upload file to a folder (optional foldername in route param)
 - Create API key (JWT only)
 - List API keys (JWT only)
 - Revoke API key (JWT only)
@@ -86,8 +86,8 @@ flowchart LR
 
   E --> G[Same auth middleware]
   F --> G
-  G --> H[req.authType = apiKey or jwt] 
-  
+  G --> H[req.authType = apiKey or jwt]
+
   H -->I[protected routes]
 ```
 
@@ -128,19 +128,22 @@ Error middleware returns:
 
 ### Folders
 
-| Method | Route                                         | Secured | Body/Params    | Notes                               |
-| ------ | --------------------------------------------- | ------- | -------------- | ----------------------------------- |
-| POST   | /api/v1/folders/createfolder                  | Yes     | foldername     | Create folder for logged-in user    |
-| GET    | /api/v1/folders/getalluserfolders             | Yes     | none           | List folders of current user        |
-| DELETE | /api/v1/folders/deletefolder/:folderid        | Yes     | folderid param | Deletes folder and associated files |
-| GET    | /api/v1/folders/getallfilesinfolder/:folderid | Yes     | folderid param | List files in folder                |
+| Method | Route                                           | Secured | Body/Params      | Notes                                                  |
+| ------ | ----------------------------------------------- | ------- | ---------------- | ------------------------------------------------------ |
+| GET    | /api/v1/folders/getalluserfolders               | Yes     | none             | List folders for current user (`owner = req.user._id`) |
+| DELETE | /api/v1/folders/deletefolder/:foldername        | Yes     | foldername param | Deletes folder and removes files mapped to that folder |
+| GET    | /api/v1/folders/getallfilesinfolder/:foldername | Yes     | foldername param | List files in folder by folder name                    |
+
+Note:
+
+- `POST /api/v1/folders/createfolder` exists in controller but is currently commented out in `backend/src/routes/folder.routes.js`.
 
 ### Files
 
-| Method | Route                               | Secured | Body/Params                          | Notes                                          |
-| ------ | ----------------------------------- | ------- | ------------------------------------ | ---------------------------------------------- |
-| GET    | /api/v1/files/getalluserfiles       | Yes     | query: page, limit, sortby, sorttype | List all files for logged-in user              |
-| POST   | /api/v1/files/uploadfile/:folderid? | Yes     | multipart file; folderid optional    | Uploads file with or without folder assignment |
+| Method | Route                                 | Secured | Body/Params                           | Notes                                                                  |
+| ------ | ------------------------------------- | ------- | ------------------------------------- | ---------------------------------------------------------------------- |
+| GET    | /api/v1/files/getalluserfiles         | Yes     | query: page, limit, sortby, sorttype  | List paginated files for logged-in user                                |
+| POST   | /api/v1/files/uploadfile/:foldername? | Yes     | multipart `file`; foldername optional | Upload file; when foldername is present, file is linked to that folder |
 
 ### API Keys
 
@@ -229,11 +232,34 @@ Middleware path:
 
 These are useful to know while integrating frontend or deploying:
 
-- CORS is configured with origin only; credentials setting is not explicitly enabled.
+- CORS is configured with both `origin` and `credentials: true`.
 - Cookie secure flag is always true, so local HTTP testing may need HTTPS/proxy adjustments.
 - Multer currently has no file size/type validation configured.
 - Some controller logic and naming are inconsistent (for example refresh token storage and generation flow), so additional hardening/refactor is recommended before production use.
 - No automated tests are included yet.
+
+## Folder and File Data Model (Current)
+
+Folder model (`backend/src/models/folder.model.js`):
+
+- `foldername`: String, required, trimmed, lowercase, indexed, unique
+- `owner`: ObjectId ref to `User`, required
+- timestamps enabled
+
+File model (`backend/src/models/file.model.js`):
+
+- `filelink`: String, required
+- `filename`: String, required
+- `owner`: ObjectId ref to `User`, required
+- `filesize`: Number, required
+- `folder`: ObjectId ref to `Folder`, optional
+- `filepreview`: String, default Cloudinary preview URL
+- timestamps enabled
+
+Controller behavior snapshot:
+
+- Folder controller resolves folder lookups by `foldername` route param.
+- File upload route accepts optional `foldername` and assigns `folder` if resolved.
 
 ## Folder Structure
 
