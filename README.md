@@ -11,7 +11,7 @@ ImageFlow is an ImageKit-like backend platform for both end users and developers
 
 Complete Express + MongoDB backend for cloud storage with user authentication flows (register, login, logout, token refresh), API key management, profile management, secure file upload, and fully documented route-based APIs for users, folders, files, and API keys.
 
-> Note: This cloud storage project is ongoing and features/routes may continue to evolve.
+> Note: This is ongoing and features/routes may continue to evolve.
 
 ## Tech Stack
 
