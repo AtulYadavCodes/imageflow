@@ -5,12 +5,7 @@ import { ApiKey } from "../models/apiKey.model.js";
 import { generateApiKey } from "../utils/apikey.js";
 
 const createApiKey = asyncHandler(async (req, res) => {
-  if (req.authType !== "jwt") {
-    throw new errorhandler(
-      403,
-      "JWT authentication is required for this route",
-    );
-  }
+  
 
   const { name = "" } = req.body || {};
   const { rawKey, keyHash, prefix } = generateApiKey();
@@ -40,12 +35,7 @@ const createApiKey = asyncHandler(async (req, res) => {
 });
 
 const listApiKeys = asyncHandler(async (req, res) => {
-  if (req.authType !== "jwt") {
-    throw new errorhandler(
-      403,
-      "JWT authentication is required for this route",
-    );
-  }
+ 
 
   const apiKeys = await ApiKey.find({ user: req.user._id })
     .select("-keyHash")
@@ -57,12 +47,7 @@ const listApiKeys = asyncHandler(async (req, res) => {
 });
 
 const revokeApiKey = asyncHandler(async (req, res) => {
-  if (req.authType !== "jwt") {
-    throw new errorhandler(
-      403,
-      "JWT authentication is required for this route",
-    );
-  }
+  
 
   const revokedApiKey = await ApiKey.findOneAndUpdate(
     {
