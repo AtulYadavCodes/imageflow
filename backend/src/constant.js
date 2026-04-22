@@ -1,1 +1,1 @@
-export const DBNAME='backendendtoend'
+export const DBNAME='imageflow'

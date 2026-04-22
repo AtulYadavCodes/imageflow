@@ -114,7 +114,7 @@ const loginuser=asyncHandler(async(req,res,next)=>{
         throw new errorhandler(401,"User not found");
     if(!(user.refreshTokens==(incomingRefreshToken)))
         throw new errorhandler(401,"Invalid refresh token");
-    const {accessToken,refreshToken}=await user.generateAccessTokenandRefreshToken(user._id);
+    const {accessToken,refreshToken}=await generateAccessTokenandRefreshToken(user._id);
     const options={
         httpOnly:true,
         secure: true
