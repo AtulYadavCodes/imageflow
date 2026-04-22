@@ -7,39 +7,11 @@
 ![Cloudinary](https://img.shields.io/badge/Cloudinary-File%20Storage-3448C5?style=for-the-badge&logo=cloudinary&logoColor=white)
 ![Auth](https://img.shields.io/badge/Auth-JWT%20%2B%20API%20Key-F59E0B?style=for-the-badge)
 
-ImageFlow is an ImageKit-like backend platform for both end users and developers. JWT is the base authentication for all users, and API keys can then be created for developer/API users who need programmatic access.
+ImageFlow is an ImageKit-like backend platform for both end users and developers. It provides user-facing auth flows and media operations with JWT authentication, plus developer-friendly API key access for programmatic integrations.
 
 Complete Express + MongoDB backend for cloud storage with user authentication flows (register, login, logout, token refresh), API key management, profile management, secure file upload, and fully documented route-based APIs for users, folders, files, and API keys.
 
 > Note: This is ongoing and features/routes may continue to evolve.
-
-## Architecture Diagram
-
-```mermaid
-flowchart LR
-  U[End Users] --> UI[Web / Mobile App]
-  D[Developers / Coders] --> SDK[API Clients / Backend Integrations]
-
-  UI --> APP[ImageFlow Express API]
-  SDK --> APP
-
-  APP --> AUTH[Shared Auth Middleware]
-  AUTH -->|JWT| JWT[JWT User Session]
-  AUTH -->|API Key| APIKEY[API Key Lookup + Hash Check]
-
-  APP --> USERS[Users Routes]
-  APP --> FILES[Files Routes]
-  APP --> FOLDERS[Folders Routes]
-  APP --> KEYS[API Key Routes]
-
-  USERS --> MONGO[(MongoDB / Mongoose)]
-  FILES --> MONGO
-  FOLDERS --> MONGO
-  KEYS --> MONGO
-
-  APP --> REDIS[(Redis Rate Limiting)]
-  APP --> CLOUD[Cloudinary File Storage]
-```
 
 ## Tech Stack
 
@@ -92,8 +64,6 @@ Protected endpoints support both authentication methods through the same middlew
 - JWT via Authorization: Bearer <jwt>
 - API key via Authorization: Bearer sk_xxxxxx
 
-JWT is the default user auth method.
-API keys are generated after JWT login for API users / developers.
 API key management routes (/api/v1/apikey/\*) are JWT-only by design.
 
 Token details:
@@ -103,6 +73,40 @@ Token details:
 - Refresh token is also checked against stored value in DB before issuing new access token
 - API keys are never stored raw; only SHA256 hash is stored in the database
 - API key records include prefix, revoked flag, and lastUsedAt tracking
+
+## Architecture Diagram (JWT Login -> Create API Key -> Use API)
+
+```mermaid
+sequenceDiagram
+  autonumber
+  participant U as User/Developer Client
+  participant A as ImageFlow API (Express)
+  participant M as MongoDB
+
+  U->>A: POST /api/v1/users/login (email, password)
+  A->>M: Verify user credentials
+  M-->>A: User record
+  A-->>U: accessToken (JWT) + refreshToken
+
+  U->>A: POST /api/v1/apikey/create (Bearer JWT)
+  A->>A: verifyJWT -> req.authType = jwt
+  A->>A: generate key (sk_...), hash with SHA256
+  A->>M: Save ApiKey { keyHash, prefix, user, revoked:false }
+  A-->>U: raw API key (returned once)
+
+  U->>A: GET /api/v1/files/getalluserfiles (Bearer sk_xxx)
+  A->>A: verifyJWT detects sk_ -> apiKey flow
+  A->>M: Find ApiKey by keyHash and revoked:false
+  M-->>A: ApiKey + User
+  A->>A: req.authType = apiKey; attach req.user
+  A-->>U: Protected resource response
+
+  U->>A: GET /api/v1/folders/getalluserfolders (Bearer JWT)
+  A->>A: verifyJWT JWT flow -> req.authType = jwt
+  A-->>U: Protected resource response
+```
+
+This design allows a user to login once with JWT, generate API keys for programmatic usage, and then access the same protected endpoints with either JWT or API key.
 
 ## Standard Response and Error Shape
 
