@@ -117,11 +117,83 @@ No\* = endpoint is public but requires a valid refresh token cookie.
 
 ## Developer Integration Options
 
-### Option 1: Direct API Integration
+### File Upload Using API
 
 Use your own HTTP client (fetch, axios, postman, backend service).
 
-#### Common Read APIs (List And View Data)
+Typical file upload sequence:
+
+1. Call POST /api/v1/files/uploadfile with metadata (originalname, contentType).
+2. Receive signed S3 upload URL and key.
+3. Upload binary file to S3 using PUT on signed URL.
+4. Call POST /api/v1/files/uploadfile/:foldername with key, originalname, bytes.
+5. Persisted file record will contain filelink (signed download URL).
+
+```mermaid
+sequenceDiagram
+  participant Client as Web App / SDK
+  participant API as ImageFlow API
+  participant S3 as AWS S3
+  participant DB as MongoDB
+
+  Client->>API: POST /api/v1/files/uploadfile\n(originalname, contentType)
+  API-->>Client: uploadurl + key
+  Client->>S3: PUT file binary to signed uploadurl
+  S3-->>Client: 200 OK
+  Client->>API: POST /api/v1/files/uploadfile/:foldername\n(key, originalname, bytes)
+  API->>DB: Save metadata + filelink
+  API-->>Client: Saved file response
+```
+
+### File Upload Using SDK
+
+Two SDK packages are included in this repository.
+
+#### Browser SDK
+
+- Package folder: imageflowsdk-browser
+- Entry file: imageflowuploadfunction.js
+- Export: imageflowuploadfunction(file, apikey, foldername)
+
+Example:
+
+```js
+import { imageflowuploadfunction } from "./imageflowuploadfunction.js";
+
+const file = document.querySelector("#file-input").files[0];
+const apiKey = "sk_xxxxxxxxxx";
+
+const result = await imageflowuploadfunction(file, apiKey, "documents");
+console.log(result);
+```
+
+#### Backend SDK (Node.js)
+
+- Package folder: imageflowsdk-backend
+- Entry file: imageflowuploadfunction.js
+- Export: imageflowuploadfunction(filepath, apikey, foldername)
+
+Example:
+
+```js
+import { imageflowuploadfunction } from "./imageflowuploadfunction.js";
+
+const apiKey = "sk_xxxxxxxxxx";
+const result = await imageflowuploadfunction(
+  "./docs/report.pdf",
+  apiKey,
+  "reports",
+);
+console.log(result);
+```
+
+SDK behavior notes:
+
+- If foldername is empty, SDK defaults to default.
+- SDK sends Authorization: Bearer <apikey>.
+- SDK currently uses relative API paths (/api/v1/...), so use same-origin hosting or a proxy strategy.
+
+### Common APIs (Non-Upload)
 
 Use JWT or API key for these protected read endpoints.
 
@@ -173,79 +245,7 @@ Quick notes:
 - `getallfilesinfolder/:foldername` uses the folder name in the URL path.
 - `/apikey/list` requires JWT auth (API key does not work for this route).
 
-Typical file upload sequence:
-
-1. Call POST /api/v1/files/uploadfile with metadata (originalname, contentType).
-2. Receive signed S3 upload URL and key.
-3. Upload binary file to S3 using PUT on signed URL.
-4. Call POST /api/v1/files/uploadfile/:foldername with key, originalname, bytes.
-5. Persisted file record will contain filelink (signed download URL).
-
-```mermaid
-sequenceDiagram
-  participant Client as Web App / SDK
-  participant API as ImageFlow API
-  participant S3 as AWS S3
-  participant DB as MongoDB
-
-  Client->>API: POST /api/v1/files/uploadfile\n(originalname, contentType)
-  API-->>Client: uploadurl + key
-  Client->>S3: PUT file binary to signed uploadurl
-  S3-->>Client: 200 OK
-  Client->>API: POST /api/v1/files/uploadfile/:foldername\n(key, originalname, bytes)
-  API->>DB: Save metadata + filelink
-  API-->>Client: Saved file response
-```
-
-### Option 2: SDK Integration
-
-Two SDK packages are included in this repository.
-
-#### Browser SDK
-
-- Package folder: imageflowsdk-browser
-- Entry file: imageflowuploadfunction.js
-- Export: imageflowuploadfunction(file, apikey, foldername)
-
-Example:
-
-```js
-import { imageflowuploadfunction } from "./imageflowuploadfunction.js";
-
-const file = document.querySelector("#file-input").files[0];
-const apiKey = "sk_xxxxxxxxxx";
-
-const result = await imageflowuploadfunction(file, apiKey, "documents");
-console.log(result);
-```
-
-#### Backend SDK (Node.js)
-
-- Package folder: imageflowsdk-backend
-- Entry file: imageflowuploadfunction.js
-- Export: imageflowuploadfunction(filepath, apikey, foldername)
-
-Example:
-
-```js
-import { imageflowuploadfunction } from "./imageflowuploadfunction.js";
-
-const apiKey = "sk_xxxxxxxxxx";
-const result = await imageflowuploadfunction(
-  "./docs/report.pdf",
-  apiKey,
-  "reports",
-);
-console.log(result);
-```
-
-SDK behavior notes:
-
-- If foldername is empty, SDK defaults to default.
-- SDK sends Authorization: Bearer <apikey>.
-- SDK currently uses relative API paths (/api/v1/...), so use same-origin hosting or a proxy strategy.
-
-### Option 3: Website (No API Code)
+### Website (No API Code)
 
 If you are not building an integration, use the ImageFlow website/client UI.
 
