@@ -51,6 +51,26 @@ const s3 = new S3Client({
   },
 });
 
+const uploadonawss3bucketavatar=async (filepathofavatar,key) => {
+  try{
+    const uploadCommand = new PutObjectCommand({
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: key,
+      Body: fs.createReadStream(filepathofavatar),
+      ContentType: "image/jpeg",
+    });
+    const response=await s3.send(uploadCommand);
+    fs.unlinkSync(filepathofavatar); // Remove file from server after upload
+    return response;
+  }catch(error){
+      console.error("AWS ", error);
+    if (filepathofavatar && fs.existsSync(filepathofavatar)) {
+      fs.unlinkSync(filepathofavatar);
+    }
+  }
+}
+
+
 const uploadonawss3bucket = async (key,contentType) => {
   try {
     const uploadCommand = new PutObjectCommand({
@@ -87,4 +107,4 @@ const getFileFromS3 = async (key) => {
   }
 };
 
-export { uploadonawss3bucket, getFileFromS3 };
+export { uploadonawss3bucket, getFileFromS3,uploadonawss3bucketavatar };

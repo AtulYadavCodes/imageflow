@@ -1,7 +1,7 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import errorhandler from "../utils/errorhandler.js";
 import { User } from "../models/user.model.js";
-import uploadoncloudinary from "../utils/uploadonawss3bucket.js";
+import uploadoncloudinary, { uploadonawss3bucketavatar } from "../utils/uploadonawss3bucket.js";
 import responseHandler from "../utils/responseHandler.js";
 import jwt from "jsonwebtoken";
 import redis from "../db/redis.js";
@@ -28,9 +28,10 @@ const registerUser = asyncHandler(async (req, res, next) => {
   if (userchecker) throw new errorhandler(400, "User already exists");
   const avatarlocalpath = req.file?.path;
   if (!avatarlocalpath) throw new errorhandler(400, "Avatar is required");
-  const cloudinaryresponse = await uploadoncloudinary(avatarlocalpath, {
-    folder: "avatars",
-  });
+  const key = `avatars/${Date.now()}-${req.file.originalname}`;
+  const response = await uploadonawss3bucketavatar(avatarlocalpath,key);
+  if(response.statusCode!==200) throw new errorhandler(500, "Error in uploading avatar");
+  const link=`https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/avatars/abc.jpg`
 
   if (!cloudinaryresponse) throw new errorhandler(500, "Image not uploaded");
   const user = await User.create({
@@ -38,7 +39,7 @@ const registerUser = asyncHandler(async (req, res, next) => {
     username,
     email,
     password,
-    avatar: cloudinaryresponse.secure_url,
+    avatar: link,
   });
   const createduser = await User.findById(user._id).select(
     "-password -refreshtoken",

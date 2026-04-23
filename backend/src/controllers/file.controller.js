@@ -65,12 +65,12 @@ const uploadfilesave = asyncHandler(async (req, res) => { // This function will 
       });
     }
   }
-  const urldownload=await getFileFromS3(req.body.key);
+  /*const urldownload=await getFileFromS3(req.body.key);
     if(!urldownload){
-        throw new errorhandler(500,"Failed to get file URL from S3",[]);
-    }
+        throw new errorhandler(500,"Failed to get file URL fr",[]);
+    }*/
   const newfile = await File.create({
-    filelink: urldownload,
+    filelink: req.body.key,
     filename: req.body.originalname,
     owner: req.user._id,
     filesize: req.body.bytes,
