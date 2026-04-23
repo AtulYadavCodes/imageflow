@@ -1,6 +1,5 @@
-import {Router} from "express";
-import { verifyJWT } from "../middlewares/auth.middleware.js";
+import { Router } from "express";
 import { imagetransf } from "../controllers/imagetransfr.controller.js";
-const router=Router();
-router.route("/imagetransf").post(verifyJWT,imagetransf);
+const router = Router();
+router.route("/path/:key").get(imagetransf);
 export default router;

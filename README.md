@@ -6,6 +6,7 @@
 ![Redis](https://img.shields.io/badge/Redis-Rate%20Limit-DC382D?style=for-the-badge&logo=redis&logoColor=white)
 ![Cloudinary](https://img.shields.io/badge/Cloudinary-Avatar%20Storage-3448C5?style=for-the-badge&logo=cloudinary&logoColor=white)
 ![AWS S3](https://img.shields.io/badge/AWS%20S3-Signed%20Upload-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)
+![Sharp](https://img.shields.io/badge/Sharp-Image%20Transform-99CC00?style=for-the-badge&logo=sharp&logoColor=white)
 ![Auth](https://img.shields.io/badge/Auth-JWT%20%2B%20API%20Key-F59E0B?style=for-the-badge)
 
 ImageFlow is an ImageKit-like media platform backend for users and developers.
@@ -16,10 +17,12 @@ It supports:
 - Folder and file management
 - Avatar uploads with Cloudinary
 - File upload workflow with AWS S3 signed URLs
+- Image transformations using Sharp stream pipeline
 
 Current status:
 
-- Media transformations are currently being added.
+- Media transformation API is now available via Sharp.
+- Transform pipeline runs as real-time stream processing (S3 stream -> Sharp -> response stream), not blob/buffer in-memory processing.
 - Frontend application is currently in progress.
 - More platform capabilities and APIs are planned in upcoming updates.
 
@@ -35,6 +38,7 @@ Current status:
 - Cache/Rate Limiting: Redis
 - Avatar Storage: Cloudinary
 - File Uploads: AWS S3 signed URL flow
+- Image Transformations: Sharp + stream pipeline
 - Auth: JWT + API Key (for protected APIs)
 
 ```mermaid
@@ -64,6 +68,7 @@ Route groups:
 - /api/v1/folders
 - /api/v1/files
 - /api/v1/apikey
+- /transform
 
 ## Authentication
 
@@ -118,6 +123,42 @@ Important:
 | POST   | /api/v1/apikey/create     | Yes (JWT) | name?    | Create API key, raw key returned once |
 | GET    | /api/v1/apikey/list       | Yes (JWT) | none     | List keys (without hash)              |
 | DELETE | /api/v1/apikey/revoke/:id | Yes (JWT) | id param | Revoke API key                        |
+
+### Image Transform
+
+| Method | Route                | Secured | Payload          | Query Params                   | Notes                                                   |
+| ------ | -------------------- | ------- | ---------------- | ------------------------------ | ------------------------------------------------------- |
+| GET    | /transform/path/:key | No      | key in URL param | width, height, quality, format | Real-time stream transform using Sharp (no blob/buffer) |
+
+## Sharp Real-Time Stream Pipeline
+
+ImageFlow transform endpoint uses stream-based processing for lower memory footprint and faster response under load.
+
+- Input is read as stream from AWS S3 object body.
+- Stream is piped through Sharp transformation pipeline.
+- Output is streamed directly to client response.
+- No full-file blob or buffer is loaded for transformation output.
+- Transform route is public so it can be used from anywhere.
+
+```mermaid
+flowchart LR
+  C[Client Request]
+  A[Image Transform API]
+  S3[AWS S3 Object Stream]
+  SH[Sharp Pipeline\nresize/quality/format]
+  R[HTTP Response Stream]
+
+  C --> A
+  A --> S3
+  S3 --> SH
+  SH --> R
+
+  style C fill:#E8F1FF,stroke:#3B82F6,color:#0F172A
+  style A fill:#ECFDF5,stroke:#10B981,color:#0F172A
+  style S3 fill:#FFF7ED,stroke:#F97316,color:#0F172A
+  style SH fill:#F0FDF4,stroke:#84CC16,color:#0F172A
+  style R fill:#F8FAFC,stroke:#334155,color:#0F172A
+```
 
 No\* = endpoint is public but requires a valid refresh token cookie.
 
