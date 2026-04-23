@@ -225,12 +225,6 @@ curl -X GET "$BASE/folders/getallfilesinfolder/documents" \
   -H "Authorization: Bearer $TOKEN"
 ```
 
-Get current user profile:
-
-```bash
-curl -X GET "$BASE/users/profile" \
-  -H "Authorization: Bearer $TOKEN"
-```
 
 Quick notes:
 
