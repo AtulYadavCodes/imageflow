@@ -1,7 +1,12 @@
 //this is for frontend to upload file on aws s3 bucket using imageflow sdk
-
-export const imageflowuploadfunction = async (file, apikey, foldername) => {
+import fs from "fs";
+import path from "path";
+export const imageflowuploadfunction = async (filepath, apikey, foldername) => {
   let uploadurl;
+  const file=fs.createReadStream(filepath);
+  const filesize=fs.statSync(filepath).size;
+  const filename=path.basename(filepath);
+  const filetype="application/octet-stream";
   if (foldername === undefined || foldername.trim() === "") {
     foldername = "default";
   }
@@ -13,8 +18,8 @@ export const imageflowuploadfunction = async (file, apikey, foldername) => {
         Authorization: `Bearer ${apikey}`,
       },
       body: JSON.stringify({
-        originalname: file.name,
-        contentType: file.type,
+        originalname: filename,
+        contentType: filetype,
       }),
     });
 
@@ -29,7 +34,7 @@ export const imageflowuploadfunction = async (file, apikey, foldername) => {
   const uploadfile = await fetch(uploadurl.uploadurl, {
     method: "PUT",
     headers: {
-      "Content-Type": file.type,
+      "Content-Type": filetype,
     },
     body: file,
   });
@@ -45,8 +50,8 @@ export const imageflowuploadfunction = async (file, apikey, foldername) => {
         Authorization: `Bearer ${apikey}`,
       },
       body: JSON.stringify({
-        originalname: file.name,
-        bytes: file.size,
+        originalname: filename,
+        bytes: filesize,
         key: uploadurl.key,
       }),
     });
