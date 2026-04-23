@@ -21,6 +21,7 @@ It supports:
 
 - End users: use the ImageFlow website UI to upload and manage files without writing code.
 - Developers: integrate with ImageFlow APIs directly or use the provided SDKs.
+
 ## Architecture At A Glance
 
 - Backend: Node.js + Express
