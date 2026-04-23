@@ -232,13 +232,6 @@ curl -X GET "$BASE/users/profile" \
   -H "Authorization: Bearer $TOKEN"
 ```
 
-List API keys (JWT only):
-
-```bash
-curl -X GET "$BASE/apikey/list" \
-  -H "Authorization: Bearer $TOKEN"
-```
-
 Quick notes:
 
 - `getalluserfiles` supports `page`, `limit`, `sortby`, and `sorttype` query params.
