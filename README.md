@@ -1,4 +1,4 @@
-# ImageFlow Backend
+# ImageFlow Backend (ImageKit-like Platform)
 
 ![Node.js](https://img.shields.io/badge/Node.js-22%2B-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 ![Express](https://img.shields.io/badge/Express-5.x-111111?style=for-the-badge&logo=express&logoColor=white)
@@ -8,7 +8,7 @@
 ![AWS S3](https://img.shields.io/badge/AWS%20S3-Signed%20Upload-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)
 ![Auth](https://img.shields.io/badge/Auth-JWT%20%2B%20API%20Key-F59E0B?style=for-the-badge)
 
-ImageFlow is a media backend for users and developers.
+ImageFlow is an ImageKit-like media platform backend for users and developers.
 It supports:
 
 - User authentication (JWT)
@@ -16,6 +16,12 @@ It supports:
 - Folder and file management
 - Avatar uploads with Cloudinary
 - File upload workflow with AWS S3 signed URLs
+
+Current status:
+
+- Media transformations are currently being added.
+- Frontend application is currently in progress.
+- More platform capabilities and APIs are planned in upcoming updates.
 
 ## Who This Is For
 
@@ -224,7 +230,6 @@ Get all files inside a folder:
 curl -X GET "$BASE/folders/getallfilesinfolder/documents" \
   -H "Authorization: Bearer $TOKEN"
 ```
-
 
 Quick notes:
 
