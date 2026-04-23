@@ -1,55 +1,58 @@
-# ImageFlow Backend (ImageKit-like)
+# ImageFlow Backend
 
-![Node.js](https://img.shields.io/badge/Node.js-22+-3C873A?style=for-the-badge&logo=node.js&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-22%2B-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 ![Express](https://img.shields.io/badge/Express-5.x-111111?style=for-the-badge&logo=express&logoColor=white)
-![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-13AA52?style=for-the-badge&logo=mongodb&logoColor=white)
-![Redis](https://img.shields.io/badge/Redis-Rate%20Limit-D82C20?style=for-the-badge&logo=redis&logoColor=white)
-![AWS S3](https://img.shields.io/badge/AWS%20S3-File%20Storage-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
+![Redis](https://img.shields.io/badge/Redis-Rate%20Limit-DC382D?style=for-the-badge&logo=redis&logoColor=white)
+![Cloudinary](https://img.shields.io/badge/Cloudinary-Avatar%20Storage-3448C5?style=for-the-badge&logo=cloudinary&logoColor=white)
+![AWS S3](https://img.shields.io/badge/AWS%20S3-Signed%20Upload-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)
 ![Auth](https://img.shields.io/badge/Auth-JWT%20%2B%20API%20Key-F59E0B?style=for-the-badge)
 
-ImageFlow is an ImageKit-like backend platform for both end users and developers. It provides user-facing auth flows and media operations with JWT authentication, plus developer-friendly API key access for programmatic integrations.
+ImageFlow is a media backend for users and developers.
+It supports:
 
-Complete Express + MongoDB backend for cloud storage with user authentication flows (register, login, logout, token refresh), API key management, profile management, secure file upload, and fully documented route-based APIs for users, folders, files, and API keys.
+- User authentication (JWT)
+- API key access for developer integrations
+- Folder and file management
+- Avatar uploads with Cloudinary
+- File upload workflow with AWS S3 signed URLs
 
-> Note: This is ongoing and features/routes may continue to evolve.
+## Who This Is For
 
-## Tech Stack
+- End users: use the ImageFlow website UI to upload and manage files without writing code.
+- Developers: integrate with ImageFlow APIs directly or use the provided SDKs.
 
-- Node.js (ESM)
-- Express 5
-- MongoDB + Mongoose
-- JWT (access + refresh)
-- API key authentication (hashed keys)
-- Redis (login attempt throttling)
-- Multer (multipart handling)
-- AWS S3 (file storage)
-- Cookie Parser + CORS
+## Architecture At A Glance
 
-## Current Features
+- Backend: Node.js + Express
+- Database: MongoDB (Mongoose)
+- Cache/Rate Limiting: Redis
+- Avatar Storage: Cloudinary
+- File Uploads: AWS S3 signed URL flow
+- Auth: JWT + API Key (for protected APIs)
 
-- User registration with avatar upload
-- Login with access/refresh token issuance
-- Logout with cookie clear and refresh token unset
-- Refresh access token endpoint
-- Get authenticated user profile
-- Update avatar
-- Update password
-- Update email
-- Create folder (controller implemented; route currently commented in folder routes)
-- List all folders for logged-in user
-- Delete folder
-- List all files in a folder (by foldername)
-- Upload file to a folder (optional foldername in route param)
-- Create API key (JWT only)
-- List API keys (JWT only)
-- Revoke API key (JWT only)
+```mermaid
+flowchart LR
+  U[Web App or SDK Client] -->|JWT or API Key| A[Express API]
+  A --> DB[(MongoDB)]
+  A --> R[(Redis)]
+  A --> C[(Cloudinary)]
+  A --> S[(AWS S3)]
 
-## API Base
+  style U fill:#E8F1FF,stroke:#3B82F6,color:#0F172A
+  style A fill:#ECFDF5,stroke:#10B981,color:#0F172A
+  style DB fill:#F0FDF4,stroke:#22C55E,color:#0F172A
+  style R fill:#FEF2F2,stroke:#EF4444,color:#0F172A
+  style C fill:#EEF2FF,stroke:#6366F1,color:#0F172A
+  style S fill:#FFF7ED,stroke:#F97316,color:#0F172A
+```
+
+## Base URL And Routing
 
 - Base URL: http://localhost:3000
-- Global prefix: /api/v1
+- API prefix: /api/v1
 
-Mounted route groups:
+Route groups:
 
 - /api/v1/users
 - /api/v1/folders
@@ -58,111 +61,153 @@ Mounted route groups:
 
 ## Authentication
 
-Protected endpoints support both authentication methods through the same middleware:
+Protected endpoints are validated by a shared auth middleware.
 
-- JWT via accessToken cookie
-- JWT via Authorization: Bearer <jwt>
-- API key via Authorization: Bearer sk_xxxxxx
+Supported auth methods:
 
-API key management routes (/api/v1/apikey/\*) are JWT-only by design.
+- JWT cookie: accessToken
+- JWT header: Authorization: Bearer <jwt>
+- API key header: Authorization: Bearer sk_xxxxxx
 
-Token details:
+Important:
 
-- Access token signed with JWT_SECRET
-- Refresh token signed with JWT_REFRESH_SECRET
-- Refresh token is also checked against stored value in DB before issuing new access token
-- API keys are never stored raw; only SHA256 hash is stored in the database
-- API key records include prefix, revoked flag, and lastUsedAt tracking
+- API key management endpoints under /api/v1/apikey are JWT-only.
+- API keys are stored hashed (not in raw form).
 
-## Architecture Diagram (Simple Flow)
-
-```mermaid
-flowchart LR
-  A[Login with email/password] --> B[Receive JWT access token]
-  B --> C[Create API key with JWT\nPOST /api/v1/apikey/create]
-  C --> D[Receive raw API key once]
-  D --> E[Call protected APIs\nAuthorization: Bearer sk_xxx]
-  B --> F[Or call protected APIs\nAuthorization: Bearer jwt]
-
-  E --> G[Same auth middleware]
-  F --> G
-  G --> H[req.authType = apiKey or jwt]
-
-  H -->I[protected routes]
-```
-
-Simple idea:
-
-1. User logs in and gets JWT.
-2. User creates API key using JWT.
-3. Developer/coder uses that API key (or JWT) to call the same protected routes.
-
-## Standard Response and Error Shape
-
-Success responses use a common wrapper from responseHandler:
-
-- statusCode
-- message
-- data
-
-Error middleware returns:
-
-- statusCode
-- message
-- errors (array)
-
-## API Endpoints
+## API Reference
 
 ### Users
 
-| Method | Route                             | Secured | Body/Params                                                  | Notes                         |
-| ------ | --------------------------------- | ------- | ------------------------------------------------------------ | ----------------------------- |
-| POST   | /api/v1/users/register            | No      | multipart: fullname, username, email, password, avatar(file) | Create new user               |
-| POST   | /api/v1/users/login               | No      | email, password                                              | Redis rate-limit by email+ip  |
-| POST   | /api/v1/users/logout              | Yes     | none                                                         | Clears auth cookies           |
-| POST   | /api/v1/users/refreshAccessToken  | No\*    | refreshToken cookie                                          | Requires valid refresh cookie |
-| GET    | /api/v1/users/profile             | Yes     | none                                                         | Returns current user          |
-| PATCH  | /api/v1/users/updateprofileavatar | Yes     | multipart: avatar(file)                                      | Updates avatar via AWS S3     |
-| POST   | /api/v1/users/updatepassword      | Yes     | oldpassword, newpassword                                     | Changes password              |
-| PATCH  | /api/v1/users/updateemail         | Yes     | newemail                                                     | Updates email if unique       |
+| Method | Route                             | Secured | Payload                                                      | Notes                        |
+| ------ | --------------------------------- | ------- | ------------------------------------------------------------ | ---------------------------- |
+| POST   | /api/v1/users/register            | No      | multipart: fullname, username, email, password, avatar(file) | Create account               |
+| POST   | /api/v1/users/login               | No      | email, password                                              | Login rate-limited by Redis  |
+| POST   | /api/v1/users/logout              | Yes     | none                                                         | Clears auth cookies          |
+| POST   | /api/v1/users/refreshAccessToken  | No\*    | refreshToken cookie                                          | Requires valid refresh token |
+| GET    | /api/v1/users/profile             | Yes     | none                                                         | Current user profile         |
+| PATCH  | /api/v1/users/updateprofileavatar | Yes     | multipart: avatar(file)                                      | Upload avatar (Cloudinary)   |
+| POST   | /api/v1/users/updatepassword      | Yes     | oldpassword, newpassword                                     | Change password              |
+| PATCH  | /api/v1/users/updateemail         | Yes     | newemail                                                     | Change email                 |
 
 ### Folders
 
-| Method | Route                                           | Secured | Body/Params      | Notes                                                  |
-| ------ | ----------------------------------------------- | ------- | ---------------- | ------------------------------------------------------ |
-| GET    | /api/v1/folders/getalluserfolders               | Yes     | none             | List folders for current user (`owner = req.user._id`) |
-| DELETE | /api/v1/folders/deletefolder/:foldername        | Yes     | foldername param | Deletes folder and removes files mapped to that folder |
-| GET    | /api/v1/folders/getallfilesinfolder/:foldername | Yes     | foldername param | List files in folder by folder name                    |
-
-Note:
-
-- `POST /api/v1/folders/createfolder` exists in controller but is currently commented out in `backend/src/routes/folder.routes.js`.
+| Method | Route                                           | Secured | Payload          | Notes                          |
+| ------ | ----------------------------------------------- | ------- | ---------------- | ------------------------------ |
+| GET    | /api/v1/folders/getalluserfolders               | Yes     | none             | List current user folders      |
+| DELETE | /api/v1/folders/deletefolder/:foldername        | Yes     | foldername param | Delete folder and linked files |
+| GET    | /api/v1/folders/getallfilesinfolder/:foldername | Yes     | foldername param | List files for folder          |
 
 ### Files
 
-| Method | Route                                 | Secured | Body/Params                           | Notes                                                                  |
-| ------ | ------------------------------------- | ------- | ------------------------------------- | ---------------------------------------------------------------------- |
-| GET    | /api/v1/files/getalluserfiles         | Yes     | query: page, limit, sortby, sorttype  | List paginated files for logged-in user                                |
-| POST   | /api/v1/files/uploadfile/:foldername? | Yes     | multipart `file`; foldername optional | Upload file; when foldername is present, file is linked to that folder |
+| Method | Route                                | Secured | Payload                              | Notes                                      |
+| ------ | ------------------------------------ | ------- | ------------------------------------ | ------------------------------------------ |
+| GET    | /api/v1/files/getalluserfiles        | Yes     | query: page, limit, sortby, sorttype | Paginated user files                       |
+| POST   | /api/v1/files/uploadfile             | Yes     | JSON: originalname, contentType      | Step 1: create signed S3 upload URL        |
+| POST   | /api/v1/files/uploadfile/:foldername | Yes     | JSON: key, originalname, bytes       | Step 2: save file metadata after S3 upload |
 
 ### API Keys
 
-| Method | Route                     | Secured   | Body/Params | Notes                                                    |
-| ------ | ------------------------- | --------- | ----------- | -------------------------------------------------------- |
-| POST   | /api/v1/apikey/create     | Yes (JWT) | name?       | Creates API key and returns raw key only once            |
-| GET    | /api/v1/apikey/list       | Yes (JWT) | none        | Lists user API keys (without keyHash)                    |
-| DELETE | /api/v1/apikey/revoke/:id | Yes (JWT) | id param    | Revokes key by setting revoked=true (key is not deleted) |
+| Method | Route                     | Secured   | Payload  | Notes                                 |
+| ------ | ------------------------- | --------- | -------- | ------------------------------------- |
+| POST   | /api/v1/apikey/create     | Yes (JWT) | name?    | Create API key, raw key returned once |
+| GET    | /api/v1/apikey/list       | Yes (JWT) | none     | List keys (without hash)              |
+| DELETE | /api/v1/apikey/revoke/:id | Yes (JWT) | id param | Revoke API key                        |
 
-Secured = requires valid authentication.
-For users/folders/files routes: JWT or API key can be used.
-For /api/v1/apikey routes: only JWT is accepted.
-No\* = endpoint itself is public but needs a valid refresh token cookie.
+No\* = endpoint is public but requires a valid refresh token cookie.
+
+## Developer Integration Options
+
+### Option 1: Direct API Integration
+
+Use your own HTTP client (fetch, axios, postman, backend service).
+
+Typical file upload sequence:
+
+1. Call POST /api/v1/files/uploadfile with metadata (originalname, contentType).
+2. Receive signed S3 upload URL and key.
+3. Upload binary file to S3 using PUT on signed URL.
+4. Call POST /api/v1/files/uploadfile/:foldername with key, originalname, bytes.
+5. Persisted file record will contain filelink (signed download URL).
+
+```mermaid
+sequenceDiagram
+  participant Client as Web App / SDK
+  participant API as ImageFlow API
+  participant S3 as AWS S3
+  participant DB as MongoDB
+
+  Client->>API: POST /api/v1/files/uploadfile\n(originalname, contentType)
+  API-->>Client: uploadurl + key
+  Client->>S3: PUT file binary to signed uploadurl
+  S3-->>Client: 200 OK
+  Client->>API: POST /api/v1/files/uploadfile/:foldername\n(key, originalname, bytes)
+  API->>DB: Save metadata + filelink
+  API-->>Client: Saved file response
+```
+
+### Option 2: SDK Integration
+
+Two SDK packages are included in this repository.
+
+#### Browser SDK
+
+- Package folder: imageflowsdk-browser
+- Entry file: imageflowuploadfunction.js
+- Export: imageflowuploadfunction(file, apikey, foldername)
+
+Example:
+
+```js
+import { imageflowuploadfunction } from "./imageflowuploadfunction.js";
+
+const file = document.querySelector("#file-input").files[0];
+const apiKey = "sk_xxxxxxxxxx";
+
+const result = await imageflowuploadfunction(file, apiKey, "documents");
+console.log(result);
+```
+
+#### Backend SDK (Node.js)
+
+- Package folder: imageflowsdk-backend
+- Entry file: imageflowuploadfunction.js
+- Export: imageflowuploadfunction(filepath, apikey, foldername)
+
+Example:
+
+```js
+import { imageflowuploadfunction } from "./imageflowuploadfunction.js";
+
+const apiKey = "sk_xxxxxxxxxx";
+const result = await imageflowuploadfunction(
+  "./docs/report.pdf",
+  apiKey,
+  "reports",
+);
+console.log(result);
+```
+
+SDK behavior notes:
+
+- If foldername is empty, SDK defaults to default.
+- SDK sends Authorization: Bearer <apikey>.
+- SDK currently uses relative API paths (/api/v1/...), so use same-origin hosting or a proxy strategy.
+
+### Option 3: Website (No API Code)
+
+If you are not building an integration, use the ImageFlow website/client UI.
+
+- Sign up or log in
+- Upload and organize files through UI
+- Manage profile and credentials visually
+
+This path is intended for users who do not want to call APIs directly.
 
 ## Environment Variables
 
-Use backend/.env.example as template.
+Use backend/.env.example as your template.
 
-Required keys in backend/.env:
+Required backend variables:
 
 - PORT
 - CORS_ORIGIN
@@ -174,6 +219,9 @@ Required keys in backend/.env:
 - REDIS_HOST
 - REDIS_PORT
 - REDIS_PASSWORD
+- cloudinary_name
+- cloudinary_api_key
+- cloudinary_api_secret
 - AWS_REGION
 - AWS_BUCKET_NAME
 - AWS_ACCESS_KEY_ID
@@ -182,93 +230,52 @@ Required keys in backend/.env:
 - RAZORPAY_KEY_SECRET
 - RAZORPAY_WEBHOOK_SECRET
 
-## Run Locally
+## Local Setup
 
-1. Install dependencies
+1. Install backend dependencies
 
-- From backend folder: npm install
+- cd backend
+- npm install
 
-2. Start Redis
+2. Install AWS SDK dependencies if missing
 
-- Option A: local Redis instance
-- Option B: docker compose in backend folder:
-  - docker compose up -d
+- npm i @aws-sdk/client-s3 @aws-sdk/s3-request-presigner
 
-3. Start API
+3. Start Redis
 
-- From backend folder: npm start
+- Local Redis, or
+- docker compose up -d (from backend folder)
 
-Server runs on configured PORT (current code defaults effectively to 3000 in index startup line).
+4. Start backend
 
-## Security Implemented
+- npm start
 
-- Password hashing with bcrypt in model pre-save hook
-- JWT-based auth for protected routes
-- Unified auth middleware supporting JWT and API keys
-- HttpOnly secure cookies for tokens
-- Token verification middleware for protected routes
-- API keys stored as SHA256 hashes only (raw key never persisted)
-- API key revocation via revoked flag
-- Refresh token re-validation against stored DB token
-- Login brute-force mitigation via Redis attempt counter
+## Response Format
+
+Successful responses use:
+
+- statusCode
+- message
+- data
+
+Error responses use:
+
+- statusCode
+- message
+- errors
+
+## Security Notes
+
+- Passwords hashed with bcrypt via model hooks
+- JWT auth with refresh token flow
+- API keys hashed in database
+- API key revoke support
+- Redis login rate limiting
 - Centralized error middleware
-- CORS origin configuration via environment variable
-- Sensitive config in environment variables
+- CORS configured with credentials
 
-## Login Rate Limit
+## Current Limitations
 
-Rate limiting is applied to the login endpoint to reduce brute-force attempts.
-
-- Endpoint: `POST /api/v1/users/login`
-- Strategy: Redis key by `email + ip`
-- Limit: 5 failed attempts
-- Window: 60 seconds
-- Behavior: after limit is reached, API returns `429 Too many login attempts`
-
-Middleware path:
-
-- `backend/src/middlewares/ratelim.middleware.js`
-
-## Important Notes and Current Gaps
-
-These are useful to know while integrating frontend or deploying:
-
-- CORS is configured with both `origin` and `credentials: true`.
-- Cookie secure flag is always true, so local HTTP testing may need HTTPS/proxy adjustments.
-- Multer currently has no file size/type validation configured.
-- Some controller logic and naming are inconsistent (for example refresh token storage and generation flow), so additional hardening/refactor is recommended before production use.
-- No automated tests are included yet.
-
-## Folder and File Data Model (Current)
-
-Folder model (`backend/src/models/folder.model.js`):
-
-- `foldername`: String, required, trimmed, lowercase, indexed, unique
-- `owner`: ObjectId ref to `User`, required
-- timestamps enabled
-
-File model (`backend/src/models/file.model.js`):
-
-- `filelink`: String, required
-- `filename`: String, required
-- `owner`: ObjectId ref to `User`, required
-- `filesize`: Number, required
-- `folder`: ObjectId ref to `Folder`, optional
-- `filepreview`: String, default preview URL
-- timestamps enabled
-
-Controller behavior snapshot:
-
-- Folder controller resolves folder lookups by `foldername` route param.
-- File upload route accepts optional `foldername` and assigns `folder` if resolved.
-
-## Folder Structure
-
-- backend/src/app.js: app setup, middleware, route mounting
-- backend/src/index.js: entry point and DB connect
-- backend/src/routes: route definitions
-- backend/src/controllers: request handlers
-- backend/src/models: mongoose schemas
-- backend/src/middlewares: auth, multer, login rate-limit
-- backend/src/db: Mongo and Redis config
-- backend/src/utils: async wrapper, upload helper, response/error helpers
+- Some naming and controller internals need cleanup/refactor for production hardening
+- No automated test suite yet
+- Cookie secure flag behavior may require HTTPS/proxy adjustments in local environments
