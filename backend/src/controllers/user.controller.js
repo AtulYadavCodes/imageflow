@@ -1,7 +1,7 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import errorhandler from "../utils/errorhandler.js"
 import {User} from "../models/user.model.js";
-import uploadoncloudinary from "../utils/uploadoncloudinary.js";
+import uploadoncloudinary from "../utils/uploadonawsbucket.js";
 import responseHandler from "../utils/responseHandler.js"
 import jwt from "jsonwebtoken";
 import redis from "../db/redis.js";

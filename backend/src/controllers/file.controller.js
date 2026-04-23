@@ -4,7 +4,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import errorhandler from "../utils/errorhandler.js";
 import { File } from "../models/file.model.js";
 import { Folder } from "../models/folder.model.js";
-import uploadoncloudinary from "../utils/uploadoncloudinary.js";
+import uploadoncloudinary from "../utils/uploadonawsbucket.js";
 
 const getalluserfiles = asyncHandler(async (req, res) => {
   const {
