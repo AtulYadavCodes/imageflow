@@ -4,7 +4,7 @@
 ![Express](https://img.shields.io/badge/Express-5.x-111111?style=for-the-badge&logo=express&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-13AA52?style=for-the-badge&logo=mongodb&logoColor=white)
 ![Redis](https://img.shields.io/badge/Redis-Rate%20Limit-D82C20?style=for-the-badge&logo=redis&logoColor=white)
-![Cloudinary](https://img.shields.io/badge/Cloudinary-File%20Storage-3448C5?style=for-the-badge&logo=cloudinary&logoColor=white)
+![AWS S3](https://img.shields.io/badge/AWS%20S3-File%20Storage-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)
 ![Auth](https://img.shields.io/badge/Auth-JWT%20%2B%20API%20Key-F59E0B?style=for-the-badge)
 
 ImageFlow is an ImageKit-like backend platform for both end users and developers. It provides user-facing auth flows and media operations with JWT authentication, plus developer-friendly API key access for programmatic integrations.
@@ -22,7 +22,7 @@ Complete Express + MongoDB backend for cloud storage with user authentication fl
 - API key authentication (hashed keys)
 - Redis (login attempt throttling)
 - Multer (multipart handling)
-- Cloudinary (file storage)
+- AWS S3 (file storage)
 - Cookie Parser + CORS
 
 ## Current Features
@@ -122,7 +122,7 @@ Error middleware returns:
 | POST   | /api/v1/users/logout              | Yes     | none                                                         | Clears auth cookies           |
 | POST   | /api/v1/users/refreshAccessToken  | No\*    | refreshToken cookie                                          | Requires valid refresh cookie |
 | GET    | /api/v1/users/profile             | Yes     | none                                                         | Returns current user          |
-| PATCH  | /api/v1/users/updateprofileavatar | Yes     | multipart: avatar(file)                                      | Updates avatar via Cloudinary |
+| PATCH  | /api/v1/users/updateprofileavatar | Yes     | multipart: avatar(file)                                      | Updates avatar via AWS S3     |
 | POST   | /api/v1/users/updatepassword      | Yes     | oldpassword, newpassword                                     | Changes password              |
 | PATCH  | /api/v1/users/updateemail         | Yes     | newemail                                                     | Updates email if unique       |
 
@@ -174,9 +174,10 @@ Required keys in backend/.env:
 - REDIS_HOST
 - REDIS_PORT
 - REDIS_PASSWORD
-- cloudinary_name
-- cloudinary_api_key
-- cloudinary_api_secret
+- AWS_REGION
+- AWS_BUCKET_NAME
+- AWS_ACCESS_KEY_ID
+- AWS_SECRET_ACCESS_KEY
 - RAZORPAY_KEY_ID
 - RAZORPAY_KEY_SECRET
 - RAZORPAY_WEBHOOK_SECRET
@@ -253,7 +254,7 @@ File model (`backend/src/models/file.model.js`):
 - `owner`: ObjectId ref to `User`, required
 - `filesize`: Number, required
 - `folder`: ObjectId ref to `Folder`, optional
-- `filepreview`: String, default Cloudinary preview URL
+- `filepreview`: String, default preview URL
 - timestamps enabled
 
 Controller behavior snapshot:

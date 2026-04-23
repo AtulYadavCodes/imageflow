@@ -4,7 +4,8 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import errorhandler from "../utils/errorhandler.js";
 import { File } from "../models/file.model.js";
 import { Folder } from "../models/folder.model.js";
-import uploadoncloudinary from "../utils/uploadonawsbucket.js";
+import uploadoncloudinary, { getFileFromS3, uploadonawsbucket, uploadonawss3bucket } from "../utils/uploadonawss3bucket.js";
+import { get } from "node:http";
 
 const getalluserfiles = asyncHandler(async (req, res) => {
   const {
@@ -41,12 +42,17 @@ const getalluserfiles = asyncHandler(async (req, res) => {
     );
 });
 
-const uploadfile = asyncHandler(async (req, res) => {
-  const foldername = req.params?.foldername?.trim()?.toLowerCase();
+const uploadfileinitiate=asyncHandler(async(req,res)=>{ // This function will generate a pre-signed URL for uploading the file to S3 directly from the client. The client will then use this URL to upload the file, and after successful upload, it will call another endpoint to save the file metadata in the database.
+    const key=`${req.body.originalname}-${Date.now()}`;
+    const uploadurl=await uploadonawss3bucket(key,req.body.contentType);
+    if(!uploadurl){
+        throw new errorhandler(500,"Failed to get upload URL from S3",[]);
+    }
+    res.status(200).json(new responseHandler(200,"Upload URL generated successfully",{uploadurl,key}));
+})
+const uploadfilesave = asyncHandler(async (req, res) => { // This function will be called after the file is uploaded to S3 using the pre-signed URL
+  const foldername = req.params?.foldername.trim().toLowerCase();
   let folder;
-  if (!req.file) {
-    throw new errorhandler(400, "No file uploaded", []);
-  }
   if (foldername) {
     folder = await Folder.findOne({
       foldername: foldername,
@@ -59,17 +65,16 @@ const uploadfile = asyncHandler(async (req, res) => {
       });
     }
   }
-  const cloudinaryresponse = await uploadoncloudinary(req.file.path, {
-    pages: true,
-    folder: "files",
-  });
-  if (!cloudinaryresponse) throw new errorhandler(500, "file upload error", []);
+  const urldownload=await getFileFromS3(req.body.key);
+    if(!urldownload){
+        throw new errorhandler(500,"Failed to get file URL from S3",[]);
+    }
   const newfile = await File.create({
-    filelink: cloudinaryresponse.secure_url,
-    filename: req.file.originalname,
+    filelink: urldownload,
+    filename: req.body.originalname,
     owner: req.user._id,
-    filesize: cloudinaryresponse.bytes,
-    folder: folder?._id || null,
+    filesize: req.body.bytes,
+    folder: folder._id,
     // filepreview can be populated later from generated previews.
   });
   const savedfile = await File.findById(newfile._id);
@@ -80,4 +85,4 @@ const uploadfile = asyncHandler(async (req, res) => {
     .status(200)
     .json(new responseHandler(200, "file uploaded successfully", savedfile));
 });
-export { getalluserfiles, uploadfile };
+export { getalluserfiles, uploadfileinitiate, uploadfilesave };
