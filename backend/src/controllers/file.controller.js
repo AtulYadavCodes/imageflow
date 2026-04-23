@@ -35,6 +35,10 @@ const getalluserfiles = asyncHandler(async (req, res) => {
   if (!userfiles || userfiles.length === 0) {
     throw new errorhandler(404, "files not found", []);
   }
+
+  userfiles.forEach(userfile => {
+    userfile.filelink=getFileFromS3(userfile.filelink);
+  });
   res
     .status(200)
     .json(
