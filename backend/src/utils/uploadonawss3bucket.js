@@ -107,4 +107,4 @@ const getFileFromS3 = async (key) => {
   }
 };
 
-export { uploadonawss3bucket, getFileFromS3,uploadonawss3bucketavatar };
+export {s3, uploadonawss3bucket, getFileFromS3,uploadonawss3bucketavatar };

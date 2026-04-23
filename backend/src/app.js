@@ -19,6 +19,8 @@ import Userrouter from "./routes/user.routes.js";
 import Filesrouter from "./routes/file.routes.js";
 import Folderrouter from "./routes/folder.routes.js";
 import ApiKeyrouter from "./routes/apikey.routes.js";
+import ImageTransfrouter from "./routes/imagetransf.route.js";
+app.use("/api/v1/imaget", ImageTransfrouter);
 app.use("/api/v1/users", Userrouter);
 app.use("/api/v1/files", Filesrouter);
 app.use("/api/v1/folders", Folderrouter);
