@@ -1,50 +1,62 @@
 //this is for frontend to upload file on aws s3 bucket using imageflow sdk
 
-import { url } from "node:inspector";
+export const imageflowuploadfunction = async (file, apikey, foldername) => {
+  let uploadurl;
+  if (foldername === undefined || foldername.trim() === "") {
+    foldername = "default";
+  }
+  try {
+    uploadurl = await fetch("/api/v1/files/uploadfile", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apikey}`,
+      },
+      body: JSON.stringify({
+        originalname: file.name,
+        contentType: file.type,
+      }),
+    });
 
-export const imageflowuploadfunction=async(file,apikey,foldername)=>{
-    try {
-
-        const uploadurl=await fetch("/api/v1/files/uploadfile",{
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json",
-                "Authorization":`Bearer ${apikey}`
-            },
-            body:JSON.stringify({
-                originalname:file.name,
-                contentType:file.type
-            })
-        });
-    } catch (error) {
-        console.error("Error in imageflowuploadfunction:", error);
+    if (!uploadurl.ok) {
+      throw new Error("Failed to get upload URL from server");
     }
+    uploadurl = await uploadurl.json();
+  } catch (error) {
+    console.error("Error in imageflowuploadfunction:", error);
+    throw error;
+  }
+  const uploadfile = await fetch(uploadurl.uploadurl, {
+    method: "PUT",
+    headers: {
+      "Content-Type": file.type,
+    },
+    body: file,
+  });
+  if (!uploadfile.ok) {
+    throw new Error("Failed to upload file to S3");
+  }
 
-    const uploadfile=await fetch(uploadurl.uploadurl,{
-        method:"PUT",
-        headers:{
-            "Content-Type":file.type
-        },
-        body:file
-    })
-    
+  try {
+    const savefile = await fetch(`/api/v1/files/uploadfile/${foldername}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apikey}`,
+      },
+      body: JSON.stringify({
+        originalname: file.name,
+        bytes: file.size,
+        key: uploadurl.key,
+      }),
+    });
 
-    try {
-        const savefile=await fetch(`/api/v1/files/uploadfile/${foldername}`,{
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json",
-                "Authorization":`Bearer ${apikey}`
-            },
-            body:JSON.stringify({
-                originalname:file.name,
-                bytes:file.size,
-                key:uploadurl.key
-            })
-        })
-    
-        return savefile;
-    } catch (error) {
-        console.error("Error in saving file metadata:", error);
+    if (!savefile.ok) {
+      throw new Error("Failed to save file metadata on server");
     }
-}
+    return await savefile.json();
+  } catch (error) {
+    console.error("Error in saving file metadata:", error);
+    throw error;
+  }
+};
