@@ -33,7 +33,7 @@ It supports:
 
 ```mermaid
 flowchart LR
-  U[Web App or SDK Client] -->|JWT or API Key| A[Express API]
+  U[Web App or SDK Client or other api use] -->|JWT or API Key| A[Express API]
   A --> DB[(MongoDB)]
   A --> R[(Redis)]
   A --> C[(Cloudinary)]
