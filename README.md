@@ -121,6 +121,58 @@ No\* = endpoint is public but requires a valid refresh token cookie.
 
 Use your own HTTP client (fetch, axios, postman, backend service).
 
+#### Common Read APIs (List And View Data)
+
+Use JWT or API key for these protected read endpoints.
+
+Set token once:
+
+```bash
+TOKEN="your_jwt_or_api_key"
+BASE="http://localhost:3000/api/v1"
+```
+
+Get all user files (paginated):
+
+```bash
+curl -X GET "$BASE/files/getalluserfiles?page=1&limit=10&sortby=createdAt&sorttype=desc" \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+Get all folders for current user:
+
+```bash
+curl -X GET "$BASE/folders/getalluserfolders" \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+Get all files inside a folder:
+
+```bash
+curl -X GET "$BASE/folders/getallfilesinfolder/documents" \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+Get current user profile:
+
+```bash
+curl -X GET "$BASE/users/profile" \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+List API keys (JWT only):
+
+```bash
+curl -X GET "$BASE/apikey/list" \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+Quick notes:
+
+- `getalluserfiles` supports `page`, `limit`, `sortby`, and `sorttype` query params.
+- `getallfilesinfolder/:foldername` uses the folder name in the URL path.
+- `/apikey/list` requires JWT auth (API key does not work for this route).
+
 Typical file upload sequence:
 
 1. Call POST /api/v1/files/uploadfile with metadata (originalname, contentType).
