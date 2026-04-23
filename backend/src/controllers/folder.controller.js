@@ -49,6 +49,9 @@ const allfilesinfolder=asyncHandler(async(req,res)=>{
     if(!files||files.length===0){
         throw new errorhandler(404,"folder not found",[]);
     }
+    files.forEach(file => {
+        file.filelink=await getFileFromS3(file.filelink);
+    });
     return res.status(200).json(new responseHandler(200,"files in folder fetched successfully",files));
 });
 
