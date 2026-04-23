@@ -6,15 +6,17 @@ import {s3, getFileFromS3, uploadonawss3bucket } from "../utils/uploadonawss3buc
 import { GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 const imagetransf=asyncHandler(async(req,res)=>{;
     const {width,height,quality,format}=req.query;
-    const fileobject=await S3.send(new GetObjectCommand({
+    const fileobject=await s3.send(new GetObjectCommand({
         Bucket: process.env.AWS_BUCKET_NAME,
         Key: req.params.key,}));
-    const pipeline=sharp();
-    if(width) pipeline.resize({width:Number(width)});
-    if(height) pipeline.resize({height:Number(height)});
-    if(width&&height) pipeline.resize({width:Number(width),height:Number(height)});
-    if(quality) pipeline.jpeg({quality:Number(quality)});
-    if(format) pipeline.toFormat(format);
+    let pipeline=sharp();
+    if(width&&height) pipeline=pipeline.resize({width:Number(width),height:Number(height)});
+    else if(width) pipeline=pipeline.resize({width:Number(width)});
+    else if(height) pipeline=pipeline.resize({height:Number(height)});
+   
+    if(quality) pipeline=pipeline.jpeg({quality:Number(quality)});
+    if(format) pipeline=pipeline.toFormat(format);
+    res.setHeader("Content-Type", `image/${format||"jpeg"}`);
     fileobject.Body.pipe(pipeline).pipe(res)
 })
 export {imagetransf};

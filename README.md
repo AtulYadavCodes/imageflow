@@ -4,8 +4,7 @@
 ![Express](https://img.shields.io/badge/Express-5.x-111111?style=for-the-badge&logo=express&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
 ![Redis](https://img.shields.io/badge/Redis-Rate%20Limit-DC382D?style=for-the-badge&logo=redis&logoColor=white)
-![Cloudinary](https://img.shields.io/badge/Cloudinary-Avatar%20Storage-3448C5?style=for-the-badge&logo=cloudinary&logoColor=white)
-![AWS S3](https://img.shields.io/badge/AWS%20S3-Signed%20Upload-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)
+![AWS S3](https://img.shields.io/badge/AWS%20S3-Avatar%20%2B%20File%20Storage-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)
 ![Sharp](https://img.shields.io/badge/Sharp-Image%20Transform-99CC00?style=for-the-badge&logo=sharp&logoColor=white)
 ![Auth](https://img.shields.io/badge/Auth-JWT%20%2B%20API%20Key-F59E0B?style=for-the-badge)
 
@@ -15,7 +14,7 @@ It supports:
 - User authentication (JWT)
 - API key access for developer integrations
 - Folder and file management
-- Avatar uploads with Cloudinary
+- Avatar uploads with AWS S3
 - File upload workflow with AWS S3 signed URLs
 - Image transformations using Sharp stream pipeline
 
@@ -36,7 +35,7 @@ Current status:
 - Backend: Node.js + Express
 - Database: MongoDB (Mongoose)
 - Cache/Rate Limiting: Redis
-- Avatar Storage: Cloudinary
+- Avatar Storage: AWS S3
 - File Uploads: AWS S3 signed URL flow
 - Image Transformations: Sharp + stream pipeline
 - Auth: JWT + API Key (for protected APIs)
@@ -46,14 +45,12 @@ flowchart LR
   U[Web App or SDK Client or other api use] -->|JWT or API Key| A[Express API]
   A --> DB[(MongoDB)]
   A --> R[(Redis)]
-  A --> C[(Cloudinary)]
   A --> S[(AWS S3)]
 
   style U fill:#E8F1FF,stroke:#3B82F6,color:#0F172A
   style A fill:#ECFDF5,stroke:#10B981,color:#0F172A
   style DB fill:#F0FDF4,stroke:#22C55E,color:#0F172A
   style R fill:#FEF2F2,stroke:#EF4444,color:#0F172A
-  style C fill:#EEF2FF,stroke:#6366F1,color:#0F172A
   style S fill:#FFF7ED,stroke:#F97316,color:#0F172A
 ```
 
@@ -96,7 +93,7 @@ Important:
 | POST   | /api/v1/users/logout              | Yes     | none                                                         | Clears auth cookies          |
 | POST   | /api/v1/users/refreshAccessToken  | No\*    | refreshToken cookie                                          | Requires valid refresh token |
 | GET    | /api/v1/users/profile             | Yes     | none                                                         | Current user profile         |
-| PATCH  | /api/v1/users/updateprofileavatar | Yes     | multipart: avatar(file)                                      | Upload avatar (Cloudinary)   |
+| PATCH  | /api/v1/users/updateprofileavatar | Yes     | multipart: avatar(file)                                      | Upload avatar (AWS S3)       |
 | POST   | /api/v1/users/updatepassword      | Yes     | oldpassword, newpassword                                     | Change password              |
 | PATCH  | /api/v1/users/updateemail         | Yes     | newemail                                                     | Change email                 |
 
@@ -304,9 +301,6 @@ Required backend variables:
 - REDIS_HOST
 - REDIS_PORT
 - REDIS_PASSWORD
-- cloudinary_name
-- cloudinary_api_key
-- cloudinary_api_secret
 - AWS_REGION
 - AWS_BUCKET_NAME
 - AWS_ACCESS_KEY_ID
