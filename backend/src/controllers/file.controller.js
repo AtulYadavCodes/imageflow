@@ -4,7 +4,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import errorhandler from "../utils/errorhandler.js";
 import { File } from "../models/file.model.js";
 import { Folder } from "../models/folder.model.js";
-import uploadoncloudinary, { getFileFromS3, uploadonawsbucket, uploadonawss3bucket } from "../utils/uploadonawss3bucket.js";
+import uploadoncloudinary, { getFileFromS3, uploadonawss3bucket } from "../utils/uploadonawss3bucket.js";
 import { get } from "node:http";
 
 const getalluserfiles = asyncHandler(async (req, res) => {
@@ -36,9 +36,10 @@ const getalluserfiles = asyncHandler(async (req, res) => {
     throw new errorhandler(404, "files not found", []);
   }
 
-  userfiles.forEach(userfile => {
-    userfile.filelink=getFileFromS3(userfile.filelink);
-  });
+  
+ userfiles.map(userfile=>{
+    userfile.filelink=`${process.env.baseurl}/images/path/${file.filelink}`;
+ })
   res
     .status(200)
     .json(

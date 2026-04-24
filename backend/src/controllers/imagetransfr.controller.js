@@ -1,5 +1,5 @@
 import sharp from "sharp";
-import asyncHandler from "../utils/asyncHandler.js";
+import {asyncHandler} from "../utils/asyncHandler.js";
 import errorhandler from "../utils/errorhandler.js";
 import responseHandler from "../utils/responseHandler.js";
 import {
@@ -15,8 +15,8 @@ import {pipeline} from "stream/promises";
 const imagetransf = asyncHandler(async (req, res) => {
   const { removebg, width, height, rotate, blur, format } = req.query;
   if (removebg === "true") { 
-    const pathtofile = await getFileFromS3(req.params.key); //get path of file from s3
-    const removebgresponse = await removeBg(pathtofile);
+    const pathtofile = await getFileFromS3(req.params.key.join("/")); //get path of file from s3
+    const removebgresponse = await removeBg(pathtofile); 
    
     let picpipeline = sharp();
     if (width && height)
@@ -37,10 +37,12 @@ const imagetransf = asyncHandler(async (req, res) => {
     const fileobject = await s3.send(
       new GetObjectCommand({
         Bucket: process.env.AWS_BUCKET_NAME,
-        Key: req.params.key,
+        Key: req.params.key.join("/"),
       }),
     );
     let picpipeline = sharp();
+
+   
     if (width && height)
       picpipeline = picpipeline.resize({
         width: Number(width),

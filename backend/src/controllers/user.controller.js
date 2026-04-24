@@ -30,10 +30,9 @@ const registerUser = asyncHandler(async (req, res, next) => {
   if (!avatarlocalpath) throw new errorhandler(400, "Avatar is required");
   const key = `avatars/${Date.now()}-${req.file.originalname}`;
   const response = await uploadonawss3bucketavatar(avatarlocalpath,key);
-  if(response.statusCode!==200) throw new errorhandler(500, "Error in uploading avatar");
-  const link=`https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/avatars/abc.jpg`
+  if(response.$metadata.httpStatusCode!==200) throw new errorhandler(500, "Error in uploading avatar");
+  const link=`https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
 
-  if (!cloudinaryresponse) throw new errorhandler(500, "Image not uploaded");
   const user = await User.create({
     fullname,
     username,

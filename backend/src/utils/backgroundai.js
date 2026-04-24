@@ -1,6 +1,6 @@
 import fs from "node:fs";
-import { asyncHandler } from "./asyncHandler";
-import errorhandler from "./errorhandler";
+import { asyncHandler } from "./asyncHandler.js";
+import errorhandler from "./errorhandler.js";
 
 const removeBg = async(imageURL) => {
   const formData = new FormData();
