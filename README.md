@@ -43,15 +43,11 @@ Current status:
 ```mermaid
 flowchart LR
   U[Web App or SDK Client or other api use] -->|JWT or API Key| A[Express API]
-  A --> DB[(MongoDB)]
-  A --> R[(Redis)]
-  A --> S[(AWS S3)]
+  A --> SV[(Services)]
 
   style U fill:#E8F1FF,stroke:#3B82F6,color:#0F172A
   style A fill:#ECFDF5,stroke:#10B981,color:#0F172A
-  style DB fill:#F0FDF4,stroke:#22C55E,color:#0F172A
-  style R fill:#FEF2F2,stroke:#EF4444,color:#0F172A
-  style S fill:#FFF7ED,stroke:#F97316,color:#0F172A
+  style SV fill:#F8FAFC,stroke:#334155,color:#0F172A
 ```
 
 ## Base URL And Routing
