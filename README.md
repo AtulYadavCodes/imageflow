@@ -61,7 +61,7 @@ Route groups:
 - /api/v1/folders
 - /api/v1/files
 - /api/v1/apikey
-- /transform
+- /images/path/\*key
 
 ## Authentication
 
@@ -119,9 +119,9 @@ Important:
 
 ### Image Transform
 
-| Method | Route                | Secured | Payload          | Query Params                                  | Notes                                                          |
-| ------ | -------------------- | ------- | ---------------- | --------------------------------------------- | -------------------------------------------------------------- |
-| GET    | /transform/path/:key | No      | key in URL param | width, height, rotate, blur, format, removebg | Real-time stream transform with Sharp; optional remove.bg step |
+| Method | Route              | Secured | Payload                                 | Query Params                                  | Notes                                                          |
+| ------ | ------------------ | ------- | --------------------------------------- | --------------------------------------------- | -------------------------------------------------------------- |
+| GET    | /images/path/\*key | No      | key in URL param (supports nested path) | width, height, rotate, blur, format, removebg | Real-time stream transform with Sharp; optional remove.bg step |
 
 ## Sharp Real-Time Stream Pipeline
 
@@ -139,10 +139,10 @@ Transform examples:
 
 ```bash
 # Resize + format convert
-curl "http://localhost:3000/transform/path/your-s3-key.jpg?width=900&format=webp" --output transformed.webp
+curl "http://localhost:3000/images/path/<key-received-on-upload>?width=900&format=webp" --output transformed.webp
 
 # Remove background + rotate
-curl "http://localhost:3000/transform/path/your-s3-key.png?removebg=true&rotate=90&format=png" --output no-bg.png
+curl "http://localhost:3000/images/path/<key-received-on-upload>?removebg=true&rotate=90&format=png" --output no-bg.png
 ```
 
 ```mermaid
@@ -179,7 +179,7 @@ Typical file upload sequence:
 2. Receive signed S3 upload URL and key.
 3. Upload binary file to S3 using PUT on signed URL.
 4. Call POST /api/v1/files/uploadfile/:foldername with key, originalname, bytes.
-5. Persisted file record will contain filelink (signed download URL).
+5. Persisted file record stores `filelink` as the key returned during upload, and API responses build the public transform URL from that key.
 
 ```mermaid
 sequenceDiagram
@@ -193,7 +193,7 @@ sequenceDiagram
   Client->>S3: PUT file binary to signed uploadurl
   S3-->>Client: 200 OK
   Client->>API: POST /api/v1/files/uploadfile/:foldername\n(key, originalname, bytes)
-  API->>DB: Save metadata + filelink
+  API->>DB: Save metadata + filelink (key returned during upload)
   API-->>Client: Saved file response
 ```
 
