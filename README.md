@@ -123,9 +123,9 @@ Important:
 
 ### Image Transform
 
-| Method | Route                | Secured | Payload          | Query Params                   | Notes                                                   |
-| ------ | -------------------- | ------- | ---------------- | ------------------------------ | ------------------------------------------------------- |
-| GET    | /transform/path/:key | No      | key in URL param | width, height, quality, format | Real-time stream transform using Sharp (no blob/buffer) |
+| Method | Route                | Secured | Payload          | Query Params                                  | Notes                                                          |
+| ------ | -------------------- | ------- | ---------------- | --------------------------------------------- | -------------------------------------------------------------- |
+| GET    | /transform/path/:key | No      | key in URL param | width, height, rotate, blur, format, removebg | Real-time stream transform with Sharp; optional remove.bg step |
 
 ## Sharp Real-Time Stream Pipeline
 
@@ -136,6 +136,18 @@ ImageFlow transform endpoint uses stream-based processing for lower memory footp
 - Output is streamed directly to client response.
 - No full-file blob or buffer is loaded for transformation output.
 - Transform route is public so it can be used from anywhere.
+- The image pipeline is URL-based, so you can use it directly by calling the transform URL.
+- If `removebg=true`, the image is first processed by remove.bg, then transformed and streamed.
+
+Transform examples:
+
+```bash
+# Resize + format convert
+curl "http://localhost:3000/transform/path/your-s3-key.jpg?width=900&format=webp" --output transformed.webp
+
+# Remove background + rotate
+curl "http://localhost:3000/transform/path/your-s3-key.png?removebg=true&rotate=90&format=png" --output no-bg.png
+```
 
 ```mermaid
 flowchart LR
@@ -305,6 +317,7 @@ Required backend variables:
 - AWS_BUCKET_NAME
 - AWS_ACCESS_KEY_ID
 - AWS_SECRET_ACCESS_KEY
+- REMOVEBG_API_KEY
 - RAZORPAY_KEY_ID
 - RAZORPAY_KEY_SECRET
 - RAZORPAY_WEBHOOK_SECRET
