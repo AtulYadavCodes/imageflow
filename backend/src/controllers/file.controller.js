@@ -48,7 +48,7 @@ const getalluserfiles = asyncHandler(async (req, res) => {
 });
 
 const uploadfileinitiate=asyncHandler(async(req,res)=>{ // This function will generate a pre-signed URL for uploading the file to S3 directly from the client. The client will then use this URL to upload the file, and after successful upload, it will call another endpoint to save the file metadata in the database.
-    const key=`${req.body.originalname}-${Date.now()}`;
+    const key=`${req.user._id}/${req.body.originalname}-${Date.now()}`;
     const uploadurl=await uploadonawss3bucket(key,req.body.contentType);
     if(!uploadurl){
         throw new errorhandler(500,"Failed to get upload URL from S3",[]);
