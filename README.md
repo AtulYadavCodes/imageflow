@@ -43,7 +43,7 @@ Current status:
 ```mermaid
 flowchart LR
   U[Web App or SDK Client or other api use] -->|JWT or API Key| A[Express API]
-  A --> SV[(Services)]
+  A --> SV[(services)]
 
   style U fill:#E8F1FF,stroke:#3B82F6,color:#0F172A
   style A fill:#ECFDF5,stroke:#10B981,color:#0F172A
