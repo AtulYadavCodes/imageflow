@@ -5,5 +5,8 @@
   "license": "ISC",
   "author": "",
   "type": "module",
-  "main": "imageflowuploadfunction.js"
+  "main": "imageflowuploadfunction.js",
+  "dependencies": {
+    "dotenv": "^17.4.2"
+  }
 }

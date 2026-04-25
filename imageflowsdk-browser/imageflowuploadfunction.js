@@ -5,7 +5,7 @@ export const imageflowuploadfunction = async (file, apikey, foldername) => {
     foldername = "default";
   }
   try {
-    uploadurl = await fetch("/api/v1/files/uploadfile", {
+    uploadurl = await fetch(`http://localhost:3000/api/v1/files/uploadfile`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -25,7 +25,7 @@ export const imageflowuploadfunction = async (file, apikey, foldername) => {
     console.error("Error in imageflowuploadfunction:", error);
     throw error;
   }
-  const uploadfile = await fetch(uploadurl.uploadurl, {
+  const uploadfile = await fetch(uploadurl.data.uploadurl, {
     method: "PUT",
     headers: {
       "Content-Type": file.type,
@@ -37,18 +37,21 @@ export const imageflowuploadfunction = async (file, apikey, foldername) => {
   }
 
   try {
-    const savefile = await fetch(`/api/v1/files/uploadfile/${foldername}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apikey}`,
+    const savefile = await fetch(
+      `http://localhost:3000/api/v1/files/uploadfile/${foldername}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${apikey}`,
+        },
+        body: JSON.stringify({
+          originalname: file.name,
+          bytes: file.size,
+          key: uploadurl.data.key,
+        }),
       },
-      body: JSON.stringify({
-        originalname: file.name,
-        bytes: file.size,
-        key: uploadurl.key,
-      }),
-    });
+    );
 
     if (!savefile.ok) {
       throw new Error("Failed to save file metadata on server");
