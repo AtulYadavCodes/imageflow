@@ -13,7 +13,12 @@ import { removeBg } from "../utils/backgroundai.js";
 import {pipeline} from "stream/promises";
 
 const imagetransf = asyncHandler(async (req, res) => {
-  const { removebg,gray, width, height, rotate, blur, format } = req.query;
+  const { removebg,gray,fit="cover", width, height, rotate, blur, format } = req.query;
+  if(width && isNaN(width)) throw new errorhandler(400, "Width must be a number", []);
+  if(height && isNaN(height)) throw new errorhandler(400, "Height must be a number", []);
+  if(rotate && isNaN(rotate)) throw new errorhandler(400, "Rotate must be a number", []);
+  if(blur && isNaN(blur)) throw new errorhandler(400, "Blur must be a number", []);
+
   if(format && !["jpeg", "png", "webp", "tiff", "avif"].includes(format.toLowerCase())){
     throw new errorhandler(400, "Invalid format. Supported formats are jpeg, png, webp, tiff, avif", []);
 }
@@ -26,7 +31,7 @@ const imagetransf = asyncHandler(async (req, res) => {
     if (width && height)
       picpipeline = picpipeline.resize({
         width: Number(width),
-        height: Number(height),
+        height: Number(height),fit:fit
       });
     else if (width) picpipeline = picpipeline.resize({ width: Number(width) });
     else if (height) picpipeline = picpipeline.resize({ height: Number(height) });
@@ -51,7 +56,7 @@ const imagetransf = asyncHandler(async (req, res) => {
     if (width && height)
       picpipeline = picpipeline.resize({
         width: Number(width),
-        height: Number(height),
+        height: Number(height),fit:fit
       });
     else if (width) picpipeline = picpipeline.resize({ width: Number(width) });
     else if (height) picpipeline = picpipeline.resize({ height: Number(height) });
