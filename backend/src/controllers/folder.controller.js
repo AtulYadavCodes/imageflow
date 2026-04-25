@@ -78,9 +78,7 @@ const allfilesinfolder = asyncHandler(async (req, res) => {
  // file.filelink = await getFileFromS3(file.filelink);
  //} //this is sequential and can be slow if there are many files, so we can use Promise.all to run all the getFileFromS3 calls in parallel and wait for all of them to complete before sending the response
  
- files.map(file=>{
-    file.filelink=`${process.env.baseurl}/images/path/${file.filelink}`;
- })
+
   return res
     .status(200)
     .json(

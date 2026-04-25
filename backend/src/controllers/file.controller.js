@@ -37,9 +37,7 @@ const getalluserfiles = asyncHandler(async (req, res) => {
   }
 
   
- userfiles.map(userfile=>{
-    userfile.filelink=`${process.env.baseurl}/images/path/${file.filelink}`;
- })
+
   res
     .status(200)
     .json(
@@ -75,12 +73,13 @@ const uploadfilesave = asyncHandler(async (req, res) => { // This function will 
         throw new errorhandler(500,"Failed to get file URL fr",[]);
     }*/
   const newfile = await File.create({
-    filelink: req.body.key,
+    filekey: req.body.key,
     filename: req.body.originalname,
     owner: req.user._id,
     filesize: req.body.bytes,
     folder: folder._id,
-    // filepreview can be populated later from generated previews.
+
+    filelink:`${process.env.baseurl}/images/path/${req.body.key}`,
   });
   const savedfile = await File.findById(newfile._id);
   if (!savedfile) {

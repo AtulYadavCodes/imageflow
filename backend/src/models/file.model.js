@@ -1,7 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 const fileschema=new Schema({
-    filelink:{
+    filekey:{
         type:String,
         required:true
     },
@@ -22,9 +22,9 @@ const fileschema=new Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"Folder",
     },
-    filepreview:{
+    filelink:{
         type: String , //url cloudinary
-        default:"https://res.cloudinary.com/dzcmadjlq/file/upload/v1696543783/ClauseValidator/default_pdf_oyh3v0.png"
+        required:true
     }
 },{
     timestamps:true
