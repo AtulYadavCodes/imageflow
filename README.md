@@ -228,6 +228,7 @@ sequenceDiagram
 ### File Upload Using SDK
 
 Two SDK packages are included in this repository.
+SDK repository: [imageflowsdk](https://github.com/AtulYadavCodes/imageflowsdk)
 
 #### Browser SDK
 
