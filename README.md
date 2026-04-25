@@ -127,6 +127,14 @@ Important:
 
 ImageFlow transform endpoint uses stream-based processing for lower memory footprint and faster response under load.
 
+Signed URL behavior in this project:
+
+The signed URL is only used during upload (client -> S3 PUT) and it is expected to expire. For image viewing, clients do not need a long-lived S3 signed GET URL. Instead, clients request the stable app route `/images/path/*key` using the key received at upload time.
+
+When this route is called, the backend uses server-side AWS credentials to fetch raw object data from S3 for that key (`GetObjectCommand`), then streams it through Sharp and returns the response. Because the client URL is your app route (not an exposed S3 signed GET URL), it does not carry an S3 expiration timestamp.
+
+This route is also stored in the database as the user file link, so clients can directly use the saved `filelink` for image access.
+
 - Input is read as stream from AWS S3 object body.
 - Stream is piped through Sharp transformation pipeline.
 - Output is streamed directly to client response.
@@ -179,7 +187,7 @@ Typical file upload sequence:
 2. Receive signed S3 upload URL and key.
 3. Upload binary file to S3 using PUT on signed URL.
 4. Call POST /api/v1/files/uploadfile/:foldername with key, originalname, bytes.
-5. Persisted file record stores `filelink` as the key returned during upload, and API responses build the public transform URL from that key.
+5. Persisted file record stores `filelink` as the app image route built from the uploaded key (for example: `/images/path/<key-received-on-upload>`).
 
 ```mermaid
 sequenceDiagram
