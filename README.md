@@ -119,9 +119,9 @@ Important:
 
 ### Image Transform
 
-| Method | Route              | Secured | Payload                                 | Query Params                                  | Notes                                                          |
-| ------ | ------------------ | ------- | --------------------------------------- | --------------------------------------------- | -------------------------------------------------------------- |
-| GET    | /images/path/\*key | No      | key in URL param (supports nested path) | width, height, rotate, blur, format, removebg | Real-time stream transform with Sharp; optional remove.bg step |
+| Method | Route              | Secured | Payload                                 | Query Params                                        | Notes                                                                         |
+| ------ | ------------------ | ------- | --------------------------------------- | --------------------------------------------------- | ----------------------------------------------------------------------------- |
+| GET    | /images/path/\*key | No      | key in URL param (supports nested path) | width, height, rotate, blur, gray, format, removebg | Real-time stream transform with Sharp; optional grayscale and remove.bg steps |
 
 ## Sharp Real-Time Stream Pipeline
 
@@ -141,7 +141,24 @@ This route is also stored in the database as the user file link, so clients can 
 - No full-file blob or buffer is loaded for transformation output.
 - Transform route is public so it can be used from anywhere.
 - The image pipeline is URL-based, so you can use it directly by calling the transform URL.
+- If `gray=true`, output is converted to grayscale.
 - If `removebg=true`, the image is first processed by remove.bg, then transformed and streamed.
+
+Transform query parameter reference:
+
+- `width`: Target width in pixels (number).
+- `height`: Target height in pixels (number).
+- `rotate`: Rotation in degrees (number).
+- `blur`: Blur intensity value for Sharp (number).
+- `gray`: Set to `true` to convert output to grayscale.
+- `format`: Output format. Supported values: `jpeg`, `png`, `webp`, `tiff`, `avif`.
+- `removebg`: Set to `true` to remove image background before other transforms.
+
+Parameter behavior notes:
+
+- If both `width` and `height` are provided, image is resized to both dimensions.
+- If only one of `width` or `height` is provided, the other dimension is auto-scaled.
+- `gray` and `removebg` are optional flags and must be sent as string `true` in query.
 
 Transform examples:
 
@@ -151,6 +168,9 @@ curl "http://localhost:3000/images/path/<key-received-on-upload>?width=900&forma
 
 # Remove background + rotate
 curl "http://localhost:3000/images/path/<key-received-on-upload>?removebg=true&rotate=90&format=png" --output no-bg.png
+
+# Grayscale + resize
+curl "http://localhost:3000/images/path/<key-received-on-upload>?gray=true&width=800&format=jpeg" --output gray.jpg
 ```
 
 ```mermaid
