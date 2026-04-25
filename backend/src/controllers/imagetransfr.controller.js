@@ -13,7 +13,7 @@ import { removeBg } from "../utils/backgroundai.js";
 import {pipeline} from "stream/promises";
 
 const imagetransf = asyncHandler(async (req, res) => {
-  const { removebg, width, height, rotate, blur, format } = req.query;
+  const { removebg,gray, width, height, rotate, blur, format } = req.query;
   if(format && !["jpeg", "png", "webp", "tiff", "avif"].includes(format.toLowerCase())){
     throw new errorhandler(400, "Invalid format. Supported formats are jpeg, png, webp, tiff, avif", []);
 }
@@ -22,6 +22,7 @@ const imagetransf = asyncHandler(async (req, res) => {
     const removebgresponse = await removeBg(pathtofile); 
    
     let picpipeline = sharp();
+    if(gray=="true") picpipeline=picpipeline.greyscale();
     if (width && height)
       picpipeline = picpipeline.resize({
         width: Number(width),
@@ -46,6 +47,7 @@ const imagetransf = asyncHandler(async (req, res) => {
     let picpipeline = sharp();
 
    
+    if(gray=="true") picpipeline=picpipeline.greyscale();
     if (width && height)
       picpipeline = picpipeline.resize({
         width: Number(width),
