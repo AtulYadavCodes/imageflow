@@ -8,7 +8,7 @@ export const ratelimMiddleware = asyncHandler(async (req, res, next) => {
   const key = `login:${req.body.email}:${req.ip}`;
   const attempts = await redis.get(key);
 
-  if (attempts && attempts > 5) {
+  if (attempts && attempts >= 2) {
     throw new errorhandler(
       429,
       "Too many login attempts. Please try again later.",
