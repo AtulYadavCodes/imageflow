@@ -33,11 +33,13 @@ function ApiDocsSection({ docs }) {
             </div>
 
               <p className="text-zinc-400">sample error response</p>
-            <div className="bg-zinc-950 my-1 p-4 border border-zinc-800 font-mono text-[13px] overflow-x-auto">
+            <div className="bg-zinc-950 my-1 mb-3 p-4 border border-zinc-800 font-mono text-[13px] overflow-x-auto">
               <pre className="text-rose-400/90">
               {item.errorexample}
               </pre>
             </div>
+            {item.link ?(
+              <a href={item.link} target="_blank" className="text-black font-medium  bg-zinc-300 p-2 rounded-md hover:text-2xl">Sdk download</a>):null}
 
 
           </article>

@@ -18,7 +18,8 @@ const apiDocs = [
     detail: 'Client-side file upload using our JavaScript SDK. Handles signed URL retrieval and direct S3 upload seamlessly.',
     note: 'If you wish to have more control, you can use the internal endpoints that the SDK uses under the hood. To know more, visit the GitHub README.',
     responseexample: `{"statusCode": 200,\n "message": "Operation successful",\n "data": { ... }\n }`,
-    errorexample: `{"statusCode": 400,\n "message": "Bad Request - Invalid file type",\n "error":[...] \n }`
+    errorexample: `{"statusCode": 400,\n "message": "Bad Request - Invalid file type",\n "error":[...] \n }`,
+    link:"https://github.com/AtulYadavCodes/imageflowsdk"
   },
   {
      title: ' UPLOAD FILE USING SDK (BACKEND)',
@@ -26,7 +27,8 @@ const apiDocs = [
     detail: 'Server-side file upload using our JavaScript SDK. Ideal for Node.js environments, it abstracts away the complexities of signed URL handling and S3 interactions.',
     note: 'If you wish to have more control, you can use the internal endpoints that the SDK uses under the hood. To know more, visit the GitHub README.',
     responseexample: `{"statusCode": 200,\n "message": "Operation successful",\n "data": { ... }\n }`,
-    errorexample: `{"statusCode": 400,\n "message": "Bad Request - Invalid file type",\n "error":[...] \n }`
+    errorexample: `{"statusCode": 400,\n "message": "Bad Request - Invalid file type",\n "error":[...] \n }`,
+    link:"https://github.com/AtulYadavCodes/imageflowsdk"
   },
   // FILES
   {

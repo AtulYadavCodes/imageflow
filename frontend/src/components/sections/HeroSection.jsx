@@ -1,4 +1,13 @@
+
+
+import image from '../../assets/image.png';
+import image2 from '../../assets/image2.png';
+import {Typewriter} from 'react-simple-typewriter';import {useeffect,useState} from 'react';
+
+
+const images=[image,image2];
 function HeroSection() {
+  const [i,seti]=useState(1);
   return (
     <section
       id="home"
@@ -51,14 +60,23 @@ function HeroSection() {
 
           <div className="overflow-hidden border border-zinc-700 bg-zinc-950">
             <img
-              src="/demo.gif"
+            key={i}
+              src={images[i]}
               alt="ImageFlow demo"
-              className="w-full object-cover"
+              className="w-full object-cover  "
             />
           </div>
 
-          <div className="mt-3 border border-zinc-700 bg-zinc-950 p-3 font-mono text-xs text-zinc-300">
-            /images/path/avatar.jpg?width=400&format=webp
+          <div className="mt-3 border border-zinc-700 bg-zinc-950 p-3 font-mono text-xs text-white ">
+            <Typewriter
+              words={[`/images/path/avatar.jpg`,'/images/path/avatar.jpg?grayscale=true&blur=1']}
+              loop={0}
+              cursor
+              cursorStyle="_"
+              onDelay={()=>i===0?seti(1):seti(0)}
+              delaySpeed={2500}
+            />
+            
           </div>
         </div>
       </div>
