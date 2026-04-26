@@ -17,8 +17,8 @@ const apiDocs = [
     usageExample: `import { imageflowuploadfunction } from "./imageflowuploadfunction.js";\n\n const file = document.querySelector("#file-input").files[0];\n const apiKey = "sk_xxxxxxxxxx";\n const result = await imageflowuploadfunction(file, apiKey, "documents");\n console.log(result);`,
     detail: 'Client-side file upload using our JavaScript SDK. Handles signed URL retrieval and direct S3 upload seamlessly.',
     note: 'If you wish to have more control, you can use the internal endpoints that the SDK uses under the hood. To know more, visit the GitHub README.',
-    responseexample: `{"statusCode": 200,\n "message": "Operation successful",\n "data": { ... }\n }`,
-    errorexample: `{"statusCode": 400,\n "message": "Bad Request - Invalid file type",\n "error":[...] \n }`,
+    responseexample: `{\n "statusCode": 200,\n "message": "Operation successful",\n "data": { \n  filename=""\n  filekey=""\n  folder=""\n  filesize=""\n  folder=""\n  filelink=""\n }\n}`,
+    errorexample: `{\n"statusCode": 400,\n "message": "Bad Request - Invalid file type",\n "error":[...] \n }`,
     link:"https://github.com/AtulYadavCodes/imageflowsdk"
   },
   {
@@ -26,8 +26,8 @@ const apiDocs = [
     usageExample: ` import { imageflowuploadfunction } from "./imageflowuploadfunction.js";\n\nconst apiKey = "sk_xxxxxxxxxx";\nconst result = await imageflowuploadfunction("./pics/a.jpg", apiKey, "reports");\nconsole.log(result);`,
     detail: 'Server-side file upload using our JavaScript SDK. Ideal for Node.js environments, it abstracts away the complexities of signed URL handling and S3 interactions.',
     note: 'If you wish to have more control, you can use the internal endpoints that the SDK uses under the hood. To know more, visit the GitHub README.',
-    responseexample: `{"statusCode": 200,\n "message": "Operation successful",\n "data": { ... }\n }`,
-    errorexample: `{"statusCode": 400,\n "message": "Bad Request - Invalid file type",\n "error":[...] \n }`,
+    responseexample: `{\n "statusCode": 200,\n "message": "Operation successful",\n "data": { \n  filename=""\n  filekey=""\n  folder=""\n  filesize=""\n  folder=""\n  filelink=""\n }\n}`,
+    errorexample: `{\n "statusCode": 400,\n "message": "Bad Request - Invalid file type",\n "error":[...] \n }`,
     link:"https://github.com/AtulYadavCodes/imageflowsdk"
   },
   // FILES
@@ -35,7 +35,7 @@ const apiDocs = [
     title: 'Get All Files',
     usageExample: `// Using axios\naxios.get('http://localhost:3000/api/v1/folders/getalluserfiles?page=2&limit=20&sortby=createdAT&sorttype=desc', {\n  headers: {\n    Authorization: 'Bearer <YOUR_API_KEY>'\n  }\n})\n.then(res => console.log(res.data))\n.catch(err => console.error(err));\n\n// Using fetch\nfetch('http://localhost:3000/api/v1/folders/getalluserfolders', {\n  headers: {\n    Authorization: 'Bearer <YOUR_API_KEY>'\n  }\n})\n.then(res => res.json())\n.then(data => console.log(data))\n.catch(err => console.error(err));`,
     detail: 'Paginated fetch of user files with sorting support.',
-    responseexample:  `{\n "statusCode": 200,\n "message": "Operation successful",\n "data": { ... }\n }`,
+    responseexample:  `{\n "statusCode": 200,\n "message": "Operation successful",\n "data": [{ ... }{....}]\n }`,
     errorexample: `{\n "statusCode": 401,\n "message": "Unauthorized - Invalid API key",\n "error":[...]\n }`
   },
 
@@ -44,14 +44,14 @@ const apiDocs = [
     title: 'List Folders',
     usageExample: `// Using axios\naxios.get('http://localhost:3000/api/v1/folders/getalluserfolders', {\n  headers: {\n    Authorization: 'Bearer <YOUR_API_KEY>'\n  }\n})\n.then(res => console.log(res.data))\n.catch(err => console.error(err));\n\n// Using fetch\nfetch('http://localhost:3000/api/v1/folders/getalluserfolders', {\n  headers: {\n    Authorization: 'Bearer <YOUR_API_KEY>'\n  }\n})\n.then(res => res.json())\n.then(data => console.log(data))\n.catch(err => console.error(err));                                               `,
     detail: 'Retrieve all folders for current user.',
-    responseexample: `{\n "statusCode": 200,\n "message": "Operation successful",\n "data": { ... }\n }`,
+    responseexample: `{\n "statusCode": 200,\n "message": "Operation successful",\n "data": [{ ... }{...}]\n }`,
       errorexample: `{\n "statusCode": 401,\n "message": "Unauthorized - Invalid API key",\n "error":[...]\n }`
   },
   {
     title: 'Files in Folder',
     usageExample: `// Using axios\naxios.get('http://localhost:3000/api/v1/folders/getallfilesinfolder/:foldername', {\n  headers: {\n    Authorization: 'Bearer <YOUR_API_KEY>'\n  }\n})\n.then(res => console.log(res.data))\n.catch(err => console.error(err));\n\n// Using fetch\nfetch('http://localhost:3000/api/v1/folders/getalluserfolders', {\n  headers: {\n    Authorization: 'Bearer <YOUR_API_KEY>'\n  }\n})\n.then(res => res.json())\n.then(data => console.log(data))\n.catch(err => console.error(err));`,
     detail: 'Get all files belonging to a specific folder.',
-    responseexample: `{\n "statusCode": 200,\n "message": "Operation successful",\n "data": { ... }\n }`,
+    responseexample: `{\n "statusCode": 200,\n "message": "Operation successful",\n "data": [{ ... }{...}]\n }`,
     errorexample: `{\n "statusCode": 404,\n "message": "Folder not found",\n "error":[...]\n }`
   },
 
