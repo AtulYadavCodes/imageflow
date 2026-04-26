@@ -1,13 +1,12 @@
+import image from "../../assets/image.png";
+import image2 from "../../assets/image2.png";
+import { Typewriter } from "react-simple-typewriter";
+import { useeffect, useState } from "react";
+import { HashLink } from "react-router-hash-link";
 
-
-import image from '../../assets/image.png';
-import image2 from '../../assets/image2.png';
-import {Typewriter} from 'react-simple-typewriter';import {useeffect,useState} from 'react';
-
-
-const images=[image,image2];
+const images = [image, image2];
 function HeroSection() {
-  const [i,seti]=useState(1);
+  const [i, seti] = useState(1);
   return (
     <section
       id="home"
@@ -25,7 +24,8 @@ function HeroSection() {
         </h1>
 
         <p className="max-w-xl text-base leading-7 text-zinc-400 sm:text-lg">
-          A stream-based image pipeline where the URL becomes the API. No duplicate storage. No heavy processing layers.
+          A stream-based image pipeline where the URL becomes the API. No
+          duplicate storage. No heavy processing layers.
         </p>
 
         <div className="flex flex-wrap gap-3">
@@ -33,15 +33,16 @@ function HeroSection() {
             href="#image-tryout"
             className="rounded-md border border-zinc-500 bg-zinc-100 px-6 py-3 font-mono text-sm font-semibold text-zinc-900 transition hover:bg-zinc-200"
           >
-            Try it
+            Try Playground
           </a>
 
-          <a
-            href="#api-docs"
+          <HashLink
+            smooth
+            to="/apidocs/#"
             className="rounded-md border border-zinc-700 bg-zinc-900 px-6 py-3 font-mono text-sm font-semibold text-zinc-200 transition hover:bg-zinc-800"
           >
             API Docs
-          </a>
+          </HashLink>
         </div>
 
         <div className="flex flex-wrap gap-4 font-mono text-xs text-zinc-500">
@@ -60,7 +61,7 @@ function HeroSection() {
 
           <div className="overflow-hidden border border-zinc-700 bg-zinc-950">
             <img
-            key={i}
+              key={i}
               src={images[i]}
               alt="ImageFlow demo"
               className="w-full object-cover  "
@@ -69,19 +70,21 @@ function HeroSection() {
 
           <div className="mt-3 border border-zinc-700 bg-zinc-950 p-3 font-mono text-xs text-white ">
             <Typewriter
-              words={[`/images/path/avatar.jpg`,'/images/path/avatar.jpg?grayscale=true&blur=1']}
+              words={[
+                `/images/path/avatar.jpg`,
+                "/images/path/avatar.jpg?grayscale=true&blur=1",
+              ]}
               loop={0}
               cursor
               cursorStyle="_"
-              onDelay={()=>i===0?seti(1):seti(0)}
+              onDelay={() => (i === 0 ? seti(1) : seti(0))}
               delaySpeed={2500}
             />
-            
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }
 
-export default HeroSection
+export default HeroSection;

@@ -13,7 +13,7 @@ function ApiKeySection() {
           to="/apikey"
           className="rounded-md border border-zinc-500 bg-zinc-100 px-3 py-2 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-zinc-900 transition hover:bg-zinc-200"
         >
-          Get Your API Key
+          Manage Your API Key
         </Link>
       </div>
     </section>
