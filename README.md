@@ -146,13 +146,21 @@ This route is also stored in the database as the user file link, so clients can 
 
 Transform query parameter reference:
 
+- `removebg`: Set to `true` to remove image background before other transforms.
+- `gray`: Set to `true` to convert output to grayscale.
 - `width`: Target width in pixels (number).
 - `height`: Target height in pixels (number).
+- `fit`: Resize behavior when both width and height are provided. Supported values:
+  - `cover` (default): Crop to fill dimensions
+  - `contain`: Fit inside without cropping (may add padding)
+  - `fill`: Stretch to exact size (may distort image)
+  - `inside`: Fit within box without upscaling
+  - `outside`: Cover box without cropping
 - `rotate`: Rotation in degrees (number).
 - `blur`: Blur intensity value for Sharp (number).
-- `gray`: Set to `true` to convert output to grayscale.
 - `format`: Output format. Supported values: `jpeg`, `png`, `webp`, `tiff`, `avif`.
 - `removebg`: Set to `true` to remove image background before other transforms.
+
 
 Parameter behavior notes:
 
