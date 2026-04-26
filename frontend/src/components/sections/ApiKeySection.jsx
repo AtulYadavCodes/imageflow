@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { HashLink } from 'react-router-hash-link'
 
 function ApiKeySection() {
   return (
@@ -9,12 +9,12 @@ function ApiKeySection() {
           <h3 className="mt-1 font-mono text-xl font-semibold text-zinc-100">Make your API Keys</h3>
         </div>
 
-        <Link
+        <HashLink
           to="/apikey"
           className="rounded-md border border-zinc-500 bg-zinc-100 px-3 py-2 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-zinc-900 transition hover:bg-zinc-200"
         >
           Manage Your API Key
-        </Link>
+        </HashLink>
       </div>
     </section>
   )

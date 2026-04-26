@@ -1,4 +1,5 @@
 import ApiKeySection from "./ApiKeySection";
+import ArchitectureSection from "./ArchitectureSection";
 
 const docs = [
   // FILE UPLOAD FLOW
@@ -63,6 +64,10 @@ function ApiDocsSection() {
   return (
     <>
     <ApiKeySection />
+
+
+    
+    <ArchitectureSection />
     <section
       id="api-docs"
       className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12"
