@@ -89,7 +89,7 @@ function ApiDocsSection() {
             key={item.title}
             className="border-2 border-zinc-700 bg-zinc-900 p-5"
           >
-            <p className="font-mono  uppercase tracking-[0.12em] text-zinc-400">
+            <p className="font-mono text-xs uppercase tracking-[0.12em] text-zinc-400">
               {item.title}
             </p>
             <p className="mt-3 text-sm leading-6 text-zinc-400">
