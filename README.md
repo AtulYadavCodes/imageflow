@@ -1,4 +1,4 @@
-# ImageFlow (ImageKit/Cloudinary-like Media pipeline Platform) 
+# ImageFlow (ImageKit/Cloudinary-like Media pipeline Platform)
 
 > **Note:** For the latest updates, guides, and the full platform experience, visit the website linked in the GitHub description.
 
@@ -18,12 +18,19 @@ ImageFlow is a Developer first modern, media pipeline inspired by ImageKit. It p
 
 ## Features
 
-- Secure JWT authentication & API keys
-- Folder and file management
-- Avatar & file uploads (AWS S3)
-- Real-time image transformations (Sharp streams)
-- Upload SDKs for browser & Node.js ([SDK repo](https://github.com/AtulYadavCodes/imageflowsdk))
-- Frontend app for easy Api key generation and management and for non Devs to use the service
+- End-to-end media pipeline: Secure upload, storage, transformation, and delivery of images and files.
+- User authentication: Robust JWT-based authentication and refresh token flow.
+- Developer API key management: Secure, hashed API keys with self-service creation and revocation.
+- Folder and file management: Hierarchical folder structure, CRUD operations, and metadata tracking.
+- AWS S3 integration: Scalable, reliable storage for avatars and files with signed URL upload flow.
+- Real-time image transformation: On-the-fly resizing, format conversion, rotation, blur, grayscale, and background removal via Sharp streaming pipeline.
+- Public, URL-based image transformation API: No need for signed GET URLs; supports direct access and CDN integration.
+- Rate limiting and caching: Redis-backed rate limiting for authentication and API endpoints.
+- Centralized error handling: Consistent, structured API responses for success and error cases.
+- Frontend web app: User-friendly UI for non-developers to upload, manage, and transform files.
+- Developer SDKs: Official browser and Node.js SDKs for seamless integration ([SDK repo](https://github.com/AtulYadavCodes/imageflowsdk)).
+- Secure by design: Passwords and API keys are always hashed; CORS and cookie security best practices.
+- Extensible architecture: Modular Express.js backend, ready for new features and integrations.
 
 # Who This Is For
 
