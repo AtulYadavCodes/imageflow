@@ -153,6 +153,8 @@ curl "http://localhost:3000/images/path/<key-received-on-upload>?removebg=true&r
 # Grayscale + resize
 curl "http://localhost:3000/images/path/<key-received-on-upload>?gray=true&width=800&format=jpeg" --output gray.jpg
 ```
+#
+
 
 ```mermaid
 flowchart LR
