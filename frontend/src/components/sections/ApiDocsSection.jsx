@@ -89,7 +89,7 @@ function ApiDocsSection() {
             key={item.title}
             className="border-2 border-zinc-700 bg-zinc-900 p-5"
           >
-            <p className="font-mono text-xs uppercase tracking-[0.12em] text-zinc-400">
+            <p className="font-mono  uppercase tracking-[0.12em] text-zinc-400">
               {item.title}
             </p>
             <p className="mt-3 text-sm leading-6 text-zinc-400">
@@ -101,7 +101,7 @@ function ApiDocsSection() {
               </p>
             ) : null}
 
-            <div className="bg-zinc-950 my-1 p-4 border border-zinc-800 font-mono text-[13px] overflow-x-auto">
+            <div className="bg-zinc-900 my-1 p-4 border border-zinc-800 font-mono text-[13px] overflow-x-auto">
               <p className="font-mono text-xs uppercase tracking-wider text-zinc-500 mb-2">
                 Usage Example
               </p>
@@ -111,13 +111,13 @@ function ApiDocsSection() {
             <p className="text-zinc-400">sample success response</p>
             <div
               id="success response"
-              className="bg-zinc-950 mx -1 p-4 border border-zinc-800 font-mono text-[13px] overflow-x-auto"
+              className="bg-zinc-900 mx -1 p-4 border border-zinc-800 font-mono text-[13px] overflow-x-auto"
             >
               <pre className="text-emerald-400/90">{item.responseexample}</pre>
             </div>
 
             <p className="text-zinc-400">sample error response</p>
-            <div className="bg-zinc-950 my-1 mb-3 p-4 border border-zinc-800 font-mono text-[13px] overflow-x-auto">
+            <div className="bg-zinc-900 my-1 mb-3 p-4 border border-zinc-800 font-mono text-[13px] overflow-x-auto">
               <pre className="text-rose-400/90">{item.errorexample}</pre>
             </div>
             {item.link ? (
