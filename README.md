@@ -37,20 +37,6 @@ ImageFlow is a Developer first modern, media pipeline inspired by ImageKit. It p
 - End users: use the ImageFlow website UI to upload and manage files and transform without writing code.
 - Developers: integrate with ImageFlow APIs directly or use the provided SDKs similar to how they use any other media pipeline like cloudinary or imagekit.
 
-
-# Base URL And Routing
-
-- Base URL: http://localhost:3000
-- API prefix: /api/v1
-
-Route groups:
-
-- /api/v1/users
-- /api/v1/folders
-- /api/v1/files
-- /api/v1/apikey
-- /images/path/\*key
-
 # Authentication
 
 Protected endpoints are validated by a shared auth middleware.
