@@ -1,4 +1,4 @@
-# ImageFlow (ImageKit/Cloudinary-like Media pipeline Platform)
+# ImageFlow (ImageKit/Cloudinary-like Media pipeline Platform) 
 
 > **Note:** For the latest updates, guides, and the full platform experience, visit the website linked in the GitHub description.
 
@@ -12,7 +12,7 @@
 ![Sharp](https://img.shields.io/badge/Sharp-Image%20Transform-99CC00?style=for-the-badge&logo=sharp&logoColor=white)
 ![Auth](https://img.shields.io/badge/Auth-JWT%20%2B%20API%20Key-F59E0B?style=for-the-badge)
 
-ImageFlow is a modern, media pipeline inspired by ImageKit. It provides secure file management, real-time image transformation, and developer-friendly APIs for both web and backend integrations.
+ImageFlow is a Developer first modern, media pipeline inspired by ImageKit. It provides secure file management, real-time image transformation, and developer-friendly APIs with Api Key Management and Sdks for both web and backend integrations.
 
 ---
 
