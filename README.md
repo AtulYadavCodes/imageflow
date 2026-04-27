@@ -187,25 +187,31 @@ curl "http://localhost:3000/images/path/<key-received-on-upload>?removebg=true&r
 curl "http://localhost:3000/images/path/<key-received-on-upload>?gray=true&width=800&format=jpeg" --output gray.jpg
 ```
 
-```mermaid
 flowchart LR
   C[Client Request]
+  CDN[CDN Cache]
   A[Image Transform API]
   S3[AWS S3 Object Stream]
   SH[Sharp Pipeline\nresize/quality/format]
   R[HTTP Response Stream]
 
-  C --> A
+  %% Flow
+  C --> CDN
+  CDN -->|Cache Miss| A
+  CDN -->|Cache Hit| C
+
   A --> S3
   S3 --> SH
   SH --> R
+  R --> CDN
 
+  %% Styles
   style C fill:#E8F1FF,stroke:#3B82F6,color:#0F172A
+  style CDN fill:#EEF2FF,stroke:#6366F1,color:#0F172A
   style A fill:#ECFDF5,stroke:#10B981,color:#0F172A
   style S3 fill:#FFF7ED,stroke:#F97316,color:#0F172A
   style SH fill:#F0FDF4,stroke:#84CC16,color:#0F172A
   style R fill:#F8FAFC,stroke:#334155,color:#0F172A
-```
 
 No\* = endpoint is public but requires a valid refresh token cookie.
 
