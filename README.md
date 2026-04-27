@@ -4,23 +4,6 @@
 
 ---
 
-## 📑 Contents
-
-- [Who This Is For](#who-this-is-for)
-- [Architecture At A Glance](#architecture-at-a-glance)
-- [Base URL And Routing](#base-url-and-routing)
-- [Authentication](#authentication)
-- [API Reference](#api-reference)
-- [Sharp Real-Time Stream Pipeline](#sharp-real-time-stream-pipeline)
-- [Developer Integration Options](#developer-integration-options)
-- [Common APIs (Non-Upload)](#common-apis-non-upload)
-- [Website (No API Code)](#website-no-api-code)
-- [Environment Variables](#environment-variables)
-- [Local Setup](#local-setup)
-- [Response Format](#response-format)
-- [Security Notes](#security-notes)
-- [Current Limitations](#current-limitations)
-
 ![Node.js](https://img.shields.io/badge/Node.js-22%2B-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 ![Express](https://img.shields.io/badge/Express-5.x-111111?style=for-the-badge&logo=express&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
@@ -45,6 +28,24 @@ Current status:
 - Transform pipeline runs as real-time stream processing (S3 stream -> Sharp -> response stream), not blob/buffer in-memory processing.
 - Frontend application is currently in progress.
 - More platform capabilities and APIs are planned in upcoming updates.
+
+## 📑 Contents
+
+- [Who This Is For](#who-this-is-for)
+- [Architecture At A Glance](#architecture-at-a-glance)
+- [Base URL And Routing](#base-url-and-routing)
+- [Authentication](#authentication)
+- [API Reference](#api-reference)
+- [Sharp Real-Time Stream Pipeline](#sharp-real-time-stream-pipeline)
+- [Developer Integration Options](#developer-integration-options)
+- [Common APIs (Non-Upload)](#common-apis-non-upload)
+- [Website (No API Code)](#website-no-api-code)
+- [Environment Variables](#environment-variables)
+- [Local Setup](#local-setup)
+- [Response Format](#response-format)
+- [Security Notes](#security-notes)
+- [Current Limitations](#current-limitations)
+
 
 # Who This Is For
 
