@@ -37,25 +37,6 @@ ImageFlow is a Developer first modern, media pipeline inspired by ImageKit. It p
 - End users: use the ImageFlow website UI to upload and manage files and transform without writing code.
 - Developers: integrate with ImageFlow APIs directly or use the provided SDKs similar to how they use any other media pipeline like cloudinary or imagekit.
 
-# Architecture At A Glance
-
-- Backend: Node.js + Express
-- Database: MongoDB (Mongoose)
-- Cache/Rate Limiting: Redis
-- Avatar Storage: AWS S3
-- File Uploads: AWS S3 signed URL flow
-- Image Transformations: Sharp + stream pipeline
-- Auth: JWT + API Key (for protected APIs)
-
-```mermaid
-flowchart LR
-  U[Web App or SDK Client or other api use] -->|JWT or API Key| A[Express API]
-  A --> SV[(services)]
-
-  style U fill:#E8F1FF,stroke:#3B82F6,color:#0F172A
-  style A fill:#ECFDF5,stroke:#10B981,color:#0F172A
-  style SV fill:#F8FAFC,stroke:#334155,color:#0F172A
-```
 
 # Base URL And Routing
 
