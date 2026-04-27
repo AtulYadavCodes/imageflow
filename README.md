@@ -187,6 +187,7 @@ curl "http://localhost:3000/images/path/<key-received-on-upload>?removebg=true&r
 curl "http://localhost:3000/images/path/<key-received-on-upload>?gray=true&width=800&format=jpeg" --output gray.jpg
 ```
 
+```mermaid
 flowchart LR
   C[Client Request]
   CDN[CDN Cache]
@@ -212,6 +213,7 @@ flowchart LR
   style S3 fill:#FFF7ED,stroke:#F97316,color:#0F172A
   style SH fill:#F0FDF4,stroke:#84CC16,color:#0F172A
   style R fill:#F8FAFC,stroke:#334155,color:#0F172A
+```
 
 No\* = endpoint is public but requires a valid refresh token cookie.
 
