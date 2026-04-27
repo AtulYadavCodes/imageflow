@@ -1,4 +1,4 @@
-# ImageFlow (ImageKit-like Platform)
+# ImageFlow (ImageKit/Cloudinary-like Media pipeline Platform)
 
 > **Note:** For the latest updates, guides, and the full platform experience, visit the website linked in the GitHub description.
 
