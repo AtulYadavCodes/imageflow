@@ -12,22 +12,22 @@
 ![Sharp](https://img.shields.io/badge/Sharp-Image%20Transform-99CC00?style=for-the-badge&logo=sharp&logoColor=white)
 ![Auth](https://img.shields.io/badge/Auth-JWT%20%2B%20API%20Key-F59E0B?style=for-the-badge)
 
-ImageFlow is an ImageKit-like media platform backend for users and developers.
-It supports:
+**ImageFlow** is a robust, ImageKit-like media platform engineered for both end users and developers. Key features include:
 
-- User authentication (JWT)
-- API key access for developer integrations
-- Folder and file management
-- Avatar uploads with AWS S3
-- File upload workflow with AWS S3 signed URLs
-- Image transformations using Sharp stream pipeline
+- Secure user authentication via JWT
+- Developer API key integration
+- Comprehensive folder and file management
+- Avatar and file uploads with AWS S3
+- Efficient file upload workflow using AWS S3 signed URLs
+- Real-time image transformations powered by Sharp stream pipelines
 
-Current status:
+**Current Highlights:**
 
-- Media transformation API is now available via Sharp.
-- Transform pipeline runs as real-time stream processing (S3 stream -> Sharp -> response stream), not blob/buffer in-memory processing.
-- Frontend application is currently in progress.
-- More platform capabilities and APIs are planned in upcoming updates.
+- Media transformation API with Sharp is live
+- Real-time, memory-efficient stream processing (S3 → Sharp → response)
+- Frontend application under active development
+- Upload SDKs released for browser and Node.js — [View SDK repo](https://github.com/AtulYadavCodes/imageflowsdk)
+- Ongoing expansion of platform capabilities and APIs
 
 ## 📑 Contents
 
@@ -45,7 +45,6 @@ Current status:
 - [Response Format](#response-format)
 - [Security Notes](#security-notes)
 - [Current Limitations](#current-limitations)
-
 
 # Who This Is For
 
