@@ -1,5 +1,26 @@
 # ImageFlow Backend (ImageKit-like Platform)
 
+> **Note:** For the latest updates, guides, and the full platform experience, please visit the website linked in the GitHub repository description.
+
+---
+
+## 📑 Contents
+
+- [Who This Is For](#who-this-is-for)
+- [Architecture At A Glance](#architecture-at-a-glance)
+- [Base URL And Routing](#base-url-and-routing)
+- [Authentication](#authentication)
+- [API Reference](#api-reference)
+- [Sharp Real-Time Stream Pipeline](#sharp-real-time-stream-pipeline)
+- [Developer Integration Options](#developer-integration-options)
+- [Common APIs (Non-Upload)](#common-apis-non-upload)
+- [Website (No API Code)](#website-no-api-code)
+- [Environment Variables](#environment-variables)
+- [Local Setup](#local-setup)
+- [Response Format](#response-format)
+- [Security Notes](#security-notes)
+- [Current Limitations](#current-limitations)
+
 ![Node.js](https://img.shields.io/badge/Node.js-22%2B-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 ![Express](https://img.shields.io/badge/Express-5.x-111111?style=for-the-badge&logo=express&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
@@ -25,12 +46,12 @@ Current status:
 - Frontend application is currently in progress.
 - More platform capabilities and APIs are planned in upcoming updates.
 
-## Who This Is For
+# Who This Is For
 
 - End users: use the ImageFlow website UI to upload and manage files without writing code.
 - Developers: integrate with ImageFlow APIs directly or use the provided SDKs.
 
-## Architecture At A Glance
+# Architecture At A Glance
 
 - Backend: Node.js + Express
 - Database: MongoDB (Mongoose)
@@ -50,7 +71,7 @@ flowchart LR
   style SV fill:#F8FAFC,stroke:#334155,color:#0F172A
 ```
 
-## Base URL And Routing
+# Base URL And Routing
 
 - Base URL: http://localhost:3000
 - API prefix: /api/v1
@@ -63,7 +84,7 @@ Route groups:
 - /api/v1/apikey
 - /images/path/\*key
 
-## Authentication
+# Authentication
 
 Protected endpoints are validated by a shared auth middleware.
 
@@ -78,7 +99,7 @@ Important:
 - API key management endpoints under /api/v1/apikey are JWT-only.
 - API keys are stored hashed (not in raw form).
 
-## API Reference
+# API Reference
 
 ### Users
 
@@ -123,7 +144,7 @@ Important:
 | ------ | ------------------ | ------- | --------------------------------------- | --------------------------------------------------- | ----------------------------------------------------------------------------- |
 | GET    | /images/path/\*key | No      | key in URL param (supports nested path) | width, height, rotate, blur, gray, format, removebg | Real-time stream transform with Sharp; optional grayscale and remove.bg steps |
 
-## Sharp Real-Time Stream Pipeline
+# Sharp Real-Time Stream Pipeline
 
 ImageFlow transform endpoint uses stream-based processing for lower memory footprint and faster response under load.
 
@@ -160,7 +181,6 @@ Transform query parameter reference:
 - `blur`: Blur intensity value for Sharp (number).
 - `format`: Output format. Supported values: `jpeg`, `png`, `webp`, `tiff`, `avif`.
 - `removebg`: Set to `true` to remove image background before other transforms.
-
 
 Parameter behavior notes:
 
@@ -203,9 +223,9 @@ flowchart LR
 
 No\* = endpoint is public but requires a valid refresh token cookie.
 
-## Developer Integration Options
+# Developer Integration Options
 
-### File Upload Using API
+## File Upload Using API
 
 Use your own HTTP client (fetch, axios, postman, backend service).
 
@@ -233,7 +253,7 @@ sequenceDiagram
   API-->>Client: Saved file response
 ```
 
-### File Upload Using SDK
+## File Upload Using SDK
 
 Two SDK packages are included in this repository.
 SDK repository: [imageflowsdk](https://github.com/AtulYadavCodes/imageflowsdk)
@@ -282,7 +302,7 @@ SDK behavior notes:
 - SDK sends Authorization: Bearer <apikey>.
 - SDK currently uses relative API paths (/api/v1/...), so use same-origin hosting or a proxy strategy.
 
-### Common APIs (Non-Upload)
+# Common APIs (Non-Upload)
 
 Use JWT or API key for these protected read endpoints.
 
@@ -320,7 +340,7 @@ Quick notes:
 - `getallfilesinfolder/:foldername` uses the folder name in the URL path.
 - `/apikey/list` requires JWT auth (API key does not work for this route).
 
-### Website (No API Code)
+# Website (No API Code)
 
 If you are not building an integration, use the ImageFlow website/client UI.
 
@@ -330,7 +350,7 @@ If you are not building an integration, use the ImageFlow website/client UI.
 
 This path is intended for users who do not want to call APIs directly.
 
-## Environment Variables
+# Environment Variables
 
 Use backend/.env.example as your template.
 
@@ -355,7 +375,7 @@ Required backend variables:
 - RAZORPAY_KEY_SECRET
 - RAZORPAY_WEBHOOK_SECRET
 
-## Local Setup
+# Local Setup
 
 1. Install backend dependencies
 
@@ -375,7 +395,7 @@ Required backend variables:
 
 - npm start
 
-## Response Format
+# Response Format
 
 Successful responses use:
 
@@ -389,7 +409,7 @@ Error responses use:
 - message
 - errors
 
-## Security Notes
+# Security Notes
 
 - Passwords hashed with bcrypt via model hooks
 - JWT auth with refresh token flow
@@ -399,7 +419,7 @@ Error responses use:
 - Centralized error middleware
 - CORS configured with credentials
 
-## Current Limitations
+# Current Limitations
 
 - Some naming and controller internals need cleanup/refactor for production hardening
 - No automated test suite yet
