@@ -23,26 +23,7 @@ ImageFlow is a Developer first modern, media pipeline inspired by ImageKit. It p
 - Avatar & file uploads (AWS S3)
 - Real-time image transformations (Sharp streams)
 - Upload SDKs for browser & Node.js ([SDK repo](https://github.com/AtulYadavCodes/imageflowsdk))
-- Frontend app in progress
-
-## Table of Contents
-
-- [Features](#features)
-- [Who Is This For?](#who-is-this-for)
-- [Architecture](#architecture)
-- [API Base URL](#api-base-url)
-- [Authentication](#authentication)
-- [API Reference](#api-reference)
-- [Image Transform Pipeline](#image-transform-pipeline)
-- [Developer Integration](#developer-integration)
-- [Common APIs](#common-apis)
-- [Website (No Code)](#website-no-code)
-- [Environment Variables](#environment-variables)
-- [Installation & Local Setup](#installation--local-setup)
-- [Response Format](#response-format)
-- [Security](#security)
-- [Limitations](#limitations)
-- [License](#license)
+- Frontend app for non devs
 
 # Who This Is For
 
