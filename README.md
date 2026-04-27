@@ -1,6 +1,6 @@
 # ImageFlow Backend (ImageKit-like Platform)
 
-> **Note:** For the latest updates, guides, and the full platform experience, please visit the website linked in the GitHub repository description.
+> **Note:** For the latest updates, guides, and the full platform experience, visit the website linked in the GitHub description.
 
 ---
 
@@ -12,39 +12,37 @@
 ![Sharp](https://img.shields.io/badge/Sharp-Image%20Transform-99CC00?style=for-the-badge&logo=sharp&logoColor=white)
 ![Auth](https://img.shields.io/badge/Auth-JWT%20%2B%20API%20Key-F59E0B?style=for-the-badge)
 
-**ImageFlow** is a robust, ImageKit-like media platform engineered for both end users and developers. Key features include:
+ImageFlow is a modern, media pipeline inspired by ImageKit. It provides secure file management, real-time image transformation, and developer-friendly APIs for both web and backend integrations.
 
-- Secure user authentication via JWT
-- Developer API key integration
-- Comprehensive folder and file management
-- Avatar and file uploads with AWS S3
-- Efficient file upload workflow using AWS S3 signed URLs
-- Real-time image transformations powered by Sharp stream pipelines
+---
 
-**Current Highlights:**
+## Features
 
-- Media transformation API with Sharp is live
-- Real-time, memory-efficient stream processing (S3 → Sharp → response)
-- Frontend application under active development
-- Upload SDKs released for browser and Node.js — [View SDK repo](https://github.com/AtulYadavCodes/imageflowsdk)
-- Ongoing expansion of platform capabilities and APIs
+- Secure JWT authentication & API keys
+- Folder and file management
+- Avatar & file uploads (AWS S3)
+- Real-time image transformations (Sharp streams)
+- Upload SDKs for browser & Node.js ([SDK repo](https://github.com/AtulYadavCodes/imageflowsdk))
+- Frontend app in progress
 
-## 📑 Contents
+## Table of Contents
 
-- [Who This Is For](#who-this-is-for)
-- [Architecture At A Glance](#architecture-at-a-glance)
-- [Base URL And Routing](#base-url-and-routing)
+- [Features](#features)
+- [Who Is This For?](#who-is-this-for)
+- [Architecture](#architecture)
+- [API Base URL](#api-base-url)
 - [Authentication](#authentication)
 - [API Reference](#api-reference)
-- [Sharp Real-Time Stream Pipeline](#sharp-real-time-stream-pipeline)
-- [Developer Integration Options](#developer-integration-options)
-- [Common APIs (Non-Upload)](#common-apis-non-upload)
-- [Website (No API Code)](#website-no-api-code)
+- [Image Transform Pipeline](#image-transform-pipeline)
+- [Developer Integration](#developer-integration)
+- [Common APIs](#common-apis)
+- [Website (No Code)](#website-no-code)
 - [Environment Variables](#environment-variables)
-- [Local Setup](#local-setup)
+- [Installation & Local Setup](#installation--local-setup)
 - [Response Format](#response-format)
-- [Security Notes](#security-notes)
-- [Current Limitations](#current-limitations)
+- [Security](#security)
+- [Limitations](#limitations)
+- [License](#license)
 
 # Who This Is For
 
@@ -409,18 +407,10 @@ Error responses use:
 - message
 - errors
 
-# Security Notes
+## Security
 
-- Passwords hashed with bcrypt via model hooks
-- JWT auth with refresh token flow
-- API keys hashed in database
+- Passwords/API keys hashed
+- JWT with refresh token flow
+- Centralized error handling
 - API key revoke support
-- Redis login rate limiting
-- Centralized error middleware
-- CORS configured with credentials
 
-# Current Limitations
-
-- Some naming and controller internals need cleanup/refactor for production hardening
-- No automated test suite yet
-- Cookie secure flag behavior may require HTTPS/proxy adjustments in local environments
