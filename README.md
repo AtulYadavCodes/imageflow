@@ -369,9 +369,6 @@ Required backend variables:
 - AWS_ACCESS_KEY_ID
 - AWS_SECRET_ACCESS_KEY
 - REMOVEBG_API_KEY
-- RAZORPAY_KEY_ID
-- RAZORPAY_KEY_SECRET
-- RAZORPAY_WEBHOOK_SECRET
 
 # Local Setup
 
@@ -413,4 +410,3 @@ Error responses use:
 - JWT with refresh token flow
 - Centralized error handling
 - API key revoke support
-
