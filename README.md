@@ -46,8 +46,8 @@ ImageFlow is a modern, media pipeline inspired by ImageKit. It provides secure f
 
 # Who This Is For
 
-- End users: use the ImageFlow website UI to upload and manage files without writing code.
-- Developers: integrate with ImageFlow APIs directly or use the provided SDKs.
+- End users: use the ImageFlow website UI to upload and manage files and transform without writing code.
+- Developers: integrate with ImageFlow APIs directly or use the provided SDKs similar to how they use any other media pipeline like cloudinary or imagekit.
 
 # Architecture At A Glance
 
