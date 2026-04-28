@@ -9,13 +9,7 @@ function HomePage() {
   return (
     <>
       <HeroSection />
-      <TryoutSection
-        steps={[
-          "Pick an image file from your device.",
-          "Send it through the upload flow with your API key.",
-          "Use the returned file link to preview or transform the asset.",
-        ]}
-      />
+      <TryoutSection      />
     </>
   );
 }
