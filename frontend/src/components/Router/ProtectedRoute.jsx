@@ -4,8 +4,8 @@ import {useAuth} from "../../Context/LoginContext";
 
 function ProtectedRoute({ children }) {
   const { isAuth} = useAuth();
- if (isAuth===null) { return <>loading</>}
-   if (isAuth===false) return <Navigate to="/auth" replace />;
+ if (isAuth===null) { return <div className="h-screen w-full"></div>}
+   if (isAuth===false) return <Navigate to="/" replace />;
 
   return children;
 }

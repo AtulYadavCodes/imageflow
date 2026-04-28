@@ -3,26 +3,28 @@
 
 import { HashLink } from 'react-router-hash-link'
 import { useAuth } from '../../Context/LoginContext';
+import { useNavigate } from 'react-router-dom';
 
 
 function Navbar() {
-	const {isAuth,setIsAuth}=useAuth();
+	const { isAuth, setIsAuth } = useAuth();
 
+	const navigate = useNavigate();
 	//logout
-	const handleclick=async()=>{
-		const url="http://localhost:3000/api/v1/users/logout"
+	const handleclick = async () => {
+		const url = `${import.meta.env.VITE_API_BASE}/api/v1/users/logout`
 		try {
-			const res=await fetch(url,{
-		method:"POST",
-		credentials:"include"
-	 })
-	 if(res.ok){
-		setIsAuth(false);
-		window.location.href="/";
-		
-		}
-	 }catch (error) {
-			console.error("Logout error:",error);
+			const res = await fetch(url, {
+				method: "POST",
+				credentials: "include"
+			})
+			if (res.ok) {
+				
+				navigate("/", { replace: true });
+                setIsAuth(false);
+			}
+		} catch (error) {
+			console.error("Logout error:", error);
 		}
 
 	}
@@ -42,17 +44,17 @@ function Navbar() {
 						API Docs
 					</HashLink>
 
-					
+
 					{isAuth && <HashLink smooth className="rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2 font-mono text-zinc-300 transition hover:bg-zinc-800 hover:text-zinc-100" to="/dashboard/#">
-					 Go to dashboard
-					 </HashLink>}
+						Go to dashboard
+					</HashLink>}
 					{!isAuth ? (<HashLink
 						smooth className="rounded-md border border-zinc-500 bg-zinc-100 px-3 py-2 font-mono font-semibold text-zinc-900 transition hover:bg-zinc-200"
 						to="/auth"
 					>
 						Sign Up / Login
-					</HashLink>) :<button
-						 className="rounded-md border border-zinc-500 bg-zinc-100 px-3 py-2 font-mono font-semibold text-zinc-900 transition hover:bg-zinc-200"
+					</HashLink>) : <button
+						className="rounded-md border border-zinc-500 bg-zinc-100 px-3 py-2 font-mono font-semibold text-zinc-900 transition hover:bg-zinc-200"
 						onClick={handleclick}
 					>
 						logout

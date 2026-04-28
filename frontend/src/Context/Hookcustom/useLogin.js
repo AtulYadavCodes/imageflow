@@ -4,15 +4,16 @@ export const useLogin = () => {
   const [isAuth, setIsAuth] = useState(null); // null = unknown
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/v1/users/profile", {
+    fetch(`${import.meta.env.VITE_API_BASE}/api/v1/users/profile`, {
       credentials: "include",
-      cache: "no-store"
+      cache: "no-store",
     })
-      .then(res => setIsAuth(res.ok))
+      .then((res) => setIsAuth(res.ok))
       .catch(() => setIsAuth(false));
   }, []);
 
   return {
-    isAuth,setIsAuth
+    isAuth,
+    setIsAuth,
   };
 };

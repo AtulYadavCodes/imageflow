@@ -3,7 +3,7 @@ import { HashLink } from "react-router-hash-link";
 
 function FooterSection() {
   return (
-    <footer className="mx-auto mt-14 w-full max-w-7xl border-t-2 border-zinc-700/70 px-4 py-8 sm:px-6 lg:px-8">
+    <footer className="mx-auto  w-full  border-t-2 border-zinc-700/70 px-4 py-8 sm:px-6 lg:px-8">
       <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="font-mono text-sm uppercase tracking-[0.16em] text-zinc-400">

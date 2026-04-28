@@ -2,61 +2,57 @@ import { useEffect, useState } from "react";
 import { HashLink } from "react-router-hash-link";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../../Context/LoginContext";
-const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:3000";
+const API_BASE = import.meta.env.VITE_API_BASE;
 
 
 function AuthPage({ mode = "login" }) {
   const [isLogin, setIsLogin] = useState(true);
   const [avatar, setAvatar] = useState(null);
   const [redirectToDashboard, setRedirectToDashboard] = useState(false);
-  const {setIsAuth} = useAuth();
+  const { setIsAuth } = useAuth();
 
-  
+
   const [apimessage, setApimessage] = useState("");
 
   useEffect(() => {
     setApimessage(""); //reset API message on mode swi....
-    },[isLogin])
+  }, [isLogin])
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  try {
-    const formData = new FormData(e.target);
+    try {
+      const formData = new FormData(e.target);
 
 
 
-    
-    const url = isLogin
-      ? `${API_BASE}/api/v1/users/login`
-      :`${API_BASE}/api/v1/users/register`;
 
-    const res = await fetch(url, {
-      method: "POST",
-      credentials: "include", // for cookies
-      body: formData, // no headers!
-    });
+      const url = isLogin
+        ? `${API_BASE}/api/v1/users/login`
+        : `${API_BASE}/api/v1/users/register`;
 
-    const data = await res.json();
-    if(!isLogin && res.ok) {
+      const res = await fetch(url, {
+        method: "POST",
+        credentials: "include", // for cookies
+        body: formData, // no headers!
+      });
+
+      const data = await res.json();
+      if (!isLogin && res.ok) {
         setIsLogin(true);
-    }
-    if(isLogin && res.ok) {
-        // Redirect to dashboard or homepage after successful login
-         setRedirectToDashboard(true);
-         setIsAuth(true);// update auth state in context
-    }
-    setApimessage(data.message);
-    console.log(isLogin ? "Login:" : "Signup:", data);
+      }
+      if (isLogin && res.ok) {
+        // Redirect to dashboard or homepage after successful login 
+        setIsAuth(true);// update auth state in context
+      }
+      setApimessage(data.message);
+      console.log(isLogin ? "Login:" : "Signup:", data);
 
-  } catch (err) {
-    console.error("Auth error:", err);
-  }
-};
+    } catch (err) {
+      console.error("Auth error:", err);
+    }
+  };
 
-  if (redirectToDashboard) {
-    return <Navigate to="/dashboard" replace />;
-  }
   return (
     <div className="min-h-screen w-full bg-zinc-950 flex items-center justify-center px-4">
       <div className="w-full max-w-md border-2 border-zinc-700 bg-zinc-900 p-6">
@@ -79,7 +75,7 @@ function AuthPage({ mode = "login" }) {
           {/* SIGNUP ONLY */}
           {!isLogin && (
             <>
-       <img src={avatar ? URL.createObjectURL(avatar) : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png"} alt="avatar preview" className="w-24 h-24 rounded-full object-cover mx-auto" />
+              <img src={avatar ? URL.createObjectURL(avatar) : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png"} alt="avatar preview" className="w-24 h-24 rounded-full object-cover mx-auto" />
               <input
                 type="text"
                 placeholder="Full Name"
@@ -140,8 +136,8 @@ function AuthPage({ mode = "login" }) {
           </button>
         </div>
         <div className="mt-6 font-light text-center text-red-600">
-        
-         {apimessage}
+
+          {apimessage}
         </div>
 
         {/* BACK */}

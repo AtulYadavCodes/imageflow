@@ -5,7 +5,7 @@
 
 import { useState } from "react";
 
-function TryoutSection({ key }) {
+function TryoutSection({ KEY }) {
   const [form, setForm] = useState({
     width: "",
     height: "",
@@ -16,7 +16,7 @@ function TryoutSection({ key }) {
     grayscale: false,
     removebg: false,
   });
-  const [imgUrl, setImgUrl] = useState("http://localhost:3000/images/path/69ebc3079eb919b4e9e88516/1_TMAo0Qpl4j9TaE3sDyBTLg.jpg");
+  const [imgUrl, setImgUrl] = useState(`${import.meta.env.VITE_API_BASE}/images/path/69ebc3079eb919b4e9e88516/1_TMAo0Qpl4j9TaE3sDyBTLg.jpg`);
   const [lastForm, setLastForm] = useState(form);
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -63,9 +63,9 @@ function TryoutSection({ key }) {
       return;
     }
     setLoading(true);
-    const baseUrl = key
-      ? `http://localhost:3000/images/path/${key}?`
-      : "http://localhost:3000/images/path/69ebc3079eb919b4e9e88516/1_TMAo0Qpl4j9TaE3sDyBTLg.jpg?";
+    const baseUrl = KEY
+      ? `${import.meta.env.VITE_API_BASE}/images/path/${KEY}?`
+      : `${import.meta.env.VITE_API_BASE}/images/path/69ebc3079eb919b4e9e88516/1_TMAo0Qpl4j9TaE3sDyBTLg.jpg?`;
     let url = baseUrl;
     let query = "";
     if (form.width) query += `&width=${form.width}`;
@@ -84,10 +84,10 @@ function TryoutSection({ key }) {
 
 
   return (
-    <section id="image-tryout" className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
+    <section id="image-tryout" className="mx-auto w-full max-w-7xl max-h-4xl py-5 px-4  sm:px-6 lg:px-8 ">
       <div className="grid gap-6 md:grid-cols-2">
         {/* Left: Form */}
-        <div className="border-2 border-zinc-700 bg-zinc-900 p-6 flex flex-col gap-6">
+        <div className="min-w-0 h-contain border-2 border-zinc-700 bg-zinc-900 p-6 flex flex-col gap-6">
           <div>
             <p className="font-mono text-xs uppercase tracking-[0.16em] text-zinc-400">Image Tryout</p>
             <h2 className="mt-3 font-mono text-3xl font-semibold text-zinc-100">Transform playground</h2>
@@ -145,10 +145,10 @@ function TryoutSection({ key }) {
           </form>
         </div>
         {/* Right: Image Preview */}
-        <div className="border-2 border-zinc-700 bg-zinc-900 p-6 flex flex-col items-center justify-center">
+        <div className="min-w-0 border-2 border-zinc-700 bg-zinc-900 p-6 flex flex-col items-center justify-center">
           <p className="font-mono text-xs uppercase tracking-[0.12em] text-zinc-500 mb-2">Preview</p>
           <div className="w-full flex items-center justify-center">
-            <div className="w-[320px] h-[320px] sm:w-[384px] sm:h-[384px] flex items-center justify-center overflow-hidden rounded border border-zinc-800 bg-zinc-950">
+            <div className="w-[320px] h-80 sm:w-[384px] sm:h-96 flex items-center justify-center overflow-hidden rounded border border-zinc-800 bg-zinc-950">
               <img
                 src={imgUrl}
                 alt="Preview"
