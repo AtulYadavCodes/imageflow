@@ -10,6 +10,7 @@ function HomePage() {
     <>
       <HeroSection />
       <TryoutSection      />
+      <div className=" my-5"></div>
     </>
   );
 }
