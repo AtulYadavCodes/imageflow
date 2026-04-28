@@ -5,7 +5,14 @@ let app = express();
 app.use(cookieParser());
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN,
+    origin:{function(origin,callback){
+    if(!origin)return callback(null,true);
+    if(origin.equals("process.env.CORS_ORIGIN") || origin.equals("http://localhost:3000")){
+        return callback(null,true);
+    }
+    return callback(null,true);
+}
+} ,
     credentials: true,
   }),
 );
