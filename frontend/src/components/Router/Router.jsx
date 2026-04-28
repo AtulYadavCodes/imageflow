@@ -8,7 +8,7 @@ import AuthPage from "../pages/AuthPage";
 
 
 
-import DashboardPage from "../pages/DashboardPage";
+import DashboardPage from "../dashboardelements/DashboardPage";
 
 import React from 'react'
 import ProtectedRoute from "./ProtectedRoute";
