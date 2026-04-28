@@ -35,7 +35,6 @@ const uploadoncloudinary = async (filePath, option) => {
 
 export default uploadoncloudinary;
 
-
 import {
   S3Client,
   GetObjectCommand,
@@ -51,34 +50,37 @@ const s3 = new S3Client({
   },
 });
 
-const uploadonawss3bucketavatar=async (filepathofavatar,key) => {
-  try{
+const uploadonawss3bucketavatar = async (filepathofavatar, key) => {
+  try {
     const uploadCommand = new PutObjectCommand({
       Bucket: process.env.AWS_BUCKET_NAME,
       Key: key,
       Body: fs.createReadStream(filepathofavatar),
       ContentType: "image/jpeg",
     });
-    const response=await s3.send(uploadCommand);
-    fs.unlinkSync(filepathofavatar); // Remove file from server after upload
+    const response = await s3.send(uploadCommand);
+    fs.unlink(filepathofavatar, (err) => {
+      if (err) console.error("Error deleting temp file:", err);
+    }); // Remove file from server after upload
     return response;
-  }catch(error){
-      console.error("AWS ", error);
+  } catch (error) {
+    console.error("AWS ", error);
     if (filepathofavatar && fs.existsSync(filepathofavatar)) {
-      fs.unlinkSync(filepathofavatar);
+      fs.unlink(filepathofavatar, (err) => {
+        if (err) console.error("Error deleting temp file:", err);
+      });
     }
   }
-}
+};
 
-
-const uploadonawss3bucket = async (key,contentType) => {
+const uploadonawss3bucket = async (key, contentType) => {
   try {
     const uploadCommand = new PutObjectCommand({
       Bucket: process.env.AWS_BUCKET_NAME,
       Key: key,
-      ContentType:contentType
+      ContentType: contentType,
     });
-    return await getSignedUrl(s3,uploadCommand)
+    return await getSignedUrl(s3, uploadCommand);
   } catch (error) {
     console.error("AWS ", error);
     throw new errorhandler(
@@ -107,4 +109,4 @@ const getFileFromS3 = async (key) => {
   }
 };
 
-export {s3, uploadonawss3bucket, getFileFromS3,uploadonawss3bucketavatar };
+export { s3, uploadonawss3bucket, getFileFromS3, uploadonawss3bucketavatar };
