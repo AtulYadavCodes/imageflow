@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HashLink } from "react-router-hash-link";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../../Context/LoginContext";
@@ -11,7 +11,12 @@ function AuthPage({ mode = "login" }) {
   const [redirectToDashboard, setRedirectToDashboard] = useState(false);
   const {setIsAuth} = useAuth();
 
+  
+  const [apimessage, setApimessage] = useState("");
 
+  useEffect(() => {
+    setApimessage(""); //reset API message on mode swi....
+    },[isLogin])
 
   const handleSubmit = async (e) => {
   e.preventDefault();
@@ -41,6 +46,7 @@ function AuthPage({ mode = "login" }) {
          setRedirectToDashboard(true);
          setIsAuth(true);// update auth state in context
     }
+    setApimessage(data.message);
     console.log(isLogin ? "Login:" : "Signup:", data);
 
   } catch (err) {
@@ -132,6 +138,10 @@ function AuthPage({ mode = "login" }) {
           >
             {isLogin ? "Sign up" : "Login"}
           </button>
+        </div>
+        <div className="mt-6 font-light text-center text-red-600">
+        
+         {apimessage}
         </div>
 
         {/* BACK */}
