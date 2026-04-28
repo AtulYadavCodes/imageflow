@@ -7,15 +7,15 @@ function Layout() {
   return (
     <>
      <div className="min-h-screen flex flex-col">
-      {/* Navbar */}
+
       <Navbar />
 
-      {/* Content grows to push footer down */}
+
       <main className="flex-1">
         <Outlet />
       </main>
 
-      {/* Footer stays at bottom naturally */}
+
       <FooterSection />
     </div>
     </>
