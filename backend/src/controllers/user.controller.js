@@ -11,7 +11,7 @@ const generateAccessTokenandRefreshToken = async (userId) => {
     const accessToken = user.generateAccessToken();
     const refreshToken = user.generateRefreshToken();
     //   user.accessToken=accessToken;
-    user.refreshTokens = refreshToken;
+    user.refreshTokens = refreshToken; //push to store multiple refresh tokens for multiple device login
     await user.save({ validateBeforeSave: false });
     return { accessToken, refreshToken };
   } catch (error) {
