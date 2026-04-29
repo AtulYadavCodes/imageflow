@@ -1,58 +1,69 @@
-import { useState } from "react";
+// Sidebar.jsx
+import { NavLink } from "react-router-dom";
 
+const Routes=[
+  { path:"", label:"Files & Folders" 
+  },
+  { path:"apikey", label:"API Keys"
+  },
+  { path:"profile", label:"User Profile"
+  }
+]
 function Sidebar() {
-  const [active, setActive] = useState("files");
-
-  const topItems = [
-    { id: "files", label: "Folders & Files" },
-    { id: "apikey", label: "API Keys" },
-  ];
-
-  const bottomItem = { id: "profile", label: "User Profile" };
-
   return (
     <aside className="flex h-[80vh] w-64 flex-col border-r border-zinc-700 bg-zinc-950 p-4">
+      
       {/* Header */}
-      <div className="mb-6 border-b border-zinc-700 pb-3">
-        <span className="font-mono text-xs uppercase tracking-[0.16em] text-zinc-400">
-          Dashboard
-        </span>
-      </div>
+     
 
       {/* Top Nav */}
       <div className="space-y-2">
-        {topItems.map((item) => (
-          <button
-            key={item.id}
-            onClick={() => setActive(item.id)}
-            className={`w-full text-left font-mono text-sm px-4 py-2 border transition
-              ${
-                active === item.id
-                  ? "bg-zinc-100 text-zinc-900 border-zinc-500"
-                  : "bg-zinc-900 text-zinc-300 border-zinc-700 hover:bg-zinc-800"
-              }`}
-          >
-            {item.label}
-          </button>
-        ))}
+        {Routes.slice(0, 2).map((route) => {
+          const path = route.path ? `/dashboard/${route.path}` : "/dashboard";
+
+          return (
+            <NavLink
+              key={route.path}
+              to={path}
+              end={route.path === ""} // important for "/dashboard"
+              className={({ isActive }) =>
+                `w-full block text-left font-mono text-sm px-4 py-2 border transition ${
+                  isActive
+                    ? "bg-zinc-100 text-zinc-900 border-zinc-500"
+                    : "bg-zinc-900 text-zinc-300 border-zinc-700 hover:bg-zinc-800"
+                }`
+              }
+            >
+              {route.label}
+            </NavLink>
+          );
+        })}
       </div>
 
-      {/* Spacer pushes profile down */}
+      {/* Spacer */}
       <div className="flex-1" />
 
-      {/* Bottom Section */}
+      {/* Bottom */}
       <div className="space-y-3">
-        <button
-          onClick={() => setActive(bottomItem.id)}
-          className={`w-full text-left font-mono text-sm px-4 py-2 border transition
-            ${
-              active === bottomItem.id
-                ? "bg-zinc-100 text-zinc-900 border-zinc-500"
-                : "bg-zinc-900 text-zinc-300 border-zinc-700 hover:bg-zinc-800"
-            }`}
-        >
-          {bottomItem.label}
-        </button>
+        {Routes.slice(2).map((route) => {
+          const path = `/dashboard/${route.path}`;
+
+          return (
+            <NavLink
+              key={route.path}
+              to={path}
+              className={({ isActive }) =>
+                `w-full block text-left font-mono text-sm px-4 py-2 border transition ${
+                  isActive
+                    ? "bg-zinc-100 text-zinc-900 border-zinc-500"
+                    : "bg-zinc-900 text-zinc-300 border-zinc-700 hover:bg-zinc-800"
+                }`
+              }
+            >
+              {route.label}
+            </NavLink>
+          );
+        })}
       </div>
     </aside>
   );
