@@ -90,12 +90,12 @@ function Divider() {
 
 function Block({ title, children }) {
   return (
-    <div className="mb-6">
+    <div className="mb-6 min-w-sm">
       <p className="text-zinc-500 mb-3 text-sm tracking-widest">
         ── {title.toUpperCase()}
       </p>
 
-      <div className="space-y-2 pl-6">
+      <div className="space-y-2 pl-6 white-space:nowrap;">
         {children}
       </div>
     </div>
@@ -106,7 +106,7 @@ function Line({ label, value }) {
   return (
     <div className="flex gap-6 text-base">
       <span className="w-28 text-zinc-500">{label}</span>
-      <span className="text-zinc-200 break-all">{value}</span>
+      <span className="text-zinc-200 ">{value}</span>
     </div>
   );
 }

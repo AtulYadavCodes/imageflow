@@ -102,7 +102,7 @@ function Navbar() {
 					</HashLink>
 
 
-					{isAuth && <HashLink smooth className="rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2 font-mono text-zinc-300 transition hover:bg-zinc-800 hover:text-zinc-100" to="/dashboard/#">
+					{isAuth && <HashLink smooth className="rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2 font-mono text-zinc-300 transition hover:bg-zinc-800 hover:text-zinc-100" to="/dashboard">
 						Go to dashboard
 					</HashLink>}
 					{!isAuth ? (<HashLink
