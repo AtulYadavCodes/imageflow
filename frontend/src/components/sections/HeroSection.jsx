@@ -8,6 +8,7 @@ const images = [image, image2];
 function HeroSection() {
   const [i, seti] = useState(1);
   return (
+    <>
     <section
       id="home"
       className="mx-auto grid w-full max-w-7xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:px-8"
@@ -24,8 +25,9 @@ function HeroSection() {
         </h1>
 
         <p className="max-w-xl text-base leading-7 text-zinc-400 sm:text-lg">
-          A stream-based image pipeline where the URL becomes the API. No
-          duplicate storage. No heavy processing layers.
+          A stream-based image pipeline where the URL becomes the API. 
+          generates optimized images on demand by resizing, compressing, and converting a single original image into the best format for each user’s device. 
+          No heavy processing layers.
         </p>
 
         <div className="flex flex-wrap gap-3">
@@ -36,13 +38,7 @@ function HeroSection() {
             Try Playground
           </a>
 
-          <HashLink
-            smooth
-            to="/apidocs/#"
-            className="rounded-md border border-zinc-700 bg-zinc-900 px-6 py-3 font-mono text-sm font-semibold text-zinc-200 transition hover:bg-zinc-800"
-          >
-            API Docs
-          </HashLink>
+          
         </div>
 
         <div className="flex flex-wrap gap-4 font-mono text-xs text-zinc-500">
@@ -83,7 +79,22 @@ function HeroSection() {
           </div>
         </div>
       </div>
+ 
     </section>
+     <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8"><div className="flex flex-col items-start justify-between gap-4 border-2 border-zinc-700 bg-zinc-900 p-5 sm:flex-row sm:items-center">
+        <div>
+          <p className="font-mono text-xs uppercase tracking-[0.16em] text-zinc-400">Are u a developer and want to use this service instead of Cloudinary or Imagekit </p>
+
+        </div>
+
+        <HashLink
+          to="/apidocs/#"
+          className="rounded-md border border-zinc-500 bg-zinc-100 px-3 py-2 font-mono text-xs font-semibold  tracking-[0.08em] text-zinc-900 transition hover:bg-zinc-200"
+        >
+          Check out API Docs
+        </HashLink>
+      </div></div>
+    </>
   );
 }
 
