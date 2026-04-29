@@ -19,29 +19,35 @@ import { useAuth } from "../../Context/LoginContext";
 
 import TryoutSection from "../sections/TryoutSection";
 import Upload from "../sections/dashboardsection/Upload";
+import Filesandfolder from "../sections/dashboardsection/Filesandfolder";
+import Apikey from "../sections/dashboardsection/Apikey";
+import UserProfile from "../sections/dashboardsection/UserProfile";
 import { Navigate } from "react-router-dom";
 
-const BlockRoutefromLoggedinUser=({children})=>{
-  const {isAuth} = useAuth();
-  if(isAuth) return <Navigate to="/dashboard" replace />
-  return children;
+const BlockRoutefromLoggedinUser = ({ children }) => {
+    const { isAuth } = useAuth();
+    if (isAuth) return <Navigate to="/dashboard" replace />
+    return children;
 }
 export const router = createBrowserRouter([
     {
         path: "/",
         element: <Layout />,
         children: [
-            {path: "", element: <Home />},
-            {path: "apidocs", element: <ApiDocPage />},
-            {path:"auth",element: <BlockRoutefromLoggedinUser><AuthPage /></BlockRoutefromLoggedinUser>},
-            {path:"dashboard",element:  
-            <ProtectedRoute><DashboardPage /></ProtectedRoute>,
-            children: [
-                {path:"upload", element:<Upload/>},
-                {path:"tryout", element:<TryoutSection/>}
-            ]}
+            { path: "", element: <Home /> },
+            { path: "apidocs", element: <ApiDocPage /> },
+            { path: "auth", element: <BlockRoutefromLoggedinUser><AuthPage /></BlockRoutefromLoggedinUser> },
+            {
+                path: "dashboard", element:
+                    <ProtectedRoute><DashboardPage /></ProtectedRoute>,
+                children: [
+                    { path: "", element: <Filesandfolder /> },
+                    { path: "apikey", element: <Apikey /> },
+                    { path: "profile", element: <UserProfile /> }
+                ]
+            }
 
-           
+
         ]
     }
 ])
