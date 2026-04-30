@@ -51,7 +51,10 @@ function Filesandfolder() {
 
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
-        <h3 className="font-mono text-sm uppercase tracking-widest text-zinc-400 px-1">
+        <h3 className="font-mono text-sm uppercase tracking-widest text-zinc-400 px-1 hidden sm:block">
+         Your Folders
+        </h3>
+        <h3 className="font-mono text-sm uppercase tracking-widest text-zinc-400 px-1 sm:hidden">
          ☰ Your Folders
         </h3>
 

@@ -128,7 +128,9 @@ function Apikey() {
        
         <div className="max-w-5xl mx-auto mb-8 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
           <div>
-            <h3 className=" text-sm text-zinc-400 font-mono tracking-tight">
+            <h3 className=" text-sm text-zinc-400 font-mono tracking-tight hidden sm:block">
+              API Keys
+            </h3><h3 className=" text-sm text-zinc-400 sm:hidden font-mono tracking-tight">
               ☰ API Keys
             </h3>
             <p className="text-sm text-zinc-500 mt-1 px-2">

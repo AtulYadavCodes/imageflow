@@ -14,7 +14,6 @@ function Sidebar() {
 
 
 
-  const [smallScreen, setSmallScreen] = useState(window.innerWidth < 640);
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
@@ -37,7 +36,7 @@ function Sidebar() {
             <NavLink
               key={route.path}
               to={path}
-              onClick={()=>smallScreen&&setIsOpen(!isOpen)}
+              onClick={()=>{if(window.innerWidth<640)setIsOpen(!isOpen)}}
               end={route.path === ""} // important for "/dashboard"
               className={({ isActive }) =>
                 `w-full block text-left font-mono text-sm px-4 py-2 border transition ${
@@ -63,7 +62,7 @@ function Sidebar() {
 
           return (
             <NavLink
-             onClick={()=>smallScreen&&setIsOpen(!isOpen)}
+             onClick={()=> {if(window.innerWidth<640)setIsOpen(!isOpen)}}
               key={route.path}
               to={path}
               className={({ isActive }) =>
