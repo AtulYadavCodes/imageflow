@@ -22,7 +22,7 @@ function Files() {
 
       const data = Array.isArray(res.data) ? res.data : res.data.data;
       setFiles(data);
-      console.log(data);
+      
     } catch (err) {
       console.log(err);
     }
