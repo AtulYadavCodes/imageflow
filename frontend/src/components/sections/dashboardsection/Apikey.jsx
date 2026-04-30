@@ -75,7 +75,7 @@ function Apikey() {
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-200 font-mono px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
       {modal && (
-        <div className="fixed inset-0 bg-opacity-10 flex items-center justify-center z-30">
+        <div className="fixed inset-0  backdrop-blur-sm flex items-center justify-center z-30">
           <div className="m-1 bg-zinc-900 border border-zinc-700 rounded-lg p-6 min-w-0 w-full max-w-md">
             <h2 className="text-lg font-semibold mb-4 text-zinc-100">
               New API Key Created
@@ -151,11 +151,11 @@ function Apikey() {
               No API keys yet. Create one to get started.
             </div>
           ) : (
-            <div className="border border-zinc-800 rounded-lg overflow-hidden divide-y divide-zinc-800">
+            <div className="border border-zinc-800 rounded-lg overflow-x-auto divide-y divide-zinc-800">
               {activeKeys.map((k) => (
                 <div
                   key={k._id}
-                  className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-4 sm:px-5 py-4 hover:bg-zinc-900 transition"
+                  className=" flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-4 sm:px-5 py-4 hover:bg-zinc-900 transition"
                 >
                   {/* Left */}
                   <div className="flex flex-col">
@@ -165,14 +165,15 @@ function Apikey() {
                     <span className="text-xs text-zinc-500 mt-1">
                       {k.prefix}••••
                     </span>
+                    <span className="text-zinc-500 text-sm mr-10">
+                        Last used: {k.lastUsedAt?new Date(k.lastUsedAt).toLocaleString():"Never"}
+                    </span>
                   </div>
 
                   {/* Right */}
-                  <div className="flex items-center justify-between sm:justify-end gap-4">
-                    <span className="text-zinc-500">
-                        Last used: {k.lastUsedAt?new Date(k.lastUsedAt).toLocaleString():"Never"}
-                    </span>
-                    <span className="text-zinc-500">
+                  <div className="flex items-center justify-between text-sm sm:justify-end gap-4">
+                    
+                    <span className="text-zinc-500 mr-10">
                         Created: {new Date(k.createdAt).toLocaleDateString()}
                     </span>
                     <span className="text-xs text-green-400">Active</span>
