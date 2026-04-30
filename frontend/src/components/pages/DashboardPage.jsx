@@ -1,7 +1,7 @@
 import React from 'react'
 
 import TryoutSection from '../sections/TryoutSection'
-import Upload from '../sections/dashboardsection/Upload';
+
 
 import Sidebar from '../sections/dashboardsection/Sidebar';
 import { Outlet } from 'react-router';

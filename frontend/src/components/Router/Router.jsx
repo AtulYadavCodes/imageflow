@@ -18,7 +18,6 @@ import ProtectedRoute from "./ProtectedRoute";
 import { useAuth } from "../../Context/LoginContext";
 
 import TryoutSection from "../sections/TryoutSection";
-import Upload from "../sections/dashboardsection/Upload";
 import Filesandfolder from "../sections/dashboardsection/Filesandfolder";
 import Apikey from "../sections/dashboardsection/Apikey";
 import UserProfile from "../sections/dashboardsection/UserProfile";
