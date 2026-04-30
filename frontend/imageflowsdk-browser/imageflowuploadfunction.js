@@ -4,12 +4,14 @@ export const imageflowuploadfunction = async (file, apikey, foldername) => {
   if (foldername === undefined || foldername.trim() === "") {
     foldername = "default";
   }
+ 
   try {
     uploadurl = await fetch(`http://localhost:3000/api/v1/files/uploadfile`, {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${apikey}`,
+         Authorization: apikey?`Bearer ${apikey}`:"",
       },
       body: JSON.stringify({
         originalname: file.name,
@@ -43,8 +45,9 @@ export const imageflowuploadfunction = async (file, apikey, foldername) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${apikey}`,
+          Authorization: apikey?`Bearer ${apikey}`:"",
         },
+        credentials: "include",
         body: JSON.stringify({
           originalname: file.name,
           bytes: file.size,
