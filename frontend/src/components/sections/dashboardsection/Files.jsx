@@ -8,9 +8,9 @@ function Files() {
   const { foldername } = useParams();
 
   const [files, setFiles] = useState([]);
- 
+
   const [selectedImageKey, setSelectedImageKey] = useState(null);
- 
+
   const fileInputRef = useRef(null);
   // fetch files
   const fetchFiles = async () => {
@@ -43,7 +43,7 @@ function Files() {
 
       await imageflowuploadfunction(file, "", foldername);
 
-     
+
       fetchFiles();
     } catch (err) {
       console.log(err);
@@ -51,9 +51,9 @@ function Files() {
   };
 
   return (
-    <section className=" mx-auto w-full max-w-7xl px-4 py-10">
+    <section className="mx-auto w-full max-w-7xl px-4 py-10 relative min-h-full ">
 
-     
+
       <div className="mb-6 ">
         <h2 className="font-mono text-sm uppercase tracking-widest text-zinc-400">
           Folder: {foldername} - [click on a file to open it in tryout section]
@@ -62,7 +62,7 @@ function Files() {
       </div>
 
       {/* Images   */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8"> 
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
         {files.length === 0 ? (
           <p className="text-zinc-600 font-mono text-sm">
             empty folder
@@ -79,35 +79,35 @@ function Files() {
           ))
         )}
       </div>
-      
-      {/* Upload */}
-       <div className="max-w-full  sticky bottom-10 right-0 mb-4 flex justify-end">
 
-    
-    <input
-      type="file"
-      ref={fileInputRef}
-      onChange={(e) => {
-        const selected = e.target.files[0];
-       if(!selected) return;
+      {/* Upload - floating at bottom */}
+      <div className="absolute bottom-4 left-0 w-full flex justify-end pb-4 pr-4  ">
 
-        
 
-        
-        handleUpload(selected);
-      }}
-      className="hidden"
-    />
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={(e) => {
+            const selected = e.target.files[0];
+            if (!selected) return;
 
-    {/* Visible button */}
-    <button
-      onClick={() => fileInputRef.current.click()}
-      className="w-30 bg-yellow-400 text-black py-2 text-xs font-mono rounded-md hover:bg-yellow-300 transition"
-    >
-      + Upload File
-    </button>
 
-  </div>
+
+
+            handleUpload(selected);
+          }}
+          className="hidden"
+        />
+
+        {/* Visible button */}
+        <button
+          onClick={() => fileInputRef.current.click()}
+          className="w-30 bg-yellow-400 text-black py-2 text-xs font-mono rounded-md hover:bg-yellow-300 transition shadow-lg"
+        >
+          + Upload File
+        </button>
+
+      </div>
 
       {selectedImageKey && (
         <div

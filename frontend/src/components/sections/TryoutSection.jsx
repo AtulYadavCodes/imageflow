@@ -87,7 +87,7 @@ function TryoutSection({ KEY }) {
     <section id="image-tryout" className="mx-auto w-full max-w-7xl max-h-4xl py-5 px-4  sm:px-6 lg:px-8 ">
       <div className="grid gap-6 md:grid-cols-2">
         {/* Left: Form */}
-        <div className="min-w-0 h-contain border-2 border-zinc-700 bg-zinc-900 p-6 flex flex-col gap-6">
+        <div className="min-w-0 h-contain border-2 border-zinc-700  p-6 flex flex-col gap-6">
           <div>
             <p className="font-mono text-xs uppercase tracking-[0.16em] text-zinc-400">Image Tryout</p>
             <h2 className="mt-3 font-mono text-3xl font-semibold text-zinc-100">Transform playground</h2>
@@ -145,7 +145,7 @@ function TryoutSection({ KEY }) {
           </form>
         </div>
         {/* Right: Image Preview */}
-        <div className="min-w-0 border-2 border-zinc-700 bg-zinc-900 p-6 flex flex-col items-center justify-center">
+        <div className="min-w-0 border-2 border-zinc-700  p-6 flex flex-col items-center justify-center">
           <p className="font-mono text-xs uppercase tracking-[0.12em] text-zinc-500 mb-2">Preview</p>
           <div className="w-full flex items-center justify-center">
             <div className="w-[320px] h-80 sm:w-[384px] sm:h-96 flex items-center justify-center overflow-hidden rounded border border-zinc-800 bg-zinc-950">

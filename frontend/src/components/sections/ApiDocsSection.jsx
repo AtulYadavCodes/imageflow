@@ -87,7 +87,7 @@ function ApiDocsSection() {
           {docs.map((item) => (
             <article
               key={item.title}
-              className="border-2 border-zinc-700 bg-zinc-900 p-3 sm:p-5 rounded-lg w-full overflow-hidden"
+              className="border-2 border-zinc-700  p-3 sm:p-5 rounded-lg w-full overflow-hidden"
             >
               <p className="font-mono text-xs uppercase tracking-[0.12em] text-zinc-400 break-words">
                 {item.title}
@@ -101,7 +101,7 @@ function ApiDocsSection() {
               </p>
             ) : null} */}
 
-              <div className="bg-zinc-900 my-1 p-2 sm:p-4 border border-zinc-800 font-mono text-[13px] overflow-x-auto rounded">
+              <div className=" my-1 p-2 sm:p-4 border border-zinc-800 font-mono text-[13px] overflow-x-auto rounded">
                 <p className="font-mono text-xs uppercase tracking-wider text-zinc-500 mb-2">
                   Usage Example
                 </p>
@@ -111,20 +111,20 @@ function ApiDocsSection() {
               <p className="text-zinc-400">sample success response</p>
               <div
                 id="success response"
-                className="bg-zinc-900 my-1 p-2 sm:p-4 border border-zinc-800 font-mono text-[13px] overflow-x-auto rounded"
+                className=" my-1 p-2 sm:p-4 border border-zinc-800 font-mono text-[13px] overflow-x-auto rounded"
               >
                 <pre className="text-emerald-400/90 whitespace-pre-wrap break-words">{item.responseexample}</pre>
               </div>
 
               <p className="text-zinc-400">sample error response</p>
-              <div className="bg-zinc-900 my-1 mb-3 p-2 sm:p-4 border border-zinc-800 font-mono text-[13px] overflow-x-auto rounded">
+              <div className=" my-1 mb-3 p-2 sm:p-4 border border-zinc-800 font-mono text-[13px] overflow-x-auto rounded">
                 <pre className="text-rose-400/90 whitespace-pre-wrap break-words">{item.errorexample}</pre>
               </div>
               {item.link ? (
                 <a
                   href={item.link}
                   target="_blank"
-                  className="text-black font-medium bg-zinc-300 p-2 rounded-md hover:text-2xl"
+                  className="text-black  bg-zinc-300 p-2 rounded-md hover:text-xl"
                 >
                   Sdk download
                 </a>

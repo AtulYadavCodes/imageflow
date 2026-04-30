@@ -43,17 +43,17 @@ function Filesandfolder() {
       fetchFolders();
     } catch (err) {
       console.log(err);
-    
+    }
   };
 
   return (
-    <section className="mx-auto w-full max-w-6xl px-4 py-12">
+    <section className="mx-auto w-full max-w-6xl px-4 py-6">
 
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
-        <h2 className="font-mono text-sm uppercase tracking-widest text-zinc-400">
-          Your Folders
-        </h2>
+        <h3 className="font-mono text-sm uppercase tracking-widest text-zinc-400 px-1">
+         ☰ Your Folders
+        </h3>
 
         <button
           onClick={() => setShowCreate(!showCreate)}
@@ -140,6 +140,5 @@ function Filesandfolder() {
      
     </section>
   );
-}
-
+} 
 export default Filesandfolder;

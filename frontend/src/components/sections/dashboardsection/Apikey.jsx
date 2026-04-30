@@ -124,14 +124,14 @@ function Apikey() {
         </div>
       )}
 
-      <div className="px-4 sm:px-6">
+      <div className="px-4 sm:px-6 py-1">
        
         <div className="max-w-5xl mx-auto mb-8 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
           <div>
-            <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">
-              API Keys
-            </h1>
-            <p className="text-sm text-zinc-500 mt-1">
+            <h3 className=" text-sm text-zinc-400 font-mono tracking-tight">
+              ☰ API Keys
+            </h3>
+            <p className="text-sm text-zinc-500 mt-1 px-2">
               Manage and revoke your access keys
             </p>
           </div>
