@@ -16,7 +16,7 @@ function TryoutSection({ KEY }) {
     grayscale: false,
     removebg: false,
   });
-  const [imgUrl, setImgUrl] = useState(`${import.meta.env.VITE_API_BASE}/images/path/69ebc3079eb919b4e9e88516/1_TMAo0Qpl4j9TaE3sDyBTLg.jpg`);
+  const [imgUrl, setImgUrl] = useState(KEY?`${import.meta.env.VITE_API_BASE}/images/path/${KEY}?`:`${import.meta.env.VITE_API_BASE}/images/path/69ebc3079eb919b4e9e88516/1_TMAo0Qpl4j9TaE3sDyBTLg.jpg`);
   const [lastForm, setLastForm] = useState(form);
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(false);
