@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import TryoutSection from "../TryoutSection";
+
 
 function Files() {
   const { foldername } = useParams();
 
   const [files, setFiles] = useState([]);
-  const [file, setFile] = useState(null);
+ 
   const [selectedImageKey, setSelectedImageKey] = useState(null);
-
+ 
+  const fileInputRef = useRef(null);
   // fetch files
   const fetchFiles = async () => {
     try {
@@ -31,7 +33,7 @@ function Files() {
   }, [foldername]);
 
   // upload
-  const handleUpload = async () => {
+  const handleUpload = async (file) => {
     if (!file) return;
 
     try {
@@ -41,7 +43,7 @@ function Files() {
 
       await imageflowuploadfunction(file, "", foldername);
 
-      setFile(null);
+     
       fetchFiles();
     } catch (err) {
       console.log(err);
@@ -49,18 +51,18 @@ function Files() {
   };
 
   return (
-    <section className="mx-auto w-full max-w-7xl px-4 py-10">
+    <section className=" mx-auto w-full max-w-7xl px-4 py-10">
 
-      {/* Header */}
+     
       <div className="mb-6 ">
         <h2 className="font-mono text-sm uppercase tracking-widest text-zinc-400">
-          Folder: {foldername}
+          Folder: {foldername} - [click on a file to open it in tryout section]
         </h2>
 
       </div>
 
-      {/* Images Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+      {/* Images   */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8"> 
         {files.length === 0 ? (
           <p className="text-zinc-600 font-mono text-sm">
             empty folder
@@ -77,25 +79,36 @@ function Files() {
           ))
         )}
       </div>
-
+      
       {/* Upload */}
-      <div className="max-w-md space-y-3">
-        <input
-          type="file"
-          onChange={(e) => setFile(e.target.files[0])}
-          className="w-full text-sm text-zinc-400"
-        />
+       <div className="max-w-full  sticky bottom-10 right-0 mb-4 flex justify-end">
 
-        <button
-          onClick={handleUpload}
-          disabled={!file}
-          className="w-full bg-yellow-400 text-black py-2 text-xs font-mono rounded-md"
-        >
-          Upload
-        </button>
-      </div>
+    
+    <input
+      type="file"
+      ref={fileInputRef}
+      onChange={(e) => {
+        const selected = e.target.files[0];
+       if(!selected) return;
 
-      {/* 🔥 Tryout Modal */}
+        
+
+        
+        handleUpload(selected);
+      }}
+      className="hidden"
+    />
+
+    {/* Visible button */}
+    <button
+      onClick={() => fileInputRef.current.click()}
+      className="w-30 bg-yellow-400 text-black py-2 text-xs font-mono rounded-md hover:bg-yellow-300 transition"
+    >
+      + Upload File
+    </button>
+
+  </div>
+
       {selectedImageKey && (
         <div
           className="fixed inset-0 z-[60] bg-black/80 backdrop-blur-sm overflow-y-auto"

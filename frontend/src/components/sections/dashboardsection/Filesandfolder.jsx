@@ -31,22 +31,7 @@ function Filesandfolder() {
 
   
 
-  const handleUpload = async () => {
-    if (!file || !selectedFolder) return;
-
-    try {
-      await imageflowuploadfunction(
-        file,
-        "",
-        selectedFolder.foldername
-      );
-      setFile(null);
-    
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
+  
   const handleCreateFolder = async () => {
     if (!file || !folderName) return;
 
@@ -58,7 +43,7 @@ function Filesandfolder() {
       fetchFolders();
     } catch (err) {
       console.log(err);
-    }
+    
   };
 
   return (
@@ -78,35 +63,62 @@ function Filesandfolder() {
         </button>
       </div>
 
-      {/* Create Panel */}
-      {showCreate && (
-        <div className="mb-6 rounded-xl border border-zinc-800 bg-zinc-950 p-4 space-y-3">
-          <p className="text-xs text-yellow-400 font-mono">
-            Upload a file to create a folder
-          </p>
+     {showCreate && (
+  <div className="mb-6 rounded-2xl border border-zinc-800 bg-zinc-950/80 backdrop-blur p-5 space-y-4 shadow-lg">
 
-          <input
-            placeholder="Folder name"
-            value={folderName}
-            onChange={(e) => setFolderName(e.target.value)}
-            className="w-full border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm text-white"
-          />
+    {/* Header */}
+    <div className="space-y-1">
+      <h3 className="text-sm font-mono text-yellow-400 tracking-wide">
+        Create Folder
+      </h3>
+      <p className="text-xs text-zinc-500">
+        Upload a file to initialize this folder
+      </p>
+    </div>
 
-          <input
-            type="file"
-            onChange={(e) => setFile(e.target.files[0])}
-            className="w-full text-sm text-zinc-400"
-          />
+    {/* Folder Name */}
+    <div className="space-y-1">
+      <label className="text-[11px] text-zinc-500 font-mono">
+        Folder Name
+      </label>
+      <input
+        placeholder="e.g. avatars / invoices / assets"
+        value={folderName}
+        onChange={(e) => setFolderName(e.target.value)}
+        className="w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm text-white outline-none focus:border-yellow-400 transition"
+      />
+    </div>
 
-          <button
-            onClick={handleCreateFolder}
-            disabled={!file || !folderName}
-            className="w-full bg-yellow-400 text-black py-2 text-xs font-mono rounded-md disabled:opacity-50"
-          >
-            Create & Upload
-          </button>
-        </div>
-      )}
+    {/* File Upload */}
+    <div className="space-y-1">
+      <label className="text-[11px] text-zinc-500 font-mono">
+        Upload File
+      </label>
+
+      <div className="relative flex items-center justify-center rounded-lg border border-dashed border-zinc-700 bg-zinc-900/50 px-4 py-6 text-center hover:border-yellow-400/40 transition cursor-pointer">
+        <input
+          type="file"
+          onChange={(e) => setFile(e.target.files[0])}
+          className="absolute inset-0 opacity-0 cursor-pointer"
+        />
+
+        <p className="text-xs text-zinc-400 font-mono">
+          {file ? file.name : "Click to upload or drag & drop"}
+        </p>
+      </div>
+    </div>
+
+    {/* Action */}
+    <button
+      onClick={handleCreateFolder}
+      disabled={!file || !folderName}
+      className="w-full rounded-lg bg-yellow-400 text-black py-2 text-xs font-mono font-semibold tracking-wide hover:bg-yellow-300 disabled:opacity-40 disabled:cursor-not-allowed transition"
+    >
+      Create & Upload
+    </button>
+
+  </div>
+)}
 
       {/* Folder Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
