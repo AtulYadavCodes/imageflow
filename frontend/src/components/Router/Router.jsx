@@ -24,6 +24,7 @@ import Apikey from "../sections/dashboardsection/Apikey";
 import UserProfile from "../sections/dashboardsection/UserProfile";
 import { Navigate } from "react-router-dom";
 
+import Files from "../sections/dashboardsection/Files";
 const BlockRoutefromLoggedinUser = ({ children }) => {
     const { isAuth } = useAuth();
     if (isAuth) return <Navigate to="/dashboard" replace />
@@ -43,7 +44,8 @@ export const router = createBrowserRouter([
                 children: [
                     { path: "", element: <Filesandfolder /> },
                     { path: "apikey", element: <Apikey /> },
-                    { path: "profile", element: <UserProfile /> }
+                    { path: "profile", element: <UserProfile /> },
+                    {path:"files/:foldername", element:<Files/>}
                 ]
             }
 
