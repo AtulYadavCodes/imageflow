@@ -76,12 +76,12 @@ function Apikey() {
     <div className="min-h-screen bg-zinc-950 text-zinc-200 font-mono px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
       {modal && (
         <div className="fixed inset-0  backdrop-blur-sm flex items-center justify-center z-30">
-          <div className="m-1 bg-zinc-900 border border-zinc-700 rounded-lg p-6 min-w-0 w-full max-w-md">
+          <div className="m-1  border border-zinc-700 rounded-lg p-6 min-w-0 w-full max-w-md">
             <h2 className="text-lg font-semibold mb-4 text-zinc-100">
               New API Key Created
             </h2>
             <p className="text-sm text-zinc-400 mb-2">Name: {newkey.name}</p>
-            <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 w-full max-w-md shadow-xl">
+            <div className="  border-zinc-800 rounded-xl p-6 w-full max-w-md shadow-xl">
               <h2 className="text-lg font-semibold text-zinc-100 mb-4">
                 API Key Created
               </h2>

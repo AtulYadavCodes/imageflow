@@ -16,7 +16,7 @@ function TryoutSection({ KEY }) {
     grayscale: false,
     removebg: false,
   });
-  const [imgUrl, setImgUrl] = useState(KEY?`${import.meta.env.VITE_API_BASE}/images/path/${KEY}?`:`${import.meta.env.VITE_API_BASE}/images/path/69ebc3079eb919b4e9e88516/1_TMAo0Qpl4j9TaE3sDyBTLg.jpg`);
+  const [imgUrl, setImgUrl] = useState(KEY?`https://imageflow.atulyadav.tech/images/path/${KEY}?`:`https://imageflow.atulyadav.tech/images/path/69ebc3079eb919b4e9e88516/1_TMAo0Qpl4j9TaE3sDyBTLg.jpg`);
   const [lastForm, setLastForm] = useState(form);
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -64,8 +64,8 @@ function TryoutSection({ KEY }) {
     }
     setLoading(true);
     const baseUrl = KEY
-      ? `${import.meta.env.VITE_API_BASE}/images/path/${KEY}?`
-      : `${import.meta.env.VITE_API_BASE}/images/path/69ebc3079eb919b4e9e88516/1_TMAo0Qpl4j9TaE3sDyBTLg.jpg?`;
+      ? `https://imageflow.atulyadav.tech/images/path/${KEY}?`
+      : `https://imageflow.atulyadav.tech/images/path/69ebc3079eb919b4e9e88516/1_TMAo0Qpl4j9TaE3sDyBTLg.jpg?`;
     let url = baseUrl;
     let query = "";
     if (form.width) query += `&width=${form.width}`;
@@ -162,7 +162,7 @@ function TryoutSection({ KEY }) {
           <div className="w-full flex flex-col items-center mt-6">
             <p className="font-mono text-xs uppercase tracking-[0.12em] text-zinc-400 mb-1 text-center">Image URL</p>
             <div className="break-all rounded bg-zinc-950 border border-zinc-800 px-3 py-2 text-xs text-zinc-200 select-all text-center max-w-full flex items-center justify-between gap-2">
-              <span className="truncate text-left w-full">{imgUrl}</span>
+              <span className="truncate text-left w-full">...{imgUrl.slice(24)}</span>
               <button
                 onClick={handleCopy}
                 className="ml-2 px-2 py-1 rounded bg-zinc-800 border border-zinc-600 text-xs text-zinc-200 hover:bg-zinc-700 transition whitespace-nowrap"
