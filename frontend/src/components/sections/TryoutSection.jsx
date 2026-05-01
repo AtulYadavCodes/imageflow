@@ -69,21 +69,17 @@ function TryoutSection({ KEY }) {
       ? `https://imageflow.atulyadav.tech/images/path/${KEY}?`
       : `https://imageflow.atulyadav.tech/images/path/69ebc3079eb919b4e9e88516/1_TMAo0Qpl4j9TaE3sDyBTLg.jpg?`;
     let url = baseUrl;
-    // If preset is chosen, use only preset and ignore other fields
-    if (form.preset) {
-      url = `${baseUrl}&preset=${encodeURIComponent(form.preset)}`;
-    } else {
-      let query = "";
-      if (form.width) query += `&width=${form.width}`;
-      if (form.height) query += `&height=${form.height}`;
-      if (form.blur) query += `&blur=${form.blur}`;
-      if (form.rotate) query += `&rotate=${form.rotate}`;
-      if (form.fit) query += `&fit=${form.fit}`;
-      if (form.format) query += `&format=${form.format}`;
-      if (form.grayscale) query += `&gray=true`;
-      if (form.removebg) query += `&removebg=true`;
-      if (query) url = `${baseUrl}${query}`;
-    }
+    let query = "";
+    if (form.preset) query += `&preset=${encodeURIComponent(form.preset)}`;
+    if (!form.preset && form.width) query += `&width=${form.width}`;
+    if (!form.preset && form.height) query += `&height=${form.height}`;
+    if (form.blur) query += `&blur=${form.blur}`;
+    if (form.rotate) query += `&rotate=${form.rotate}`;
+    if (!form.preset && form.fit) query += `&fit=${form.fit}`;
+    if (!form.preset && form.format) query += `&format=${form.format}`;
+    if (form.grayscale) query += `&gray=true`;
+    if (form.removebg) query += `&removebg=true`;
+    if (query) url = `${baseUrl}${query}`;
     setImgUrl(url);
     setLastForm({ ...form });
   };
@@ -144,11 +140,11 @@ function TryoutSection({ KEY }) {
             </div>
             <div className="flex items-center gap-4">
               <label className="flex items-center gap-2 text-zinc-200">
-                <input  type="checkbox" name="grayscale" checked={form.grayscale} onChange={handleChange} />
+                <input type="checkbox" name="grayscale" checked={form.grayscale} onChange={handleChange} />
                 Black & White
               </label>
               <label className="flex items-center gap-2 text-zinc-200">
-                <input  type="checkbox" name="removebg" checked={form.removebg} onChange={handleChange} />
+                <input type="checkbox" name="removebg" checked={form.removebg} onChange={handleChange} />
                 Remove BG
               </label>
             </div>

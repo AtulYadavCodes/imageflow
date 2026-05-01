@@ -37,8 +37,6 @@ const imagetransf = asyncHandler(async (req, res) => {
   const preset = req.query.preset?.toLowerCase();
   const presetTransform = PRESETS[preset];
 
-  
-
   const {
     removebg,
     gray,
@@ -89,30 +87,30 @@ const imagetransf = asyncHandler(async (req, res) => {
     if (gray == "true") picpipeline = picpipeline.greyscale();
 
     if (presetTransform) {
-    picpipeline = picpipeline.resize({
-      width: presetTransform.width,
-      height: presetTransform.height,
-      fit: presetTransform.fit,
-    });
-    picpipeline = picpipeline.toFormat(presetTransform.format);
-  }
-  else {
-    if (width && height)
       picpipeline = picpipeline.resize({
-        width: Number(width),
-        height: Number(height),
-        fit: fit,
+        width: presetTransform.width,
+        height: presetTransform.height,
+        fit: presetTransform.fit,
       });
-    else if (width) picpipeline = picpipeline.resize({ width: Number(width) });
-    else if (height)
-      picpipeline = picpipeline.resize({ height: Number(height) });
-    if (format) picpipeline = picpipeline.toFormat(format);
-}
+      picpipeline = picpipeline.toFormat(presetTransform.format);
+    } else {
+      if (width && height)
+        picpipeline = picpipeline.resize({
+          width: Number(width),
+          height: Number(height),
+          fit: fit,
+        });
+      else if (width)
+        picpipeline = picpipeline.resize({ width: Number(width) });
+      else if (height)
+        picpipeline = picpipeline.resize({ height: Number(height) });
+      if (format) picpipeline = picpipeline.toFormat(format);
+    }
 
     if (rotate) picpipeline = picpipeline.rotate(Number(rotate));
 
     if (blur) picpipeline = picpipeline.blur(Number(blur));
-    
+
     res.setHeader("Content-Type", `image/${format || "jpeg"}`);
     await pipeline(removebgresponse, picpipeline, res);
   } else {
@@ -126,25 +124,25 @@ const imagetransf = asyncHandler(async (req, res) => {
 
     if (gray == "true") picpipeline = picpipeline.greyscale();
     if (presetTransform) {
-    picpipeline = picpipeline.resize({
-      width: presetTransform.width,
-      height: presetTransform.height,
-      fit: presetTransform.fit,
-    });
-    picpipeline = picpipeline.toFormat(presetTransform.format);
-  }
-  else {
-    if (width && height)
       picpipeline = picpipeline.resize({
-        width: Number(width),
-        height: Number(height),
-        fit: fit,
+        width: presetTransform.width,
+        height: presetTransform.height,
+        fit: presetTransform.fit,
       });
-    else if (width) picpipeline = picpipeline.resize({ width: Number(width) });
-    else if (height)
-      picpipeline = picpipeline.resize({ height: Number(height) });
-    if (format) picpipeline = picpipeline.toFormat(format);
-}
+      picpipeline = picpipeline.toFormat(presetTransform.format);
+    } else {
+      if (width && height)
+        picpipeline = picpipeline.resize({
+          width: Number(width),
+          height: Number(height),
+          fit: fit,
+        });
+      else if (width)
+        picpipeline = picpipeline.resize({ width: Number(width) });
+      else if (height)
+        picpipeline = picpipeline.resize({ height: Number(height) });
+      if (format) picpipeline = picpipeline.toFormat(format);
+    }
 
     if (blur) picpipeline = picpipeline.blur(Number(blur));
     res.setHeader("Content-Type", `image/${format || "jpeg"}`);
