@@ -1,7 +1,10 @@
 import { HashLink } from 'react-router-hash-link'
 
+import { useAuth } from '../../Context/LoginContext';
 import { toast } from "react-toastify";
+
 function ApiKeySection() {
+  const { isAuth } = useAuth();
   return (
     <section id="api-key" className="mx-auto w-full max-w-7xl px-4 py-4 sm:px-6 lg:px-8 lg:py-6">
       <div className="flex flex-col items-start justify-between gap-4 border-2 border-zinc-700  p-5 sm:flex-row sm:items-center">
@@ -11,7 +14,7 @@ function ApiKeySection() {
         </div>
 
         <HashLink
-         onClick={()=>toast.error("Please login to access the dashboard")}
+         onClick={()=>isAuth?toast.error("Please login to access the dashboard"):null}
           to="/dashboard/apikey"
           className="rounded-md border border-zinc-500 bg-zinc-100 px-3 py-2 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-zinc-900 transition hover:bg-zinc-200"
         >
