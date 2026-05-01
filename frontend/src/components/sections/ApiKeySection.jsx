@@ -1,5 +1,6 @@
 import { HashLink } from 'react-router-hash-link'
 
+import { toast } from "react-toastify";
 function ApiKeySection() {
   return (
     <section id="api-key" className="mx-auto w-full max-w-7xl px-4 py-4 sm:px-6 lg:px-8 lg:py-6">
@@ -10,6 +11,7 @@ function ApiKeySection() {
         </div>
 
         <HashLink
+         onClick={()=>toast.error("Please login to access the dashboard")}
           to="/dashboard/apikey"
           className="rounded-md border border-zinc-500 bg-zinc-100 px-3 py-2 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-zinc-900 transition hover:bg-zinc-200"
         >
