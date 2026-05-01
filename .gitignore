@@ -119,7 +119,6 @@ dist
 
 # End of https://mrkandreev.name/snippets/gitignore-generator/#Node
 
-public/temp
 
 # Logs
 logs
