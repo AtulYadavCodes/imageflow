@@ -121,8 +121,8 @@ function TryoutSection({ KEY }) {
             <div className="grid grid-cols-2 gap-4">
               <input disabled={!!form.preset} type="number" name="width" value={form.width} onChange={handleChange} placeholder="Width" className="w-full border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-200 outline-none focus:border-zinc-500" />
               <input disabled={!!form.preset} type="number" name="height" value={form.height} onChange={handleChange} placeholder="Height" className="w-full border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-200 outline-none focus:border-zinc-500" />
-              <input type="number" name="blur" value={form.blur} onChange={handleChange} placeholder="Blur" className="w-full border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-200 outline-none focus:border-zinc-500" />
-              <input type="number" name="rotate" value={form.rotate} onChange={handleChange} placeholder="Rotate" className="w-full border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-200 outline-none focus:border-zinc-500" />
+              <input disabled={!!form.preset} type="number" name="blur" value={form.blur} onChange={handleChange} placeholder="Blur" className="w-full border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-200 outline-none focus:border-zinc-500" />
+              <input disabled={!!form.preset} type="number" name="rotate" value={form.rotate} onChange={handleChange} placeholder="Rotate" className="w-full border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-200 outline-none focus:border-zinc-500" />
               {(form.width && form.height) && (
                 <select disabled={!!form.preset} name="fit" value={form.fit} onChange={handleChange} className="w-full border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-200 outline-none focus:border-zinc-500">
                   <option value="">Fit (optional)</option>
