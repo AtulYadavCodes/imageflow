@@ -26,7 +26,7 @@ const docs = [
   // FILES
   {
     title: "Get All Files",
-    usageExample: `// Using axios\naxios.get(\`${import.meta.env.VITE_API_BASE}/api/v1/folders/getalluserfiles?page=2&limit=20&sortby=createdAT&sorttype=desc\`, {\n  headers: {\n    Authorization: 'Bearer <YOUR_API_KEY>'\n  }\n})\n.then(res => console.log(res.data))\n.catch(err => console.error(err));\n\n// Using fetch\nfetch(\`${import.meta.env.VITE_API_BASE}/api/v1/folders/getalluserfolders\`, {\n  headers: {\n    Authorization: 'Bearer <YOUR_API_KEY>'\n  }\n})\n.then(res => res.json())\n.then(data => console.log(data))\n.catch(err => console.error(err));`,
+    usageExample: `// Using axios\naxios.get(\`https://www.imageflow.atulyadav.tech/api/v1/folders/getalluserfiles?page=2&limit=20&sortby=createdAT&sorttype=desc\`, {\n  headers: {\n    Authorization: 'Bearer <YOUR_API_KEY>'\n  }\n})\n.then(res => console.log(res.data))\n.catch(err => console.error(err));\n\n// Using fetch\nfetch(\`https://www.imageflow.atulyadav.tech/api/v1/folders/getalluserfolders\`, {\n  headers: {\n    Authorization: 'Bearer <YOUR_API_KEY>'\n  }\n})\n.then(res => res.json())\n.then(data => console.log(data))\n.catch(err => console.error(err));`,
     detail: "Paginated fetch of user files with sorting support.",
     responseexample: `{\n "statusCode": 200,\n "message": "Operation successful",\n "data": [{ ... }{....}]\n }`,
     errorexample: `{\n "statusCode": 401,\n "message": "Unauthorized - Invalid API key",\n "error":[...]\n }`,
@@ -35,14 +35,14 @@ const docs = [
   // FOLDERS
   {
     title: "List Folders",
-    usageExample: `// Using axios\naxios.get(\`${import.meta.env.VITE_API_BASE}/api/v1/folders/getalluserfolders\`, {\n  headers: {\n    Authorization: 'Bearer <YOUR_API_KEY>'\n  }\n})\n.then(res => console.log(res.data))\n.catch(err => console.error(err));\n\n// Using fetch\nfetch(\`${import.meta.env.VITE_API_BASE}/api/v1/folders/getalluserfolders\`, {\n  headers: {\n    Authorization: 'Bearer <YOUR_API_KEY>'\n  }\n})\n.then(res => res.json())\n.then(data => console.log(data))\n.catch(err => console.error(err));                                               `,
+    usageExample: `// Using axios\naxios.get(\`https://www.imageflow.atulyadav.tech/api/v1/folders/getalluserfolders\`, {\n  headers: {\n    Authorization: 'Bearer <YOUR_API_KEY>'\n  }\n})\n.then(res => console.log(res.data))\n.catch(err => console.error(err));\n\n// Using fetch\nfetch(\`https://www.imageflow.atulyadav.tech/api/v1/folders/getalluserfolders\`, {\n  headers: {\n    Authorization: 'Bearer <YOUR_API_KEY>'\n  }\n})\n.then(res => res.json())\n.then(data => console.log(data))\n.catch(err => console.error(err));                                               `,
     detail: "Retrieve all folders for current user.",
     responseexample: `{\n "statusCode": 200,\n "message": "Operation successful",\n "data": [{ ... }{...}]\n }`,
     errorexample: `{\n "statusCode": 401,\n "message": "Unauthorized - Invalid API key",\n "error":[...]\n }`,
   },
   {
     title: "Files in Folder",
-    usageExample: `// Using axios\naxios.get(\`${import.meta.env.VITE_API_BASE}/api/v1/folders/getallfilesinfolder/:foldername\`, {\n  headers: {\n    Authorization: 'Bearer <YOUR_API_KEY>'\n  }\n})\n.then(res => console.log(res.data))\n.catch(err => console.error(err));\n\n// Using fetch\nfetch(\`${import.meta.env.VITE_API_BASE}/api/v1/folders/getalluserfolders\`, {\n  headers: {\n    Authorization: 'Bearer <YOUR_API_KEY>'\n  }\n})\n.then(res => res.json())\n.then(data => console.log(data))\n.catch(err => console.error(err));`,
+    usageExample: `// Using axios\naxios.get(\`https://www.imageflow.atulyadav.tech/api/v1/folders/getallfilesinfolder/:foldername\`, {\n  headers: {\n    Authorization: 'Bearer <YOUR_API_KEY>'\n  }\n})\n.then(res => console.log(res.data))\n.catch(err => console.error(err));\n\n// Using fetch\nfetch(\`https://www.imageflow.atulyadav.tech/api/v1/folders/getalluserfolders\`, {\n  headers: {\n    Authorization: 'Bearer <YOUR_API_KEY>'\n  }\n})\n.then(res => res.json())\n.then(data => console.log(data))\n.catch(err => console.error(err));`,
     detail: "Get all files belonging to a specific folder.",
     responseexample: `{\n "statusCode": 200,\n "message": "Operation successful",\n "data": [{ ... }{...}]\n }`,
     errorexample: `{\n "statusCode": 404,\n "message": "Folder not found",\n "error":[...]\n }`,
@@ -50,30 +50,14 @@ const docs = [
 
   // TRANSFORM
   {
-  title: "Image Transform",
-  usageExample: `// Using axios
-axios.get('<API_BASE>/images/path/key?preset=thumbnail')
-.then(res => console.log(res.data))
-.catch(err => console.error(err));
-
-// Using fetch
-fetch('<API_BASE>/images/path/key?preset=profile')
-.then(res => res.blob())
-.then(data => console.log(data))
-.catch(err => console.error(err));
-
-// inside image tag
-// src would be <API_BASE>/images/path/key?preset=banner`,
-  detail:
-    "Stream-based image transformation. Supports width, height, fit, format, blur, grayscale, rotate, removebg via query params. Also supports presets (thumbnail, profile, banner).",
-
-  responseexample: `Returns the transformed image stream directly in the response.`,
-  errorexample: `{
- "statusCode": 400,
- "message": "Bad Request - Invalid transformation parameter",
- "error":[...]
- }`,
-},
+    title: "Image Transform",
+    usageExample: `// Using axios\naxios.get(\`https://www.imageflow.atulyadav.tech/images/path/key?height=100&width=100&fit=cover\`\n.then(res => console.log(res.data))\n.catch(err => console.error(err));\n\n// Using fetch\nfetch(\`https://www.imageflow.atulyadav.tech/images/path/key?removebg=true&grayscale=true\`)\n.then(res => res.json())\n.then(data => console.log(data))\n.catch(err => console.error(err)); \n \n//inside image tag \n\nsrc would be https://www.imageflow.atulyadav.tech/images/path/key?query `,
+    detail:
+      "Stream-based image transformation. Supports width, height, fit, format, blur, grayscale, rotate, removebg via query params.Also supports preset transformations that is thumbnail, profilepic, banner via query params. For example, to apply the thumbnail preset, the URL would be https://www.imageflow.atulyadav.tech/images/path/key?preset=thumbnail",
+    note: "This is the core of ImageFlow. All transformations happen here via URL query parameters.",
+    responseexample: `Returns the transformed image stream directly in the response.`,
+    errorexample: `{\n "statusCode": 400,\n "message": "Bad Request - Invalid transformation parameter",\n "error":[...]\n }`,
+  },
 ];
 
 function ApiDocsSection() {

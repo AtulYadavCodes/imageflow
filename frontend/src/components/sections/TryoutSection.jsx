@@ -7,6 +7,7 @@ import { useState } from "react";
 
 function TryoutSection({ KEY }) {
   const [form, setForm] = useState({
+    preset: "",
     width: "",
     height: "",
     blur: "",
@@ -16,7 +17,7 @@ function TryoutSection({ KEY }) {
     grayscale: false,
     removebg: false,
   });
-  const [imgUrl, setImgUrl] = useState(KEY?`https://imageflow.atulyadav.tech/images/path/${KEY}?`:`https://imageflow.atulyadav.tech/images/path/69ebc3079eb919b4e9e88516/1_TMAo0Qpl4j9TaE3sDyBTLg.jpg`);
+  const [imgUrl, setImgUrl] = useState(KEY ? `https://imageflow.atulyadav.tech/images/path/${KEY}?` : `https://imageflow.atulyadav.tech/images/path/69ebc3079eb919b4e9e88516/1_TMAo0Qpl4j9TaE3sDyBTLg.jpg`);
   const [lastForm, setLastForm] = useState(form);
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -44,6 +45,7 @@ function TryoutSection({ KEY }) {
   // Helper to compare two form objects
   const isFormChanged = (a, b) => {
     return (
+      a.preset !== b.preset ||
       a.width !== b.width ||
       a.height !== b.height ||
       a.blur !== b.blur ||
@@ -67,16 +69,21 @@ function TryoutSection({ KEY }) {
       ? `https://imageflow.atulyadav.tech/images/path/${KEY}?`
       : `https://imageflow.atulyadav.tech/images/path/69ebc3079eb919b4e9e88516/1_TMAo0Qpl4j9TaE3sDyBTLg.jpg?`;
     let url = baseUrl;
-    let query = "";
-    if (form.width) query += `&width=${form.width}`;
-    if (form.height) query += `&height=${form.height}`;
-    if (form.blur) query += `&blur=${form.blur}`;
-    if (form.rotate) query += `&rotate=${form.rotate}`;
-    if (form.fit) query += `&fit=${form.fit}`;
-    if (form.format) query += `&format=${form.format}`;
-    if (form.grayscale) query += `&gray=true`;
-    if (form.removebg) query += `&removebg=true`;
-    if (query) url = `${baseUrl}${query}`;
+    // If preset is chosen, use only preset and ignore other fields
+    if (form.preset) {
+      url = `${baseUrl}&preset=${encodeURIComponent(form.preset)}`;
+    } else {
+      let query = "";
+      if (form.width) query += `&width=${form.width}`;
+      if (form.height) query += `&height=${form.height}`;
+      if (form.blur) query += `&blur=${form.blur}`;
+      if (form.rotate) query += `&rotate=${form.rotate}`;
+      if (form.fit) query += `&fit=${form.fit}`;
+      if (form.format) query += `&format=${form.format}`;
+      if (form.grayscale) query += `&gray=true`;
+      if (form.removebg) query += `&removebg=true`;
+      if (query) url = `${baseUrl}${query}`;
+    }
     setImgUrl(url);
     setLastForm({ ...form });
   };
@@ -102,13 +109,22 @@ function TryoutSection({ KEY }) {
             </div>
           </div>
           <form className="space-y-4" onSubmit={handleSubmit}>
+            <div className="grid grid-cols-1 gap-2">
+              <label className="text-xs text-zinc-400">Preset</label>
+              <select name="preset" value={form.preset} onChange={handleChange} className="w-full border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-200 outline-none focus:border-zinc-500">
+                <option value="">(none)</option>
+                <option value="thumbnail">thumbnail (300x300 webp)</option>
+                <option value="profile">profile (400x400 webp)</option>
+                <option value="banner">banner (1200x400 webp)</option>
+              </select>
+            </div>
             <div className="grid grid-cols-2 gap-4">
-              <input type="number" name="width" value={form.width} onChange={handleChange} placeholder="Width" className="w-full border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-200 outline-none focus:border-zinc-500" />
-              <input type="number" name="height" value={form.height} onChange={handleChange} placeholder="Height" className="w-full border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-200 outline-none focus:border-zinc-500" />
+              <input disabled={!!form.preset} type="number" name="width" value={form.width} onChange={handleChange} placeholder="Width" className="w-full border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-200 outline-none focus:border-zinc-500" />
+              <input disabled={!!form.preset} type="number" name="height" value={form.height} onChange={handleChange} placeholder="Height" className="w-full border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-200 outline-none focus:border-zinc-500" />
               <input type="number" name="blur" value={form.blur} onChange={handleChange} placeholder="Blur" className="w-full border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-200 outline-none focus:border-zinc-500" />
               <input type="number" name="rotate" value={form.rotate} onChange={handleChange} placeholder="Rotate" className="w-full border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-200 outline-none focus:border-zinc-500" />
               {(form.width && form.height) && (
-                <select name="fit" value={form.fit} onChange={handleChange} className="w-full border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-200 outline-none focus:border-zinc-500">
+                <select disabled={!!form.preset} name="fit" value={form.fit} onChange={handleChange} className="w-full border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-200 outline-none focus:border-zinc-500">
                   <option value="">Fit (optional)</option>
                   <option value="cover">cover</option>
                   <option value="contain">contain</option>
@@ -117,7 +133,7 @@ function TryoutSection({ KEY }) {
                   <option value="outside">outside</option>
                 </select>
               )}
-              <select name="format" value={form.format} onChange={handleChange} className="w-full border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-200 outline-none focus:border-zinc-500">
+              <select disabled={!!form.preset} name="format" value={form.format} onChange={handleChange} className="w-full border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-200 outline-none focus:border-zinc-500">
                 <option value="">Format (optional)</option>
                 <option value="jpeg">jpeg</option>
                 <option value="png">png</option>
@@ -128,11 +144,11 @@ function TryoutSection({ KEY }) {
             </div>
             <div className="flex items-center gap-4">
               <label className="flex items-center gap-2 text-zinc-200">
-                <input type="checkbox" name="grayscale" checked={form.grayscale} onChange={handleChange} />
+                <input disabled={!!form.preset} type="checkbox" name="grayscale" checked={form.grayscale} onChange={handleChange} />
                 Black & White
               </label>
               <label className="flex items-center gap-2 text-zinc-200">
-                <input type="checkbox" name="removebg" checked={form.removebg} onChange={handleChange} />
+                <input disabled={!!form.preset} type="checkbox" name="removebg" checked={form.removebg} onChange={handleChange} />
                 Remove BG
               </label>
             </div>
