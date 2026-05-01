@@ -53,7 +53,7 @@ const docs = [
     title: "Image Transform",
     usageExample: `// Using axios\naxios.get(\`https://www.imageflow.atulyadav.tech/images/path/key?height=100&width=100&fit=cover\`\n.then(res => console.log(res.data))\n.catch(err => console.error(err));\n\n// Using fetch\nfetch(\`https://www.imageflow.atulyadav.tech/images/path/key?removebg=true&grayscale=true\`)\n.then(res => res.json())\n.then(data => console.log(data))\n.catch(err => console.error(err)); \n \n//inside image tag \n\nsrc would be https://www.imageflow.atulyadav.tech/images/path/key?query `,
     detail:
-      "Stream-based image transformation. Supports width, height, fit, format, blur, grayscale, rotate, removebg via query params.Also supports preset transformations that is thumbnail, profilepic, banner via query params. For example, to apply the thumbnail preset, the URL would be https://www.imageflow.atulyadav.tech/images/path/key?preset=thumbnail",
+      "Stream-based image transformation. Supports width, height, fit, format, blur, grayscale, rotate, removebg via query params.Also supports preset transformations that is thumbnail, profilepic, banner via query params. For example, to apply the thumbnail preset, the URL would be https://www.imageflow.atulyadav.tech/images/path/key?preset=thumbnail, if applied then height width and format and fit query params will be ignored and the preset values will be applied.",
     note: "This is the core of ImageFlow. All transformations happen here via URL query parameters.",
     responseexample: `Returns the transformed image stream directly in the response.`,
     errorexample: `{\n "statusCode": 400,\n "message": "Bad Request - Invalid transformation parameter",\n "error":[...]\n }`,
