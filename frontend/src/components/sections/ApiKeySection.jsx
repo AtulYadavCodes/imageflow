@@ -14,7 +14,7 @@ function ApiKeySection() {
         </div>
 
         <HashLink
-         onClick={()=>isAuth?toast.error("Please login to access the dashboard"):null}
+         onClick={()=>!isAuth?toast.error("Please login to access the dashboard"):null}
           to="/dashboard/apikey"
           className="rounded-md border border-zinc-500 bg-zinc-100 px-3 py-2 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-zinc-900 transition hover:bg-zinc-200"
         >
