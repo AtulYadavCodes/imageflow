@@ -12,7 +12,52 @@ import { removeBg } from "../utils/backgroundai.js";
 
 import { pipeline } from "stream/promises";
 
+const PRESETS = {
+  thumbnail: {
+    width: 300,
+    height: 300,
+    fit: "cover",
+    format: "webp",
+  },
+  profile: {
+    width: 400,
+    height: 400,
+    fit: "cover",
+    format: "webp",
+  },
+  banner: {
+    width: 1200,
+    height: 400,
+    fit: "cover",
+    format: "webp",
+  },
+};
+
 const imagetransf = asyncHandler(async (req, res) => {
+  const preset = req.query.preset?.toLowerCase();
+  const presetTransform = PRESETS[preset];
+
+  if (presetTransform) {
+    const fileobject = await s3.send(
+      new GetObjectCommand({
+        Bucket: process.env.AWS_BUCKET_NAME,
+        Key: req.params.key.join("/"),
+      }),
+    );
+
+    let picpipeline = sharp();
+    picpipeline = picpipeline.resize({
+      width: presetTransform.width,
+      height: presetTransform.height,
+      fit: presetTransform.fit,
+    });
+    picpipeline = picpipeline.toFormat(presetTransform.format);
+
+    res.setHeader("Content-Type", `image/${presetTransform.format}`);
+    fileobject.Body.pipe(picpipeline).pipe(res);
+    return;
+  }
+
   const {
     removebg,
     gray,
@@ -42,12 +87,18 @@ const imagetransf = asyncHandler(async (req, res) => {
       [],
     );
   }
-  if(fit && !["cover", "contain", "fill", "inside", "outside"].includes(fit.toLowerCase()))
-  {    throw new errorhandler(
-    400,
-    "Invalid fit. Supported fits are cover, contain, fill, inside, outside",
-    [],
-  );}
+  if (
+    fit &&
+    !["cover", "contain", "fill", "inside", "outside"].includes(
+      fit.toLowerCase(),
+    )
+  ) {
+    throw new errorhandler(
+      400,
+      "Invalid fit. Supported fits are cover, contain, fill, inside, outside",
+      [],
+    );
+  }
 
   if (removebg === "true") {
     const pathtofile = await getFileFromS3(req.params.key.join("/")); //get path of file from s3

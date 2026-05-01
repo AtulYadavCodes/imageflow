@@ -93,9 +93,10 @@ Important:
 
 ### Image Transform
 
-| Method | Route              | Secured | Payload                                 | Query Params                                        | Notes                                                                         |
-| ------ | ------------------ | ------- | --------------------------------------- | --------------------------------------------------- | ----------------------------------------------------------------------------- |
-| GET    | /images/path/\*key | No      | key in URL param (supports nested path) | width, height, rotate, blur, gray, format, removebg | Real-time stream transform with Sharp; optional grayscale and remove.bg steps |
+| Method | Route              | Secured | Payload                                 | Query Params                                                | Notes                                                                               |
+| ------ | ------------------ | ------- | --------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| GET    | /images/path/\*key | No      | key in URL param (supports nested path) | width, height, rotate, blur, gray, format, removebg         | Real-time stream transform with Sharp; optional grayscale and remove.bg steps       |
+| GET    | /images/path/\*key | No      | key in URL param (supports nested path) | preset, width, height, rotate, blur, gray, format, removebg | Real-time stream transform with Sharp; preset overrides all other transform queries |
 
 # Sharp Real-Time Stream Pipeline
 
@@ -124,6 +125,13 @@ Transform query parameter reference:
 - `gray`: Set to `true` to convert output to grayscale.
 - `width`: Target width in pixels (number).
 - `height`: Target height in pixels (number).
+- `preset`: Shortcut transform profile. Supported values: `thumbnail`, `profile`, `banner`. When present, all other transform query params are ignored.
+
+Preset defaults:
+
+- `thumbnail`: `300x300`, `cover`, `webp`
+- `profile`: `400x400`, `cover`, `webp`
+- `banner`: `1200x400`, `cover`, `webp`
 - `fit`: Resize behavior when both width and height are provided. Supported values:
   - `cover` (default): Crop to fill dimensions
   - `contain`: Fit inside without cropping (may add padding)
@@ -153,8 +161,8 @@ curl "http://localhost:3000/images/path/<key-received-on-upload>?removebg=true&r
 # Grayscale + resize
 curl "http://localhost:3000/images/path/<key-received-on-upload>?gray=true&width=800&format=jpeg" --output gray.jpg
 ```
-#
 
+#
 
 ```mermaid
 flowchart LR
