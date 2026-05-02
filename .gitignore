@@ -144,3 +144,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+_pycache__
+*.pyc
