@@ -28,6 +28,7 @@ ImageFlow is a Developer first modern, media pipeline inspired by ImageKit. It p
 - Rate limiting and caching: Redis-backed rate limiting for authentication and API endpoints.
 - Centralized error handling: Consistent, structured API responses for success and error cases.
 - Frontend web app: User-friendly UI for non-developers to upload, manage, and transform files.
+- AI-assisted query handling: Users can describe what they want in plain English, and the AI interprets the request and returns the right output when the required parameters are available.
 - Developer SDKs: Official browser and Node.js SDKs for seamless integration ([SDK repo](https://github.com/AtulYadavCodes/imageflowsdk)).
 - Secure by design: Passwords and API keys are always hashed; CORS and cookie security best practices.
 - Extensible architecture: Modular Express.js backend, ready for new features and integrations.
@@ -121,7 +122,7 @@ This route is also stored in the database as the user file link, so clients can 
 
 Transform query parameter reference:
 
-- `removebg`: Set to `true` to remove image background before other transforms.
+- `ai`: Add a natural-language request with `?ai=<your request>` and the AI will interpret it using the available image parameters.
 - `gray`: Set to `true` to convert output to grayscale.
 - `width`: Target width in pixels (number).
 - `height`: Target height in pixels (number).
@@ -152,6 +153,9 @@ Parameter behavior notes:
 Transform examples:
 
 ```bash
+# AI-assisted request
+curl "http://localhost:3000/images/path/<key-received-on-upload>?ai=make height 100 and width 200"
+
 # Resize + format convert
 curl "http://localhost:3000/images/path/<key-received-on-upload>?width=900&format=webp" --output transformed.webp
 
