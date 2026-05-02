@@ -22,7 +22,7 @@ BASE_URL = DOMAIN
 async def handle_image_request(key: str, request: Request):
     try:
  
-        target_url = f"https://{BASE_URL}/images/path/{key}"
+        target_url = f"https://{BASE_URL}/nodeimages/path/{key}"
 
        
         query_params = dict(request.query_params)
