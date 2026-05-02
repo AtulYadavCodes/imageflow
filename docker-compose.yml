@@ -18,3 +18,12 @@ services:
      replicas: 3
     env_file:
       - ./backend/.env
+  ai:
+    build: ./ai
+    ports:
+      - "8000:8000"
+    restart: always
+    deploy:
+     replicas: 1
+    environment:
+      - DOMAIN=www.imageflow.atulyadav.tech
