@@ -11,6 +11,10 @@
 ![AWS S3](https://img.shields.io/badge/AWS%20S3-Avatar%20%2B%20File%20Storage-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)
 ![Sharp](https://img.shields.io/badge/Sharp-Image%20Transform-99CC00?style=for-the-badge&logo=sharp&logoColor=white)
 ![Auth](https://img.shields.io/badge/Auth-JWT%20%2B%20API%20Key-F59E0B?style=for-the-badge)
+![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi&logoColor=white)
+![OpenRouter](https://img.shields.io/badge/OpenRouter-000000?style=for-the-badge&logo=openrouter&logoColor=white)
+![OpenAI API](https://img.shields.io/badge/OpenAI_API-412991?style=for-the-badge&logo=openai&logoColor=white)
 
 ImageFlow is a Developer first modern, media pipeline inspired by ImageKit. It provides secure file management, real-time image transformation, and developer-friendly APIs with Api Key Management and Sdks for both web and backend integrations.
 
