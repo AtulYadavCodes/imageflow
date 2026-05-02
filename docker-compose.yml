@@ -12,7 +12,7 @@ services:
     volumes:
       - ./my_local_uploads:/home/node/app/uploads
     ports:
-      - "3000-3002:3000"
+      - "3000:3000"
     restart: always
     deploy:
      replicas: 1
