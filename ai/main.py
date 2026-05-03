@@ -4,8 +4,126 @@ import httpx
 import os
 from dotenv import load_dotenv
 from urllib.parse import urlencode
+from openai import OpenAI
 
 app = FastAPI(title="ImageFlow AI Service")
+
+def get_openrouter_client() -> OpenAI:
+    api_key = os.getenv("OPENROUTER_API_KEY")
+    if not api_key:
+        raise RuntimeError("OPENROUTER_API_KEY is not set")
+
+    return OpenAI(
+        base_url="https://openrouter.ai/api/v1",
+        api_key=api_key,
+    )
+
+
+def build_ai_response(prompt: str):
+    client = get_openrouter_client()
+    site_url = os.getenv("OPENROUTER_SITE_URL", "")
+    site_name = os.getenv("OPENROUTER_SITE_NAME", "ImageFlow")
+
+    completion = client.chat.completions.create(
+        extra_headers={
+            "HTTP-Referer": site_url,
+            "X-OpenRouter-Title": site_name,
+        },
+        model="poolside/laguna-m.1:free",
+       messages=[
+    {
+        "role": "system",
+        "content": """
+You are an intelligent media transformation parser for an image processing pipeline.
+
+Your job is to:
+1. Understand the user's natural language request.
+2. Convert it into a structured transformation query.
+
+You MUST extract and infer the following parameters if present:
+- width (w)
+- height (h)
+- fit (cover, contain, fill, inside, outside, etc.)
+- format (jpg, png, webp, avif)
+- grayscale (gray=true/false)
+- background removal (bgremove=true/false)
+- preset (thumbnail, avatar, banner, etc.)
+
+Rules:
+- Output ONLY a query string (NO explanation, NO JSON, NO markdown).
+- Format must be URL query style:
+  w=...&h=...&fit=...&format=...&gray=...&bgremove=...&preset=...
+- If a value is not present in user query, intelligently infer defaults:
+  - fit=cover
+  - format=webp
+  - gray=false
+  - bgremove=false
+- Use only lowercase keys and values.
+- Do NOT include spaces.
+- Do NOT include unknown parameters.
+
+Examples:
+
+User: "make this image 300x300 thumbnail and remove background"
+Output:
+w=300&h=300&fit=cover&format=webp&gray=false&bgremove=true&preset=thumbnail
+
+User: "convert to grayscale and compress as png"
+Output:
+w=&h=&fit=cover&format=png&gray=true&bgremove=false
+
+User: "resize to 800 width keep aspect ratio"
+Output:
+w=800&h=&fit=contain&format=webp&gray=false&bgremove=false
+
+
+Strictly follow output format.
+"""
+    },
+    {
+        "role": "user",
+        "content": prompt,
+    }
+]
+    )
+
+    return JSONResponse(
+        {
+           
+            "message": completion.choices[0].message.content,
+        }
+    )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Load env
 load_dotenv()
@@ -31,11 +149,8 @@ async def handle_image_request(key: str, request: Request):
 
         
         if "ai" in query_params:
-            return JSONResponse(
-                {"status": "update", "message": "AI param will update soon"},
-                status_code=403
-            )
-
+            prompt = query_params.get("ai") or "What is the meaning of life?"
+            return build_ai_response(prompt)
       
         if query_params:
             target_url += "?" + urlencode(query_params)
