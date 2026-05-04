@@ -5,6 +5,7 @@ import os
 from dotenv import load_dotenv
 from urllib.parse import urlencode
 from openai import OpenAI
+import json
 
 app = FastAPI(title="ImageFlow AI Service")
 
@@ -41,8 +42,8 @@ Your job is to:
 2. Convert it into a structured transformation query.
 
 You MUST extract and infer the following parameters if present:
-- width (w)
-- height (h)
+- width
+- height
 - fit (cover, contain, fill, inside, outside, etc.)
 - format (jpg, png, webp, avif)
 - grayscale (gray=true/false)
@@ -52,7 +53,9 @@ You MUST extract and infer the following parameters if present:
 Rules:
 - Output ONLY a query string (NO explanation, NO JSON, NO markdown).
 - Format must be URL query style:
-  w=...&h=...&fit=...&format=...&gray=...&bgremove=...&preset=...
+    width=...&height=...&fit=...&format=...&gray=...&bgremove=...&preset=...
+- if a parameter is not mentioned in the user query, its value should not be included in the output (e.g. if fit is not mentioned, do NOT include fit= in the output).
+- if preset is mentioned, it should be included as preset=thumbnail (or avatar, banner, etc.) and then height, width, fit can be left empty to allow preset defaults to take effect.
 - If a value is not present in user query, intelligently infer defaults:
   - fit=cover
   - format=webp
@@ -61,20 +64,21 @@ Rules:
 - Use only lowercase keys and values.
 - Do NOT include spaces.
 - Do NOT include unknown parameters.
+- if the user query is ambiguous, make the best guess based on common image processing needs.
 
 Examples:
 
 User: "make this image 300x300 thumbnail and remove background"
 Output:
-w=300&h=300&fit=cover&format=webp&gray=false&bgremove=true&preset=thumbnail
+width=300&height=300&fit=cover&format=webp&gray=false&bgremove=true&preset=thumbnail
 
 User: "convert to grayscale and compress as png"
 Output:
-w=&h=&fit=cover&format=png&gray=true&bgremove=false
+width=&height=&fit=cover&format=png&gray=true&bgremove=false
 
 User: "resize to 800 width keep aspect ratio"
 Output:
-w=800&h=&fit=contain&format=webp&gray=false&bgremove=false
+width=800&height=&fit=contain&format=webp&gray=false&bgremove=false
 
 
 Strictly follow output format.
@@ -87,12 +91,7 @@ Strictly follow output format.
 ]
     )
 
-    return JSONResponse(
-        {
-           
-            "message": completion.choices[0].message.content,
-        }
-    )
+    return completion.choices[0].message.content.strip()
 
 
 
@@ -150,7 +149,7 @@ async def handle_image_request(key: str, request: Request):
         
         if "ai" in query_params:
             prompt = query_params.get("ai") or "What is the meaning of life?"
-            return build_ai_response(prompt)
+            target_url += "?" + build_ai_response(prompt)
       
         if query_params:
             target_url += "?" + urlencode(query_params)
