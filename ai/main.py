@@ -151,7 +151,7 @@ async def handle_image_request(key: str, request: Request):
             prompt = query_params.get("ai") or "What is the meaning of life?"
             target_url += "?" + build_ai_response(prompt)
       
-        if query_params:
+        elif query_params:
             target_url += "?" + urlencode(query_params)
 
         print("FINAL URL:", target_url)
