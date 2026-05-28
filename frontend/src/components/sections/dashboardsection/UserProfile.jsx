@@ -24,7 +24,7 @@ function UserProfile() {
   }
 
   return (
-    <section className="w-full sm:px-10 lg:px-16 py-4 font-mono text-base text-zinc-300">
+    <section className="w-full overflow-hidden px-6 sm:px-10 lg:px-16 py-4 font-mono text-base text-zinc-300">
 
     <h3 className="text-sm py-3 text-zinc-400 sm:hidden">☰</h3>
       <div className="flex items-center gap-6 mb-10 mx-4">
@@ -106,7 +106,7 @@ function Line({ label, value }) {
   return (
     <div className="flex gap-6 text-base">
       <span className="w-28 text-zinc-500">{label}</span>
-      <span className="text-zinc-200 ">{value}</span>
+      <span className="text-zinc-200 text-sm">{value}</span>
     </div>
   );
 }

@@ -73,7 +73,7 @@ function Apikey() {
   const activeKeys = apikeys.filter((k) => !k.revoked);
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-200 font-mono px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+    <div className="min-h-full overflow-y-scroll bg-zinc-950 text-zinc-200 font-mono px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
       {modal && (
         <div className="fixed inset-0  backdrop-blur-sm flex items-center justify-center z-30">
           <div className="m-1  border border-zinc-700 rounded-lg p-6 min-w-0 w-full max-w-md">
