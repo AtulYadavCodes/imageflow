@@ -106,7 +106,7 @@ function Line({ label, value }) {
   return (
     <div className="flex gap-6 text-base">
       <span className="w-28 text-zinc-500">{label}</span>
-      <span className="text-zinc-200 text-sm">{value}</span>
+      <span className="text-zinc-200 text-sm ">{value}</span>
     </div>
   );
 }
