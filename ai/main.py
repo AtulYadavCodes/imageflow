@@ -135,6 +135,7 @@ if not DOMAIN:
 BASE_URL = DOMAIN
 
 
+
 @app.get("/images/path/{key:path}")
 async def handle_image_request(key: str, request: Request):
     try:

@@ -36,7 +36,7 @@ function UserProfile() {
 
         <div>
         
-          <h1 className="text-2xl text-zinc-100 tracking-wide">
+          <h1 className=" text-zinc-100 tracking-wide">
             {user.fullname}
           </h1>
           <p className="text-zinc-500 text-sm">{user.email}</p>
