@@ -24,7 +24,7 @@ function UserProfile() {
   }
 
   return (
-    <section className="w-full px-6 sm:px-10 lg:px-16 py-4 font-mono text-base text-zinc-300">
+    <section className="w-full sm:px-10 lg:px-16 py-4 font-mono text-base text-zinc-300">
 
     <h3 className="text-sm py-3 text-zinc-400 sm:hidden">☰</h3>
       <div className="flex items-center gap-6 mb-10 mx-4">
