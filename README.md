@@ -18,6 +18,29 @@
 
 ImageFlow is a Developer first modern, media pipeline inspired by ImageKit. It provides secure file management, real-time image transformation, and developer-friendly APIs with Api Key Management and Sdks for both web and backend integrations.
 
+## Index
+
+- [Features](#features)
+- [Who This Is For](#who-this-is-for)
+- [Authentication](#authentication)
+- [API Reference](#api-reference)
+  - [Users](#users)
+  - [Folders](#folders)
+  - [Files](#files)
+  - [API Keys](#api-keys)
+  - [Image Transform](#image-transform)
+- [Sharp Real-Time Stream Pipeline](#sharp-real-time-stream-pipeline)
+- [Developer Integration Options](#developer-integration-options)
+  - [File Upload Using API](#file-upload-using-api)
+  - [File Upload Using SDK](#file-upload-using-sdk)
+- [Common APIs (Non-Upload)](#common-apis-non-upload)
+- [Website (No API Code)](#website-no-api-code)
+- [Environment Variables](#environment-variables)
+- [Local Setup](#local-setup)
+- [Response Format](#response-format)
+- [Security](#security)
+- [Preview](#website-no-api-code)
+
 ---
 
 ## Features
