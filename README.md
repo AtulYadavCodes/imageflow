@@ -386,6 +386,13 @@ Required backend variables:
 
 # Local Setup
 
+Docker Compose setup:
+
+- Create `frontend/.env`, `backend/.env`, and `ai/.env` first.
+- Run `docker compose up --build -d` from the project root.
+- Frontend runs on `http://localhost:5173`, backend on `http://localhost:3000`, and AI on `http://localhost:8000`.
+- Redis still needs to be available separately for the backend.
+
 1. Install backend dependencies
 
 - cd backend
