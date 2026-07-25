@@ -38,6 +38,7 @@ ImageFlow is a Developer first modern, media pipeline inspired by ImageKit. It p
 - [Environment Variables](#environment-variables)
 - [Local Setup](#local-setup)
 - [Security](#security)
+- [Architecture View](#architecture-view)
 - [Preview](#website-no-api-code)
 
 ---
@@ -379,7 +380,7 @@ Required backend variables:
 - REDIS_PORT
 - REDIS_PASSWORD
 - AWS_REGION
-- AWS_BUCKET_NAME 
+- AWS_BUCKET_NAME
 - AWS_ACCESS_KEY_ID
 - AWS_SECRET_ACCESS_KEY
 - REMOVEBG_API_KEY
@@ -421,3 +422,11 @@ Docker Compose setup:
 - Redis-backed rate limiting protects login and other sensitive endpoints.
 - CORS and cookie-based auth are used with security-focused defaults.
 - S3 upload uses signed URLs instead of exposing raw credentials.
+
+## Architecture View
+
+![Architecture View](frontend/src/assets/architecture.png)
+
+## Preview
+
+Use the ImageFlow website/client UI to explore the platform end to end.
