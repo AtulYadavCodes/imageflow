@@ -37,7 +37,6 @@ ImageFlow is a Developer first modern, media pipeline inspired by ImageKit. It p
 - [Website (No API Code)](#website-no-api-code)
 - [Environment Variables](#environment-variables)
 - [Local Setup](#local-setup)
-- [Response Format](#response-format)
 - [Security](#security)
 - [Preview](#website-no-api-code)
 
@@ -348,7 +347,24 @@ This path is intended for users who do not want to call APIs directly.
 
 # Environment Variables
 
-Use backend/.env.example as your template.
+Create three separate `.env` files:
+
+1. `frontend/.env` for the web app config.
+2. `backend/.env` for the main API server.
+3. `ai/.env` for the AI microservice.
+
+Use `backend/.env.example` as your template for the backend file.
+
+Frontend `.env` example:
+
+- `VITE_API_BASE=http://localhost:3000`
+
+AI `.env` example:
+
+- `DOMAIN=your-domain.com`
+- `OPENROUTER_API_KEY=your_openrouter_key`
+- `OPENROUTER_SITE_URL=https://your-site.com` (optional)
+- `OPENROUTER_SITE_NAME=ImageFlow` (optional)
 
 Required backend variables:
 
@@ -383,28 +399,18 @@ Required backend variables:
 
 - Local Redis, or
 - docker compose up -d (from backend folder)
+- or from the project root: `docker compose up -d`
 
 4. Start backend
 
 - npm start
 
-# Response Format
-
-Successful responses use:
-
-- statusCode
-- message
-- data
-
-Error responses use:
-
-- statusCode
-- message
-- errors
-
 ## Security
 
-- Passwords/API keys hashed
-- JWT with refresh token flow
-- Centralized error handling
-- API key revoke support
+- Passwords and API keys are hashed before storage.
+- JWT access and refresh token flow protects authenticated routes.
+- API key endpoints are JWT-only and support revoke/list operations.
+- Centralized error handling keeps responses consistent.
+- Redis-backed rate limiting protects login and other sensitive endpoints.
+- CORS and cookie-based auth are used with security-focused defaults.
+- S3 upload uses signed URLs instead of exposing raw credentials.
