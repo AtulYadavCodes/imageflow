@@ -1,6 +1,6 @@
 # ImageFlow (ImageKit/Cloudinary-like Media pipeline Platform)
 
-> **Note:** ImageFlow is currently paused after six months of operation because the VPS and S3 costs are no longer covered. The project is being kept here as a record of the work and product vision, and updates will resume when resources become available.
+> **Note:** ImageFlow was live and is now temporarily stopped because the VPS and S3 costs are no longer covered. The project remains here as a record of the work and product vision, and it may return when resources become available again.
 
 ---
 
