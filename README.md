@@ -429,4 +429,4 @@ Docker Compose setup:
 
 ## Preview
 
-Use the ImageFlow website/client UI to explore the platform end to end.
+Use the ImageFlow website/client UI to explore the platform end to end
