@@ -436,6 +436,4 @@ Watch the project walkthrough video below:
   Your browser does not support the video tag.
 </video>
 
-Download or open the video directly: [View raw](https://github.com/AtulYadavCodes/imageflow/raw/refs/heads/master/Video%20Project.mp4)
-
-(Sorry about that, but we can’t show files that are this big right now.)
+Download or open the video directly: [View](https://github.com/AtulYadavCodes/imageflow/raw/refs/heads/master/Video%20Project.mp4)
