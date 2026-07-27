@@ -429,4 +429,8 @@ Docker Compose setup:
 
 ## Preview
 
-Use the ImageFlow website/client UI to explore the platform end to end
+Use the ImageFlow website/client UI to explore the platform end to end.
+
+Watch the project walkthrough video here:
+
+- [Video Project.mp4](Video%20Project.mp4)
