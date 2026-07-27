@@ -433,7 +433,9 @@ Use the ImageFlow website/client UI to explore the platform end to end.
 
 Watch the project walkthrough video below:
 
-<video controls width="100%" poster="frontend/src/assets/architecture.png">
+<video controls width="100%">
   <source src="Video%20Project.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
+
+Download or open the video directly: [Video Project.mp4](Video%20Project.mp4)
