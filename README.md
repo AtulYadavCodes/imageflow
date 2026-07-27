@@ -39,7 +39,7 @@ ImageFlow is a Developer first modern, media pipeline inspired by ImageKit. It p
 - [Local Setup](#local-setup)
 - [Security](#security)
 - [Architecture View](#architecture-view)
-- [Preview](#website-no-api-code)
+- [Preview](#Preview)
 
 ---
 
@@ -431,6 +431,9 @@ Docker Compose setup:
 
 Use the ImageFlow website/client UI to explore the platform end to end.
 
-Watch the project walkthrough video here:
+Watch the project walkthrough video below:
 
-- [Video Project.mp4](Video%20Project.mp4)
+<video controls width="100%" poster="frontend/src/assets/architecture.png">
+  <source src="Video%20Project.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
